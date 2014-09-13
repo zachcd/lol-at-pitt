@@ -1,0 +1,1647 @@
+[
+    {
+        "Ign": "Zelchor",
+        "Id": 24442000,
+        "Name": "Ryan Pollich",
+        "NormalizedIgn": "zelchor",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 2340,
+        "Team": "Meme Team 6",
+        "Captain": true
+    },
+    {
+        "Ign": "Fartosh",
+        "Id": 436917,
+        "Name": "John Nicola",
+        "NormalizedIgn": "fartosh",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 2282,
+        "Team": "Cold Ass Honkeys",
+        "Captain": false
+    },
+    {
+        "Ign": "xanamorphine",
+        "Id": 23082745,
+        "Name": "jiao xu",
+        "NormalizedIgn": "xanamorphine",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 2270,
+        "Team": "",
+        "Captain": false
+    },
+    {
+        "Ign": "love stories",
+        "Id": 24811429,
+        "Name": "Cassidy Dunsmore",
+        "NormalizedIgn": "lovestories",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 2250,
+        "Team": "Ohana Means Family",
+        "Captain": true
+    },
+    {
+        "Ign": "Vsqun Xixi ",
+        "Id": 38992437,
+        "Name": "Xizi Xiao",
+        "NormalizedIgn": "vsqunxixi",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 2203,
+        "Team": "Sexiled 2.0",
+        "Captain": false
+    },
+    {
+        "Ign": "beamir",
+        "Id": 21021382,
+        "Name": "Gary Gold",
+        "NormalizedIgn": "beamir",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 2200,
+        "Team": "",
+        "Captain": false
+    },
+    {
+        "Ign": "Yung Manaday V",
+        "Id": 0,
+        "Name": "David Kramp",
+        "NormalizedIgn": "yungmanadayv",
+        "Roles": [
+            "Mid",
+            "Jungle"
+        ],
+        "Score": 2200,
+        "Team": "",
+        "Captain": false
+    },
+    {
+        "Ign": "hinesward",
+        "Id": 21821524,
+        "Name": "Rob Palmieri",
+        "NormalizedIgn": "hinesward",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 2200,
+        "Team": "MILF Hunters x)",
+        "Captain": false
+    },
+    {
+        "Ign": "Christmas Eve",
+        "Id": 25096552,
+        "Name": "Phero Nguyen",
+        "NormalizedIgn": "christmaseve",
+        "Roles": [
+            "Top",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 2103,
+        "Team": "Cold Ass Hunnies",
+        "Captain": false
+    },
+    {
+        "Ign": "Stoicheion",
+        "Id": 26847806,
+        "Name": "Mikey ",
+        "NormalizedIgn": "stoicheion",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 2100,
+        "Team": "Cold Ass Honkeys",
+        "Captain": true
+    },
+    {
+        "Ign": "Changster32",
+        "Id": 21860375,
+        "Name": "Thomas Chang",
+        "NormalizedIgn": "changster32",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 2060,
+        "Team": "420 Kittens",
+        "Captain": true
+    },
+    {
+        "Ign": "President Nixon",
+        "Id": 22033004,
+        "Name": "Brian Dulick",
+        "NormalizedIgn": "presidentnixon",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 2005,
+        "Team": "President's Nixon's Nerds",
+        "Captain": true
+    },
+    {
+        "Ign": "Zarkran",
+        "Id": 363705,
+        "Name": "James Pun",
+        "NormalizedIgn": "zarkran",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1994,
+        "Team": "",
+        "Captain": false
+    },
+    {
+        "Ign": "Silent K",
+        "Id": 23363669,
+        "Name": "Chad Hienz",
+        "NormalizedIgn": "silentk",
+        "Roles": [
+            "Top",
+            "Mid"
+        ],
+        "Score": 1970,
+        "Team": "Sexiled 2.0",
+        "Captain": true
+    },
+    {
+        "Ign": "JLysinger",
+        "Id": 26180827,
+        "Name": "Jordan Lysinger",
+        "NormalizedIgn": "jlysinger",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1968,
+        "Team": "PMC",
+        "Captain": true
+    },
+    {
+        "Ign": "Ptownkid",
+        "Id": 37739710,
+        "Name": "Daniel Shmagin",
+        "NormalizedIgn": "ptownkid",
+        "Roles": [
+            "Top",
+            "Jungle"
+        ],
+        "Score": 1964,
+        "Team": "WORLDSTARHIPHOP",
+        "Captain": false
+    },
+    {
+        "Ign": "Beastlee3",
+        "Id": 25335470,
+        "Name": "David Lee",
+        "NormalizedIgn": "beastlee3",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1941,
+        "Team": "Your Mom",
+        "Captain": false
+    },
+    {
+        "Ign": "Astraeon",
+        "Id": 25370570,
+        "Name": "James Unless",
+        "NormalizedIgn": "astraeon",
+        "Roles": [
+            "AD Carry"
+        ],
+        "Score": 1930,
+        "Team": "GT Hexakill",
+        "Captain": false
+    },
+    {
+        "Ign": "Darandin",
+        "Id": 20489716,
+        "Name": "Michael Heirendt",
+        "NormalizedIgn": "darandin",
+        "Roles": [
+            "Top",
+            "Jungle"
+        ],
+        "Score": 1920,
+        "Team": "Claude Nein",
+        "Captain": true
+    },
+    {
+        "Ign": "Tslag",
+        "Id": 24915232,
+        "Name": "Trevor Richardson",
+        "NormalizedIgn": "tslag",
+        "Roles": [
+            "Mid"
+        ],
+        "Score": 1900,
+        "Team": "PMC",
+        "Captain": false
+    },
+    {
+        "Ign": "ozymandias23",
+        "Id": 25432520,
+        "Name": "Khalif Coaxum",
+        "NormalizedIgn": "ozymandias23",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1888,
+        "Team": "The Sovereign",
+        "Captain": true
+    },
+    {
+        "Ign": "C9 Aznblaze",
+        "Id": 25884266,
+        "Name": "michael",
+        "NormalizedIgn": "c9aznblaze",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1864,
+        "Team": "Gem Knight Shymalan",
+        "Captain": false
+    },
+    {
+        "Ign": "trf virsh",
+        "Id": 23298232,
+        "Name": "zach virshup",
+        "NormalizedIgn": "trfvirsh",
+        "Roles": [
+            "Jungle"
+        ],
+        "Score": 1860,
+        "Team": "TeamRallyFortify:Revive",
+        "Captain": true
+    },
+    {
+        "Ign": "xmopolx",
+        "Id": 23174752,
+        "Name": "Alex Soffa",
+        "NormalizedIgn": "xmopolx",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1859,
+        "Team": "",
+        "Captain": false
+    },
+    {
+        "Ign": "OG gumby",
+        "Id": 20966292,
+        "Name": "Kyle tanczos",
+        "NormalizedIgn": "oggumby",
+        "Roles": [
+            "AD Carry"
+        ],
+        "Score": 1856,
+        "Team": "Sexiled 2.0",
+        "Captain": false
+    },
+    {
+        "Ign": "TSM Dr Phil",
+        "Id": 28795053,
+        "Name": "Ethan Pavolik",
+        "NormalizedIgn": "tsmdrphil",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1850,
+        "Team": "Meme Team 6",
+        "Captain": false
+    },
+    {
+        "Ign": "Sea Lint",
+        "Id": 0,
+        "Name": "Clint Moore",
+        "NormalizedIgn": "sealint",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 1850,
+        "Team": "Butt Putters",
+        "Captain": false
+    },
+    {
+        "Ign": "Suezotiger",
+        "Id": 31578970,
+        "Name": "Joseph Hartle",
+        "NormalizedIgn": "suezotiger",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1850,
+        "Team": "The Big Dick Club",
+        "Captain": false
+    },
+    {
+        "Ign": "Nabzen",
+        "Id": 59349257,
+        "Name": "Yacine kaidyoucef",
+        "NormalizedIgn": "nabzen",
+        "Roles": [
+            "Top",
+            "AD Carry"
+        ],
+        "Score": 1802,
+        "Team": "420 Kittens",
+        "Captain": false
+    },
+    {
+        "Ign": "vballboss",
+        "Id": 32429311,
+        "Name": "Daniel Petersen",
+        "NormalizedIgn": "vballboss",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1793,
+        "Team": "Cell Block D",
+        "Captain": false
+    },
+    {
+        "Ign": "lord of manatees",
+        "Id": 24134659,
+        "Name": "Neil Drobitch",
+        "NormalizedIgn": "lordofmanatees",
+        "Roles": [
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 1792,
+        "Team": "The Unruly Jigahoos",
+        "Captain": true
+    },
+    {
+        "Ign": "CRS Dayman",
+        "Id": 24701546,
+        "Name": "William Kramer",
+        "NormalizedIgn": "crsdayman",
+        "Roles": [
+            "Top",
+            "Mid"
+        ],
+        "Score": 1780,
+        "Team": "Claude Nein",
+        "Captain": false
+    },
+    {
+        "Ign": "Sabnc",
+        "Id": 30876013,
+        "Name": "Sanketh Kolli",
+        "NormalizedIgn": "sabnc",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 1750,
+        "Team": "Cold Ass Hunnies",
+        "Captain": true
+    },
+    {
+        "Ign": "Sraelek",
+        "Id": 22253247,
+        "Name": "Sheridan Zivanovich",
+        "NormalizedIgn": "sraelek",
+        "Roles": [
+            "AD Carry"
+        ],
+        "Score": 1748,
+        "Team": "umadbad.com",
+        "Captain": false
+    },
+    {
+        "Ign": "Twidgeegh",
+        "Id": 19768888,
+        "Name": "Isaac Finkelman",
+        "NormalizedIgn": "twidgeegh",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1747,
+        "Team": "WORLDSTARHIPHOP",
+        "Captain": true
+    },
+    {
+        "Ign": "DDM13",
+        "Id": 21609911,
+        "Name": "Eric Niu",
+        "NormalizedIgn": "ddm13",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1743,
+        "Team": "Your Mom",
+        "Captain": true
+    },
+    {
+        "Ign": "BlakAvenge",
+        "Id": 38271618,
+        "Name": "Thomas Stewart",
+        "NormalizedIgn": "blakavenge",
+        "Roles": [
+            "Jungle",
+            "Support"
+        ],
+        "Score": 1743,
+        "Team": "The Big Dick Club",
+        "Captain": true
+    },
+    {
+        "Ign": "Ninja swirlz",
+        "Id": 24703108,
+        "Name": "Tyler Miller",
+        "NormalizedIgn": "ninjaswirlz",
+        "Roles": [
+            "Mid"
+        ],
+        "Score": 1741,
+        "Team": "The Unruly Jigahoos",
+        "Captain": false
+    },
+    {
+        "Ign": "EveryoneisOP",
+        "Id": 20383886,
+        "Name": "Evan Randazza",
+        "NormalizedIgn": "everyoneisop",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1740,
+        "Team": "Bruiser Brigade (fk this club)",
+        "Captain": false
+    },
+    {
+        "Ign": "FilthyPeasants",
+        "Id": 21996645,
+        "Name": "Connor Lewellyn",
+        "NormalizedIgn": "filthypeasants",
+        "Roles": [
+            "Top",
+            "Jungle"
+        ],
+        "Score": 1681,
+        "Team": "Butt Putters",
+        "Captain": true
+    },
+    {
+        "Ign": "HopOffMyCroSoft",
+        "Id": 36972557,
+        "Name": "Steve Shields",
+        "NormalizedIgn": "hopoffmycrosoft",
+        "Roles": [
+            "Top",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1677,
+        "Team": "Meme Team 6",
+        "Captain": false
+    },
+    {
+        "Ign": "Vahti",
+        "Id": 25079407,
+        "Name": "Trevor Leong",
+        "NormalizedIgn": "vahti",
+        "Roles": [
+            "Top",
+            "Mid"
+        ],
+        "Score": 1675,
+        "Team": "GT Hexakill",
+        "Captain": true
+    },
+    {
+        "Ign": "BeardedDog",
+        "Id": 20059857,
+        "Name": "Zachary Chay-Dolan",
+        "NormalizedIgn": "beardeddog",
+        "Roles": [
+            "Top",
+            "Mid"
+        ],
+        "Score": 1662,
+        "Team": "Bruiser Brigade (fk this club)",
+        "Captain": true
+    },
+    {
+        "Ign": "bawwssss",
+        "Id": 24214440,
+        "Name": "Krishna Mallupeddi",
+        "NormalizedIgn": "bawwssss",
+        "Roles": [
+            "Top"
+        ],
+        "Score": 1653,
+        "Team": "Claude Nein",
+        "Captain": false
+    },
+    {
+        "Ign": "Smartpants77",
+        "Id": 34293729,
+        "Name": "Alex Somerville",
+        "NormalizedIgn": "smartpants77",
+        "Roles": [
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 1596,
+        "Team": "The Big Dick Club",
+        "Captain": false
+    },
+    {
+        "Ign": "cccp6969",
+        "Id": 40689685,
+        "Name": "Stefan Ivanovici",
+        "NormalizedIgn": "cccp6969",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 1589,
+        "Team": "The Unruly Jigahoos",
+        "Captain": false
+    },
+    {
+        "Ign": "Kh00",
+        "Id": 39582407,
+        "Name": "Andrew Khoo",
+        "NormalizedIgn": "kh00",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1583,
+        "Team": "The Sovereign",
+        "Captain": false
+    },
+    {
+        "Ign": "Drugs",
+        "Id": 39898375,
+        "Name": "Ben Morgenstern",
+        "NormalizedIgn": "drugs",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1582,
+        "Team": "420 Kittens",
+        "Captain": false
+    },
+    {
+        "Ign": "TheArcticManatee",
+        "Id": 23117772,
+        "Name": "Leah Szczepanski ",
+        "NormalizedIgn": "thearcticmanatee",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1550,
+        "Team": "Butt Putters",
+        "Captain": false
+    },
+    {
+        "Ign": "DarthRetard",
+        "Id": 24980266,
+        "Name": "Andrew Rabeneck",
+        "NormalizedIgn": "darthretard",
+        "Roles": [
+            "AD Carry"
+        ],
+        "Score": 1550,
+        "Team": "Hype 5",
+        "Captain": false
+    },
+    {
+        "Ign": "MtnDewM3",
+        "Id": 45815153,
+        "Name": "Brandon Koch",
+        "NormalizedIgn": "mtndewm3",
+        "Roles": [
+            "Top",
+            "Mid"
+        ],
+        "Score": 1543,
+        "Team": "Cell Block D",
+        "Captain": true
+    },
+    {
+        "Ign": "ThatFatMofo",
+        "Id": 38744808,
+        "Name": "Howard Kim",
+        "NormalizedIgn": "thatfatmofo",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1538,
+        "Team": "President's Nixon's Nerds",
+        "Captain": false
+    },
+    {
+        "Ign": "Son of Nel",
+        "Id": 40229452,
+        "Name": "Nelson Murphy",
+        "NormalizedIgn": "sonofnel",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1538,
+        "Team": "MILF Hunters x)",
+        "Captain": false
+    },
+    {
+        "Ign": "TresTerrible",
+        "Id": 42849294,
+        "Name": "Drew Salley",
+        "NormalizedIgn": "tresterrible",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1533,
+        "Team": "GT Hexakill",
+        "Captain": false
+    },
+    {
+        "Ign": "CAH Smegs",
+        "Id": 26063480,
+        "Name": "Brent Go",
+        "NormalizedIgn": "cahsmegs",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1531,
+        "Team": "Cold Ass Hunnies",
+        "Captain": false
+    },
+    {
+        "Ign": "REMY2shots",
+        "Id": 30443710,
+        "Name": "kevin dinh",
+        "NormalizedIgn": "remy2shots",
+        "Roles": [
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 1526,
+        "Team": "420 Kittens",
+        "Captain": false
+    },
+    {
+        "Ign": "VioletPoison93",
+        "Id": 25580811,
+        "Name": "Sarah Maleski",
+        "NormalizedIgn": "violetpoison93",
+        "Roles": [
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1518,
+        "Team": "TeamRallyFortify:Revive",
+        "Captain": false
+    },
+    {
+        "Ign": "ScWLoL",
+        "Id": 25539587,
+        "Name": "Spencer Williams",
+        "NormalizedIgn": "scwlol",
+        "Roles": [
+            "Top",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1514,
+        "Team": "Ohana Means Family",
+        "Captain": false
+    },
+    {
+        "Ign": "is That MattLife",
+        "Id": 30093938,
+        "Name": "Matt Landram",
+        "NormalizedIgn": "isthatmattlife",
+        "Roles": [
+            "Mid"
+        ],
+        "Score": 1512,
+        "Team": "Gem Knight Shymalan",
+        "Captain": false
+    },
+    {
+        "Ign": "VIral Dhark",
+        "Id": 21065245,
+        "Name": "Mason Spangler",
+        "NormalizedIgn": "viraldhark",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1510,
+        "Team": "umadbad.com",
+        "Captain": false
+    },
+    {
+        "Ign": "synoid2",
+        "Id": 44564491,
+        "Name": "Ben Kraut",
+        "NormalizedIgn": "synoid2",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1500,
+        "Team": "TeamRallyFortify:Revive",
+        "Captain": false
+    },
+    {
+        "Ign": "mcchungsta",
+        "Id": 19657057,
+        "Name": "John Chung",
+        "NormalizedIgn": "mcchungsta",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1500,
+        "Team": "Ohana Means Family",
+        "Captain": false
+    },
+    {
+        "Ign": "Mullney",
+        "Id": 22373226,
+        "Name": "Ryan Mullner",
+        "NormalizedIgn": "mullney",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1500,
+        "Team": "MILF Hunters x)",
+        "Captain": true
+    },
+    {
+        "Ign": "rswift112",
+        "Id": 23337979,
+        "Name": "Ruiqi Shi",
+        "NormalizedIgn": "rswift112",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1500,
+        "Team": "Ohana Means Family",
+        "Captain": false
+    },
+    {
+        "Ign": "XeroStride",
+        "Id": 23714098,
+        "Name": "Joshua Koshy",
+        "NormalizedIgn": "xerostride",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1500,
+        "Team": "TeamRallyFortify:Revive",
+        "Captain": false
+    },
+    {
+        "Ign": "StuffedMan",
+        "Id": 25501030,
+        "Name": "Matt Jones",
+        "NormalizedIgn": "stuffedman",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1476,
+        "Team": "TeamRallyFortify:Revive",
+        "Captain": false
+    },
+    {
+        "Ign": "H Masta J",
+        "Id": 36794462,
+        "Name": "Hyun-Tae Jin",
+        "NormalizedIgn": "hmastaj",
+        "Roles": [
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1475,
+        "Team": "WORLDSTARHIPHOP",
+        "Captain": false
+    },
+    {
+        "Ign": "StuffedCabbagez",
+        "Id": 24911310,
+        "Name": "Danny Gray",
+        "NormalizedIgn": "stuffedcabbagez",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1468,
+        "Team": "PMC",
+        "Captain": false
+    },
+    {
+        "Ign": "Cheagasus",
+        "Id": 34251277,
+        "Name": "Christian Heagy",
+        "NormalizedIgn": "cheagasus",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1465,
+        "Team": "Hype 5",
+        "Captain": true
+    },
+    {
+        "Ign": "Metleon",
+        "Id": 32249413,
+        "Name": "Nicholas Hartle",
+        "NormalizedIgn": "metleon",
+        "Roles": [
+            "Top",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1454,
+        "Team": "Ohana Means Family",
+        "Captain": false
+    },
+    {
+        "Ign": "o SwagTemplar o",
+        "Id": 212338,
+        "Name": "Eric Sayres",
+        "NormalizedIgn": "oswagtemplaro",
+        "Roles": [
+            "Top"
+        ],
+        "Score": 1447,
+        "Team": "MILF Hunters x)",
+        "Captain": false
+    },
+    {
+        "Ign": "ASAsiz2pitt",
+        "Id": 31516456,
+        "Name": "Stone Zhang",
+        "NormalizedIgn": "asasiz2pitt",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 1442,
+        "Team": "Your Mom",
+        "Captain": false
+    },
+    {
+        "Ign": "ProbableLoss",
+        "Id": 25202436,
+        "Name": "Tim Crabtree",
+        "NormalizedIgn": "probableloss",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 0,
+        "Team": "The Unruly Jigahoos",
+        "Captain": false
+    },
+    {
+        "Ign": "Clark42game",
+        "Id": 19810173,
+        "Name": "Nick Gula",
+        "NormalizedIgn": "clark42game",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1430,
+        "Team": "Claude Nein",
+        "Captain": false
+    },
+    {
+        "Ign": "Crusading Angel",
+        "Id": 22745210,
+        "Name": "Phong",
+        "NormalizedIgn": "crusadingangel",
+        "Roles": [
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 1430,
+        "Team": "Bruiser Brigade (fk this club)",
+        "Captain": false
+    },
+    {
+        "Ign": "xPropane",
+        "Id": 29060381,
+        "Name": "Shawn Metcalfe",
+        "NormalizedIgn": "xpropane",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1430,
+        "Team": "WORLDSTARHIPHOP",
+        "Captain": false
+    },
+    {
+        "Ign": "Certified Beef",
+        "Id": 44129690,
+        "Name": "Eric Svitek",
+        "NormalizedIgn": "certifiedbeef",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1388,
+        "Team": "Meme Team 6",
+        "Captain": false
+    },
+    {
+        "Ign": "unclexruckus",
+        "Id": 31273534,
+        "Name": "jack ringe",
+        "NormalizedIgn": "unclexruckus",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 1372,
+        "Team": "Butt Putters",
+        "Captain": false
+    },
+    {
+        "Ign": "VailVeix",
+        "Id": 0,
+        "Name": "Alex Stiegel",
+        "NormalizedIgn": "vailveix",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1360,
+        "Team": "Cold Ass Honkeys",
+        "Captain": false
+    },
+    {
+        "Ign": "StuckWithSupport",
+        "Id": 32866819,
+        "Name": "Eric Lee",
+        "NormalizedIgn": "stuckwithsupport",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1360,
+        "Team": "Hype 5",
+        "Captain": false
+    },
+    {
+        "Ign": "GnarlyWalrus75",
+        "Id": 39941122,
+        "Name": "Thomas Sephakis",
+        "NormalizedIgn": "gnarlywalrus75",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1335,
+        "Team": "Bruiser Brigade (fk this club)",
+        "Captain": false
+    },
+    {
+        "Ign": "GenghisKon",
+        "Id": 45892296,
+        "Name": "Connor Kelley",
+        "NormalizedIgn": "genghiskon",
+        "Roles": [
+            "AD Carry"
+        ],
+        "Score": 1323,
+        "Team": "Supahhigh Shitty Wok",
+        "Captain": false
+    },
+    {
+        "Ign": "Chromatique",
+        "Id": 29537566,
+        "Name": "Dan Goodstein",
+        "NormalizedIgn": "chromatique",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1307,
+        "Team": "Your Mom",
+        "Captain": false
+    },
+    {
+        "Ign": "TheNotoriousPAT",
+        "Id": 30538632,
+        "Name": "Patrick Crawford",
+        "NormalizedIgn": "thenotoriouspat",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1296,
+        "Team": "Bruiser Brigade (fk this club)",
+        "Captain": false
+    },
+    {
+        "Ign": "Ridt",
+        "Id": 40521886,
+        "Name": "Jesse Bracho",
+        "NormalizedIgn": "ridt",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1293,
+        "Team": "Cell Block D",
+        "Captain": false
+    },
+    {
+        "Ign": "csk1692",
+        "Id": 24055012,
+        "Name": "Cullen Krisher",
+        "NormalizedIgn": "csk1692",
+        "Roles": [
+            "Top",
+            "AD Carry"
+        ],
+        "Score": 1290,
+        "Team": "Gem Knight Shymalan",
+        "Captain": false
+    },
+    {
+        "Ign": "ewalk728",
+        "Id": 37181350,
+        "Name": "Evan Walker",
+        "NormalizedIgn": "ewalk728",
+        "Roles": [
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1289,
+        "Team": "Butt Putters",
+        "Captain": false
+    },
+    {
+        "Ign": "NouveauVintage",
+        "Id": 36219,
+        "Name": "Julian Einhorn",
+        "NormalizedIgn": "nouveauvintage",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1280,
+        "Team": "PMC",
+        "Captain": false
+    },
+    {
+        "Ign": "Walterudoing",
+        "Id": 47828614,
+        "Name": "Walter Lin",
+        "NormalizedIgn": "walterudoing",
+        "Roles": [
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1270,
+        "Team": "The Sovereign",
+        "Captain": false
+    },
+    {
+        "Ign": "docm",
+        "Id": 21077214,
+        "Name": "David Maynard",
+        "NormalizedIgn": "docm",
+        "Roles": [
+            "Top",
+            "Support"
+        ],
+        "Score": 1264,
+        "Team": "Gem Knight Shymalan",
+        "Captain": true
+    },
+    {
+        "Ign": "socklee416",
+        "Id": 48084667,
+        "Name": "Shawn Jackson",
+        "NormalizedIgn": "socklee416",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1263,
+        "Team": "Supahhigh Shitty Wok",
+        "Captain": false
+    },
+    {
+        "Ign": "Muptarded",
+        "Id": 36512660,
+        "Name": "Derek Gerson",
+        "NormalizedIgn": "muptarded",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1261,
+        "Team": "WORLDSTARHIPHOP",
+        "Captain": false
+    },
+    {
+        "Ign": "Memes and Kush",
+        "Id": 21461499,
+        "Name": "Brett Schuck",
+        "NormalizedIgn": "memesandkush",
+        "Roles": [
+            "Jungle",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1261,
+        "Team": "The Big Dick Club",
+        "Captain": false
+    },
+    {
+        "Ign": "Fac3ToFloor",
+        "Id": 38724500,
+        "Name": "Damon Waslin",
+        "NormalizedIgn": "fac3tofloor",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1253,
+        "Team": "Supahhigh Shitty Wok",
+        "Captain": true
+    },
+    {
+        "Ign": "TKSeoul",
+        "Id": 49171370,
+        "Name": "Tristan Kim",
+        "NormalizedIgn": "tkseoul",
+        "Roles": [
+            "Top",
+            "Support"
+        ],
+        "Score": 1248,
+        "Team": "Claude Nein",
+        "Captain": false
+    },
+    {
+        "Ign": "iBench350",
+        "Id": 22745045,
+        "Name": "Kevin Madison",
+        "NormalizedIgn": "ibench350",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1234,
+        "Team": "umadbad.com",
+        "Captain": false
+    },
+    {
+        "Ign": "Doctor Ballsdeep",
+        "Id": 35600595,
+        "Name": "Ian Straka",
+        "NormalizedIgn": "doctorballsdeep",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1233,
+        "Team": "Meme Team 6",
+        "Captain": false
+    },
+    {
+        "Ign": "Vlakbard",
+        "Id": 36081529,
+        "Name": "Luke Zeman",
+        "NormalizedIgn": "vlakbard",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1227,
+        "Team": "Cell Block D",
+        "Captain": false
+    },
+    {
+        "Ign": "predatorcarrot",
+        "Id": 35511944,
+        "Name": "Ethan Brien",
+        "NormalizedIgn": "predatorcarrot",
+        "Roles": [
+            "Top",
+            "Jungle"
+        ],
+        "Score": 1220,
+        "Team": "Supahhigh Shitty Wok",
+        "Captain": false
+    },
+    {
+        "Ign": "VaniDC",
+        "Id": 35706342,
+        "Name": "Giovani Collier",
+        "NormalizedIgn": "vanidc",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1220,
+        "Team": "Sexiled 2.0",
+        "Captain": false
+    },
+    {
+        "Ign": "PhDZivanovich",
+        "Id": 30253324,
+        "Name": "Anna Fazzini",
+        "NormalizedIgn": "phdzivanovich",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1200,
+        "Team": "umadbad.com",
+        "Captain": true
+    },
+    {
+        "Ign": "Lexuzi",
+        "Id": 40005484,
+        "Name": "Kelly Jin",
+        "NormalizedIgn": "lexuzi",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1200,
+        "Team": "PMC",
+        "Captain": false
+    },
+    {
+        "Ign": "terrytini",
+        "Id": 21836193,
+        "Name": "Terry Tan",
+        "NormalizedIgn": "terrytini",
+        "Roles": [
+            "Support"
+        ],
+        "Score": 1200,
+        "Team": "Your Mom",
+        "Captain": false
+    },
+    {
+        "Ign": "Elnith",
+        "Id": 510106,
+        "Name": "Vicente Valenzuela",
+        "NormalizedIgn": "elnith",
+        "Roles": [
+            "Top",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1200,
+        "Team": "Hype 5",
+        "Captain": false
+    },
+    {
+        "Ign": "CellmateSoulmate",
+        "Id": 51448655,
+        "Name": "Nate Grover",
+        "NormalizedIgn": "cellmatesoulmate",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1200,
+        "Team": "420 Kittens",
+        "Captain": false
+    },
+    {
+        "Ign": "Sophreaky",
+        "Id": 24225375,
+        "Name": "Keith Stetsko",
+        "NormalizedIgn": "sophreaky",
+        "Roles": [
+            "Jungle",
+            "AD Carry"
+        ],
+        "Score": 1194,
+        "Team": "Cold Ass Honkeys",
+        "Captain": false
+    },
+    {
+        "Ign": "drumer337",
+        "Id": 51390347,
+        "Name": "Aaron Boyer",
+        "NormalizedIgn": "drumer337",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 1185,
+        "Team": "Cold Ass Hunnies",
+        "Captain": false
+    },
+    {
+        "Ign": "Brett Schuck",
+        "Id": 0,
+        "Name": "Jack Gamache",
+        "NormalizedIgn": "brettschuck",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1184,
+        "Team": "GT Hexakill",
+        "Captain": false
+    },
+    {
+        "Ign": "Skallagrimr",
+        "Id": 19392396,
+        "Name": "Ian Anderson",
+        "NormalizedIgn": "skallagrimr",
+        "Roles": [
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1183,
+        "Team": "umadbad.com",
+        "Captain": false
+    },
+    {
+        "Ign": "Emperor Wu",
+        "Id": 39992102,
+        "Name": "Slobodan Males",
+        "NormalizedIgn": "emperorwu",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "Support"
+        ],
+        "Score": 1173,
+        "Team": "President's Nixon's Nerds",
+        "Captain": false
+    },
+    {
+        "Ign": "steelcurtain09",
+        "Id": 27661760,
+        "Name": "William Massimini",
+        "NormalizedIgn": "steelcurtain09",
+        "Roles": [
+            "Top",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1161,
+        "Team": "Cold Ass Honkeys",
+        "Captain": false
+    },
+    {
+        "Ign": "Berkinator",
+        "Id": 47381513,
+        "Name": "Alex Berk",
+        "NormalizedIgn": "berkinator",
+        "Roles": [
+            "Top",
+            "Support"
+        ],
+        "Score": 1150,
+        "Team": "Sexiled 2.0",
+        "Captain": false
+    },
+    {
+        "Ign": "goatsndhoes",
+        "Id": 40769593,
+        "Name": "Jonathan Miller",
+        "NormalizedIgn": "goatsndhoes",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Support"
+        ],
+        "Score": 1130,
+        "Team": "GT Hexakill",
+        "Captain": false
+    },
+    {
+        "Ign": "iBench350",
+        "Id": 22745045,
+        "Name": "Kevin Madison",
+        "NormalizedIgn": "ibench350",
+        "Roles": [
+            "Top",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1129,
+        "Team": "",
+        "Captain": false
+    },
+    {
+        "Ign": "gushers429",
+        "Id": 34259981,
+        "Name": "Justin Lee",
+        "NormalizedIgn": "gushers429",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1116,
+        "Team": "The Sovereign",
+        "Captain": false
+    },
+    {
+        "Ign": "BidoofMasterRace",
+        "Id": 20018561,
+        "Name": "Brandon La",
+        "NormalizedIgn": "bidoofmasterrace",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 1105,
+        "Team": "The Big Dick Club",
+        "Captain": false
+    },
+    {
+        "Ign": "Eagle62Swipe",
+        "Id": 0,
+        "Name": "Rich Cuddy",
+        "NormalizedIgn": "eagle62swipe",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1042,
+        "Team": "MILF Hunters x)",
+        "Captain": false
+    },
+    {
+        "Ign": "thesnowmancometh",
+        "Id": 43134632,
+        "Name": "Robbie McKinstry",
+        "NormalizedIgn": "thesnowmancometh",
+        "Roles": [
+            "Mid",
+            "Support"
+        ],
+        "Score": 1040,
+        "Team": "The Unruly Jigahoos",
+        "Captain": false
+    },
+    {
+        "Ign": "Sophrothy",
+        "Id": 25109819,
+        "Name": "Matt Reinhold",
+        "NormalizedIgn": "sophrothy",
+        "Roles": [
+            "Jungle",
+            "Mid",
+            "AD Carry",
+            "Support"
+        ],
+        "Score": 1016,
+        "Team": "Gem Knight Shymalan",
+        "Captain": false
+    },
+    {
+        "Ign": "marknoll",
+        "Id": 35710132,
+        "Name": "Ian Piper",
+        "NormalizedIgn": "marknoll",
+        "Roles": [
+            "Top",
+            "Jungle",
+            "Mid"
+        ],
+        "Score": 903,
+        "Team": "President's Nixon's Nerds",
+        "Captain": false
+    },
+    {
+        "Ign": "Not an automaton",
+        "Id": 35072807,
+        "Name": "Joshua Arquette",
+        "NormalizedIgn": "notanautomaton",
+        "Roles": [
+            "Mid",
+            "AD Carry"
+        ],
+        "Score": 900,
+        "Team": "Cold Ass Hunnies",
+        "Captain": false
+    }
+]
