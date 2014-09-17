@@ -12,13 +12,14 @@ import (
 // Name that we are storing this all under
 var DatabaseName = "lolpitt"
 
+// Location of the db
+var MongoLocation = "mongodb://localhost"
+
+
 type Handler struct {
 	Controller func(*mgo.Database, url.Values, render.Render)
 	Name       string
 }
-
-// Location of the db
-var MongoLocation = "mongodb://localhost"
 
 func main() {
 	m := martini.Classic()
