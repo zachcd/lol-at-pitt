@@ -6,7 +6,7 @@ body{
 .team{
     background-color: white;
     width: 760px;
-    margin: 8px;
+    margin: auto;
     border: 1px solid rgb(165, 164, 164);
 }
 
@@ -19,6 +19,10 @@ body{
     display: inline-block;
     box-shadow: 1px 0px 3px rgb(218, 218, 218);
     border-right: 1px solid rgb(190, 190, 190);
+}
+
+.team a:hover{
+    background-color: rgb(220, 220, 220);
 }
 .teams_container{
     margin: auto;

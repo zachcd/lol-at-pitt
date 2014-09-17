@@ -40,9 +40,9 @@ func main() {
 	m.Get("/team/:name", handler2)
 	// Handle all the controllers.
 	// TODO: Make handlers
-
+	
 	// Yay events!!
-	m.Run()
+		http.ListenAndServe(":80", m)
 
 }
 
