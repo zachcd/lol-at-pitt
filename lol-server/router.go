@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/codegangsta/martini"
+	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/martini-contrib/render"
 	"labix.org/v2/mgo"
 	"net/http"
@@ -21,17 +22,22 @@ var MongoLocation = "mongodb://localhost"
 
 func main() {
 	m := martini.Classic()
-
 	// Setup middleware to be attached to the controllers on every call.
 	m.Use(DB())
 	m.Use(render.Renderer())
 	m.Use(PARAMS)
-
+	m.Use(martini.Static("public", martini.StaticOptions{Prefix: "/public"}))
 	handler := func(mongo *mgo.Database, urls url.Values, renderer render.Render) {
-		renderer.JSON(200, "['hello world']")
+		teams := ols.QueryAllTeams(mongo)
+		renderer.HTML(200, "teams", teams)
 	}
 
-	m.Get("/hello", handler)
+	handler2 := func(db *mgo.Database, params martini.Params, renderer render.Render) {
+		team := ols.QueryTeam(db, params["name"])
+		renderer.HTML(200, "team", team)
+	}
+	m.Get("/teams", handler)
+	m.Get("/team/:name", handler2)
 	// Handle all the controllers.
 	// TODO: Make handlers
 

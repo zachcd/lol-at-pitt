@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link href="/public/css/lol.css" rel="stylesheet"/>
+    <meta charset="UTF-8"/>
+    <title>Teams</title>
+  </head>
+  <body>
+    <div class="navbar">
+      <h1 class="nav_title">OLS</h1>
+      <div class="navbar_links">
+        <a href="/teams">Teams</a>
+      </div>
+    </div>
+
+    <div class="teams_container">
+        {{range .}}
+            <div class="team">
+              <a href="/team/{{.NormalizedName}}">{{.Name}}</a>
+              <span class="team_captain">{{.Captain.Ign}}</span>
+              <span class="team_name">{{.Captain.Name}}</span>
+              <span class="team_wins">{{.Wins}}</span>
+              <span class="team_losses">{{.Losses}}</span>
+            </div>
+        {{end}}
+    </div>
+    
+  </body>
+</html>

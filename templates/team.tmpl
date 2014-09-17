@@ -1,0 +1,13 @@
+<html>
+<h2>Prettifying of this page is coming soon.</h2>
+<h1>{{.Name}}: Captain: {{.Captain.Name}}</h1>
+<div>
+{{range .Players}}
+ <div>
+     <span>Player {{.Name}} </span>
+     <span>  IGN: {{.Ign}}</span>
+     <span><a href="https://lolking.net/summoner/na/{{.Id}}">{{.Score}}</a>
+  </div>
+{{end}}
+<div>
+</html>

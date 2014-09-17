@@ -10,9 +10,9 @@ import (
 	"strings"
 )
 
-const PlayersCsvFile string = "players.csv"
-const OutputFile string = "ols_players.json"
-const TeamCsvFile string = "teams.csv"
+const PlayersCsvFile string = "resources/players.csv"
+const OutputFile string = "resources/ols_players.json"
+const TeamCsvFile string = "resources/teams.csv"
 
 type Player struct {
 	Ign           string

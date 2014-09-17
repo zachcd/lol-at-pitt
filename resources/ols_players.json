@@ -40,7 +40,7 @@
             "Support"
         ],
         "Score": 2270,
-        "Team": "",
+        "Team": "President's Nixon's Nerds",
         "Captain": false
     },
     {
@@ -81,20 +81,20 @@
             "Support"
         ],
         "Score": 2200,
-        "Team": "",
+        "Team": "Supahhigh Shitty Wok",
         "Captain": false
     },
     {
-        "Ign": "Yung Manaday V",
-        "Id": 0,
+        "Ign": "Davey",
+        "Id": 52360284,
         "Name": "David Kramp",
-        "NormalizedIgn": "yungmanadayv",
+        "NormalizedIgn": "davey",
         "Roles": [
             "Mid",
             "Jungle"
         ],
         "Score": 2200,
-        "Team": "",
+        "Team": "The Sovereign",
         "Captain": false
     },
     {
@@ -180,7 +180,7 @@
             "Support"
         ],
         "Score": 1994,
-        "Team": "",
+        "Team": "Hype 5",
         "Captain": false
     },
     {
@@ -330,7 +330,7 @@
             "AD Carry"
         ],
         "Score": 1859,
-        "Team": "",
+        "Team": "Cell Block D",
         "Captain": false
     },
     {
@@ -360,10 +360,10 @@
         "Captain": false
     },
     {
-        "Ign": "Sea Lint",
-        "Id": 0,
+        "Ign": "TheRebelOne",
+        "Id": 29499720,
         "Name": "Clint Moore",
-        "NormalizedIgn": "sealint",
+        "NormalizedIgn": "therebelone",
         "Roles": [
             "Top",
             "Jungle",
@@ -1062,10 +1062,10 @@
         "Captain": false
     },
     {
-        "Ign": "VailVeix",
-        "Id": 0,
+        "Ign": "CAH Stoicheion",
+        "Id": 29999394,
         "Name": "Alex Stiegel",
-        "NormalizedIgn": "vailveix",
+        "NormalizedIgn": "cahstoicheion",
         "Roles": [
             "Support"
         ],
@@ -1450,10 +1450,10 @@
         "Captain": false
     },
     {
-        "Ign": "Brett Schuck",
-        "Id": 0,
+        "Ign": "Jik",
+        "Id": 35468420,
         "Name": "Jack Gamache",
-        "NormalizedIgn": "brettschuck",
+        "NormalizedIgn": "jik",
         "Roles": [
             "Mid",
             "Support"
@@ -1577,10 +1577,10 @@
         "Captain": false
     },
     {
-        "Ign": "Eagle62Swipe",
-        "Id": 0,
+        "Ign": "Ill Just Go Even",
+        "Id": 57316180,
         "Name": "Rich Cuddy",
-        "NormalizedIgn": "eagle62swipe",
+        "NormalizedIgn": "illjustgoeven",
         "Roles": [
             "Mid",
             "Support"
