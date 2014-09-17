@@ -18,6 +18,7 @@ type Team struct {
 
 type Teams []*Team
 
+// Sorting functions
 func (p Teams) Len() int {
 	return len(p)
 }
@@ -34,6 +35,8 @@ func (p Teams) Less(i, j int) bool {
 	}
 }
 
+//////////////////////
+
 func QueryAllTeams(db *mgo.Database) Teams {
 	var teams Teams
 	db.C("teams").Find(map[string]string{}).All(&teams)
@@ -46,7 +49,8 @@ func QueryAllTeams(db *mgo.Database) Teams {
 	return realTeams
 }
 
-func QueryTeamNormalizedName(db *mgo.Database, normalizedTeamName string) *Team {
+func QueryTeam(db *mgo.Database, teamName string) *Team {
+	normalizedTeamName := NormalizedName(teamName)
 	var team Team
 	var players Players
 	db.C("teams").Find(map[string]string{"normalizedname": normalizedTeamName}).One(&team)
@@ -54,9 +58,6 @@ func QueryTeamNormalizedName(db *mgo.Database, normalizedTeamName string) *Team 
 	team.Players = players
 	team.Captain = GetCaptain(players)
 	return &team
-}
-func QueryTeam(db *mgo.Database, teamName string) *Team {
-	return QueryTeamNormalizedName(db, NormalizedName(teamName))
 }
 
 func GetCaptain(players Players) *Player {

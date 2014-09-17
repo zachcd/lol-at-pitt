@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"io/ioutil"
 	"labix.org/v2/mgo"
@@ -13,6 +12,8 @@ const DatabaseName string = "lolpitt"
 const MongoLocation = "mongodb://localhost"
 const InputJson string = "resources/ols_players.json"
 const InputTeamJson string = "resources/teams.json"
+const PlayerCollection string = "players"
+const TeamsCollection string = "teams"
 
 func main() {
 	initDbPlayers()
@@ -32,10 +33,9 @@ func initDbPlayers() {
 		panic(err)
 	}
 	db := session.DB(DatabaseName)
-	db.C("players").DropCollection()
+	db.C(PlayerCollection).DropCollection()
 	for _, player := range players {
-		db.C("players").Insert(player)
-		fmt.Println("here..")
+		db.C(PlayerCollection).Insert(player)
 	}
 	session.Close()
 
@@ -57,9 +57,9 @@ func initDbTeams() {
 		panic(err)
 	}
 	db := session.DB(DatabaseName)
-	db.C("teams").DropCollection()
+	db.C(TeamsCollection).DropCollection()
 
 	for _, team := range teams {
-		db.C("teams").Insert(team)
+		db.C(TeamsCollection).Insert(team)
 	}
 }
