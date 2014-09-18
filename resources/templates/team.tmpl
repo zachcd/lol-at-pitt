@@ -11,7 +11,13 @@
       <div>
         <span>Player {{.Name}} </span>
         <span>  IGN: {{.Ign}}</span>
-        <span><a href="https://lolking.net/summoner/na/{{.Id}}">{{.Score}}</a>
+        <span><a href="https://lolking.net/summoner/na/{{.Id}}">{{.Score}}</a></span>
+        <div class="roles">
+          {{range .Roles}}
+          <span class="role">{{.}}</span>
+          {{end}}
+        </div>
+        <span class="tier">{{.Tier}}</span>
       </div>
       {{end}}
       <div>
