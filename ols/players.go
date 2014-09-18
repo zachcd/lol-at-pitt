@@ -11,6 +11,7 @@ type Player struct {
 	Score         int
 	Team          string
 	Captain       bool
+	Tier          string
 }
 
 type Players []*Player
