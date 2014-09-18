@@ -9,9 +9,9 @@ import (
 	"net/url"
 )
 
-var DatabaseName = "lolpitt"                  // Name that we are storing this all under
-var MongoLocation = "mongodb://localhost"     // Location of the db
-var TemplatesLocation = "resources/templates" // Location of templates to render..
+var DatabaseName = "lolpitt"                 
+var MongoLocation = "mongodb://localhost"     
+var TemplatesLocation = "resources/templates" 
 
 func main() {
 	m := martini.Classic()
