@@ -1,4 +1,10 @@
 lol-at-pitt
 ===========
 
-Repo for the lol@Pitt stuff I will be building.
+Needed to do develop locally:
+* Mongodb
+* Go
+* Riot API Key: https://developer.riotgames.com/
+
+run ```go get -u github.com/lab-D8/lol-at-pitt```
+
