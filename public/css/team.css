@@ -1,0 +1,73 @@
+html {
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(240, 240, 240);
+}
+
+.player, .captain {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 20px;
+    margin: auto;
+    margin-top: 20px;
+    width: 250px;
+    background-color: rgb(235, 235, 235);
+    margin-bottom: 20px;
+}
+
+.role {
+    display: inline-block;
+    margin: 2px;
+
+}
+.ign {
+    font-family: monospace;
+    font-size: 30px;
+    display: block;
+}
+
+.players{
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+}
+
+html {
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(240, 240, 240);
+}
+
+.player, .captain {
+    border: 1px solid rgb(201, 201, 201);
+    padding: 20px;
+    margin: auto;
+    margin-top: 20px;
+    width: 250px;
+    background-color: rgb(235, 235, 235);
+    margin-bottom: 20px;
+}
+
+.teamname{
+    font-size: 40px;
+}
+
+.role {
+    display: inline-block;
+    margin: 2px;
+
+}
+.ign {
+    font-family: monospace;
+    font-size: 30px;
+    display: block;
+}
+
+.players{
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+}
+
+.captain{background-color: rgb(255, 228, 87);border: 1px solid rgb(185, 172, 18);}
