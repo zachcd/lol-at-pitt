@@ -61,7 +61,7 @@ func getBestLeague(leagues []goriot.League, player ols.Player) string {
 		if standings[currentTier] <= standings[league.Tier] {
 			currentTier = league.Tier
 			for _, entry := range league.Entries {
-				if entry.PlayerOrTeamName == player.Ign && division_standings[currentDivision] < division_standings[entry.Division] {
+				if entry.PlayerOrTeamName == player.Ign && division_standings[currentDivision] > division_standings[entry.Division] {
 					currentDivision = entry.Division
 				}
 			}

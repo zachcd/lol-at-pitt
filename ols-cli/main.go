@@ -23,6 +23,11 @@ type Command struct {
 	Cmd      func(CmdArgs) // The actual function to run
 }
 
+type DB struct{
+	Players ols.Players
+	Teams ols.Teams
+}
+
 const DatabaseName string = "lolpitt"
 const MongoLocation = "mongodb://localhost"
 
@@ -119,29 +124,28 @@ func dumpDb(filename string) {
 	json_blob := map[string]interface{}{}
 	var teams ols.Teams
 	db.C("teams").Find(map[string]string{}).All(&teams)
-	json_blob["teams"] = teams
+	json_blob["Teams"] = teams
 
 	var players ols.Players
 	db.C("players").Find(map[string]string{}).All(&players)
 
-	json_blob["players"] = players
+	json_blob["Players"] = players
 
 	data, _ := json.MarshalIndent(json_blob, "", "  ")
 	ioutil.WriteFile(filename, data, 0644)
 }
 
 func upload(json_file string) {
-	var db_blob map[string]interface{}
+	var db_blob DB
 	file, _ := os.Open(json_file)
 	defer file.Close()
 
 	data, _ := ioutil.ReadAll(file)
 	json.Unmarshal(data, &db_blob)
-
-	players := db_blob["players"].(ols.Players)
+	players := db_blob.Players
 	initDbPlayers(players)
 
-	teams := db_blob["teams"].(ols.Teams)
+	teams := db_blob.Teams
 	initDbTeams(teams)
 }
 
@@ -223,7 +227,7 @@ func getBestLeague(leagues []goriot.League, player ols.Player) string {
 		if standings[currentTier] <= standings[league.Tier] {
 			currentTier = league.Tier
 			for _, entry := range league.Entries {
-				if entry.PlayerOrTeamName == player.Ign && division_standings[currentDivision] < division_standings[entry.Division] {
+				if entry.PlayerOrTeamName == player.Ign && division_standings[currentDivision] > division_standings[entry.Division] {
 					currentDivision = entry.Division
 				}
 			}

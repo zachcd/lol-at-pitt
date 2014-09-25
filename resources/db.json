@@ -1,5 +1,5 @@
 {
-  "players": [
+  "Players": [
     {
       "Ign": "Zelchor",
       "Id": 24442000,
@@ -1766,7 +1766,7 @@
       "Tier": "SILVER V"
     }
   ],
-  "teams": [
+  "Teams": [
     {
       "Name": "Cold Ass Hunnies",
       "NormalizedName": "coldasshunnies",

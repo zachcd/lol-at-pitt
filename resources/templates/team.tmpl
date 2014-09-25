@@ -1,24 +1,38 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link href="/public/css/team.css" rel="stylesheet"/>
     <meta charset="UTF-8"/>
-    <title>Document</title>
+    <title>{{.Name}}</title>
   </head>
   <body>
-    <h1>{{.Name}}: Captain: {{.Captain.Name}}</h1>
-    <div>
+    <div class="players">
+      <div class="teamname">{{.Name}}</div>
+      <div class="captain">
+        <span class="ign">{{.Captain.Ign}}</span>
+        <span>{{.Name}}</span>
+        <span class="tier"><a href="https://lolking.net/summoner/na/{{.Captain.Id}}">{{.Captain.Tier}}</a></span>
+        <div class="roles">
+          {{range .Captain.Roles}}
+          <span class="role">{{.}}</span>
+          {{end}}
+        </div>
+	</div>
       {{range .Players}}
-      <div>
-        <span>Player {{.Name}} </span>
-        <span>  IGN: {{.Ign}}</span>
-        <span><a href="https://lolking.net/summoner/na/{{.Id}}">{{.Score}}</a></span>
+      {{if .Captain}}
+     {{else}}
+       <div class="player">
+        <span class="ign">{{.Ign}}</span>
+        <span>{{.Name}}</span>
+        <span class="tier"><a href="https://lolking.net/summoner/na/{{.Id}}">{{.Tier}}</a></span>
         <div class="roles">
           {{range .Roles}}
           <span class="role">{{.}}</span>
           {{end}}
         </div>
-        <span class="tier">{{.Tier}}</span>
       </div>
+       {{end}}
+
       {{end}}
       <div>
   </body>
