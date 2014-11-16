@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
-	"log"
 )
 
 func UpdateTeamScore(name string, win bool) {
@@ -21,7 +20,6 @@ func UpdateTeamScore(name string, win bool) {
 func NewTeamScore(name string, wins int, losses int) {
 	session, _ := mgo.Dial(MongoLocation)
 	db := session.DB(DatabaseName)
-	log.Println("Team: ", name, " is: {", wins, ", ", losses, "}")
 	team := ols.Team{Name: name, Wins: wins, Losses: losses}
 	selector := ols.Team{Name: name}
 	db.C("teams").Update(selector, team)
