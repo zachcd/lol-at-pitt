@@ -23,9 +23,9 @@ type Command struct {
 	Cmd      func(CmdArgs) // The actual function to run
 }
 
-type DB struct{
+type DB struct {
 	Players ols.Players
-	Teams ols.Teams
+	Teams   ols.Teams
 }
 
 const DatabaseName string = "lolpitt"

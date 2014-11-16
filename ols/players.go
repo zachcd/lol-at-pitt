@@ -1,6 +1,9 @@
 package ols
 
-import "fmt"
+import (
+	"fmt"
+	"labix.org/v2/mgo"
+)
 
 type Player struct {
 	Ign           string
@@ -31,4 +34,10 @@ func (p *Players) Print() {
 	for _, player := range *p {
 		fmt.Println(player)
 	}
+}
+
+func QueryAllPlayers(db *mgo.Database) Players {
+	var players Players
+	db.C("players").Find(map[string]string{}).All(&players)
+	return players
 }
