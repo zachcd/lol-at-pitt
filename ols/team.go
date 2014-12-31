@@ -35,7 +35,7 @@ func (p Teams) Less(i, j int) bool {
 	}
 }
 
-//////////////////////
+////////////////////// DAOS
 
 func QueryAllTeams(db *mgo.Database) Teams {
 	var teams Teams
