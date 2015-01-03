@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/TrevorSStone/goriot"
 	"github.com/go-martini/martini"
+	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/draft"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
@@ -11,6 +12,7 @@ import (
 	"github.com/martini-contrib/sessions"
 	goauth2 "golang.org/x/oauth2"
 	"labix.org/v2/mgo"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -56,9 +58,15 @@ func main() {
 	m.Get("/captain", CaptainRequired, func(user site.User, renderer render.Render) {
 		renderer.JSON(200, user)
 	})
-	m.Get("/draft/bid", func(renderer render.Render, d *draft.Draft) {
+	m.Get("/draft/bid", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
+
 		// TODO: Put in CaptainRequired which gets a Player to match the auctioner.
 		// TODO: Bid using bid function
+	})
+
+	m.Get("/player", PlayerRequired, func(renderer render.Render, user site.User) {
+		player := dao.GetPlayersDAO().Load(user.LeagueId)
+		renderer.JSON(200, player)
 	})
 
 	m.Get("/register", LoginRequired, func(urls url.Values, renderer render.Render) {
@@ -69,17 +77,34 @@ func main() {
 		renderer.JSON(200, token)
 	})
 
-	m.Get("/register/create", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens) {
+	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens) {
 		summonerName := urls.Get("summoner")
 		normalizedSummonerName := goriot.NormalizeSummonerName(summonerName)[0]
 		result, err := goriot.SummonerByName("na", normalizedSummonerName)
 
+		if err != nil || token.Expired() {
+			renderer.Status(404)
+			return
+		}
+
+		id, err := GetId(token.Access())
+
 		if err != nil {
 			renderer.Status(404)
+			return
 		}
+		//Check for captain
 		summonerProfile := result[normalizedSummonerName]
-		player := ols.Player{}
-		player.Id = summonerProfile.ID
+		player := dao.GetPlayersDAO().Load(summonerProfile.ID)
+		user := site.User{LeagueId: summonerProfile.ID, FacebookId: id}
+		log.Println("User registered:", user)
+		if player.Id == 0 {
+			// new player not in our db
+			player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name}
+			log.Println("New player:", player)
+			dao.GetPlayersDAO().Save(player)
+		}
+		dao.GetUserDAO().Save(user)
 
 	})
 

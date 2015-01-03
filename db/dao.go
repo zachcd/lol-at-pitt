@@ -35,7 +35,7 @@ func GetUserDAO() *UsersDAO {
 }
 
 func GetPlayersDAO() *PlayersDAO {
-	if usersDAO == nil || playersDAO.db == nil {
+	if playersDAO == nil || playersDAO.db == nil {
 		db := initDB()
 		playersDAO = NewPlayerContext(db)
 	}

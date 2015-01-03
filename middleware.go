@@ -72,8 +72,7 @@ var CaptainRequiredFunc = func() martini.Handler {
 			c.Map(user)
 			c.Next()
 		} else {
-			next := url.QueryEscape(r.URL.RequestURI())
-			http.Redirect(w, r, "/register?next="+next, 302)
+			http.Redirect(w, r, "/captain", 401)
 			return
 		}
 
@@ -171,7 +170,7 @@ var CaptainRequired = func() martini.Handler {
 	}
 }()
 
-var PlayerRequired = func() martini.HAndler {
+var PlayerRequired = func() martini.Handler {
 	if Debug {
 		return DebugPlayerRequired
 	} else {

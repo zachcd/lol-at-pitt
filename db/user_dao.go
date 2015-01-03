@@ -13,18 +13,18 @@ var UsersCollectionName string = "users"
 
 func (u *UsersDAO) GetUserFB(facebookId string) site.User {
 	var user site.User
-	u.Collection.Find(map[string]string{"facebookId": facebookId}).One(&user)
+	u.Collection.Find(map[string]string{"facebookid": facebookId}).One(&user)
 	return user
 }
 
 func (u *UsersDAO) GetUserLeague(leagueId int64) site.User {
 	var user site.User
-	u.Collection.Find(map[string]int64{"leagueId": leagueId}).One(&user)
+	u.Collection.Find(map[string]int64{"leagueid": leagueId}).One(&user)
 	return user
 }
 
 func (u *UsersDAO) Save(user site.User) {
-	u.DAO.Save(map[string]string{"facebookId": user.FacebookId}, user)
+	u.DAO.Save(map[string]string{"facebookid": user.FacebookId}, user)
 }
 
 func NewUserDAO(db *mgo.Database) *UsersDAO {
