@@ -37,6 +37,10 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("db", "upload"), Cmd: func(m CmdArgs) {
 		upload(m["<olsfile>"].(string))
 	}},
+	Command{Runnable: runnableGenerator("db", "atomic_delete"), Cmd: func(m CmdArgs) {
+		deleteDb()
+	}},
+
 	Command{Runnable: runnableGenerator("user", "new"), Cmd: func(m CmdArgs) {
 
 	}},
@@ -66,6 +70,7 @@ func main() {
 	usage := `OLS CLI
 
 Usage:
+   ols-cli captain new <ign>
    ols-cli user new <name> <ign> <email>
    ols-cli user update <ign> [--team=<newteam>|--captain=<bool>|--email=<email>|--ign=<newign>]
    ols-cli team score <name> [--win|--lose]
@@ -73,10 +78,10 @@ Usage:
    ols-cli team update <name> [--name=<newname>]
    ols-cli db dump <olsfile>
    ols-cli db upload <olsfile>
+   ols-cli db atomic_delete
    ols-cli tiers
 `
 	arguments, _ := docopt.Parse(usage, nil, true, "ols-cli 1.0", false)
-	fmt.Println(arguments)
 
 	for _, cmd := range cmds {
 		if cmd.Runnable(arguments) {
@@ -160,4 +165,5 @@ func getBestLeague(leagues []goriot.League, player ols.Player) string {
 	}
 
 	return currentTier + " " + currentDivision
+
 }

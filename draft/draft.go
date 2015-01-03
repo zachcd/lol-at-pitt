@@ -1,6 +1,7 @@
 package draft
 
 import (
+	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
 )
@@ -28,7 +29,7 @@ type Draft struct {
 
 func InitNewDraft(db *mgo.Database) Draft {
 	herd := []DraftPlayer{}
-	playerDAO := ols.NewPlayerContext(db)
+	playerDAO := dao.NewPlayerContext(db)
 	players := playerDAO.All()
 	players = players.Filter(func(player ols.Player) bool {
 		return !player.Captain

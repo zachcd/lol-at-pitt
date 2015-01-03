@@ -67,3 +67,14 @@ func upload(json_file string) {
 	teams := db_blob.Teams
 	initDbTeams(teams)
 }
+
+func deleteDb() {
+	session, err := mgo.Dial(MongoLocation)
+	defer session.Close()
+
+	if err != nil {
+		panic(err)
+	}
+	db := session.DB(DatabaseName)
+	db.DropDatabase()
+}
