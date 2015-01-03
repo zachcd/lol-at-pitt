@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Register account</title>
+  </head>
+  <body>
+    <div id="register_area">
+      <form action="/register/complete?next={{.Next}}" method="GET">
+        <label for="summoner">Please Enter your Summoner Name: </label><input type="text" name="summoner" />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>     
+  </body>
+</html>
