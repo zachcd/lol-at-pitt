@@ -65,6 +65,10 @@ func main() {
 		renderer.HTML(200, "register", Register{Next: urls.Get("next")})
 	})
 
+	m.Get("/oauth2error", func(token oauth2.Tokens, renderer render.Render) {
+		renderer.JSON(200, token)
+	})
+
 	m.Get("/register/create", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens) {
 		summonerName := urls.Get("summoner")
 		normalizedSummonerName := goriot.NormalizeSummonerName(summonerName)[0]
@@ -81,7 +85,7 @@ func main() {
 
 	m.Get("/register/captain")
 
-	http.ListenAndServe(":8080", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
+	http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
 
 }
 
@@ -95,7 +99,7 @@ func InitMiddleware(m *martini.ClassicMartini) {
 			ClientID:     ClientId,
 			ClientSecret: ApiSecret,
 			Scopes:       []string{"public_profile", "email", "user_friends"},
-			RedirectURL:  "http://local.foo.com/oauth2callback",
+			RedirectURL:  "http://www.lol-at-pitt.com/oauth2callback",
 		},
 	))
 	m.Use(render.Renderer(render.Options{Directory: TemplatesLocation}))

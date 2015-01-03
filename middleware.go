@@ -7,6 +7,7 @@ import (
 	"github.com/lab-d8/lol-at-pitt/draft"
 	"github.com/lab-d8/oauth2"
 	"labix.org/v2/mgo"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -52,32 +53,18 @@ func DRAFT() martini.Handler {
 	}
 }
 
-var CaptainRequired = func() martini.Handler {
-	if Debug {
-		return DebugPlayerRequired
-	} else {
-		return CaptainRequiredFunc
-	}
-}()
-
-var LoginRequired = func() martini.Handler {
-	if Debug {
-		return DebugLoginRequired
-	} else {
-		return oauth2.LoginRequired
-	}
-}()
-
 var CaptainRequiredFunc = func() martini.Handler {
 	return func(token oauth2.Tokens, w http.ResponseWriter, r *http.Request, c martini.Context) {
 		if token == nil || token.Expired() {
 			next := url.QueryEscape(r.URL.RequestURI())
 			http.Redirect(w, r, oauth2.PathLogin+"?next="+next, 302)
+			return
 		}
-
 		id, err := GetId(token.Access())
 		if err != nil {
-			http.Redirect(w, r, "/", 304)
+			log.Printf("Error getting captain token id:", err.Error())
+			http.Redirect(w, r, "/error", 302)
+			return
 		}
 
 		user := dao.GetUserDAO().GetUserFB(id)
@@ -87,7 +74,29 @@ var CaptainRequiredFunc = func() martini.Handler {
 		} else {
 			next := url.QueryEscape(r.URL.RequestURI())
 			http.Redirect(w, r, "/register?next="+next, 302)
+			return
 		}
+
+	}
+}()
+
+var PlayerRequiredFunc = func() martini.Handler {
+	return func(token oauth2.Tokens, w http.ResponseWriter, r *http.Request, c martini.Context) {
+		if token == nil || token.Expired() {
+			next := url.QueryEscape(r.URL.RequestURI())
+			http.Redirect(w, r, oauth2.PathLogin+"?next="+next, 302)
+			return
+		}
+		id, err := GetId(token.Access())
+		if err != nil {
+			log.Printf("Error getting player token id:", err.Error())
+			http.Redirect(w, r, "/error", 302)
+			return
+		}
+
+		user := dao.GetUserDAO().GetUserFB(id)
+		c.Map(user)
+		c.Next()
 
 	}
 }()
@@ -135,6 +144,10 @@ func (t *DebugToken) Refresh() string {
 	return ""
 }
 
+func (t *DebugToken) Valid() bool {
+	return true
+}
+
 // Expired returns whether the access token is expired or not.
 func (t *DebugToken) Expired() bool {
 	return false
@@ -149,3 +162,27 @@ func (t *DebugToken) ExpiryTime() time.Time {
 func (t *DebugToken) String() string {
 	return fmt.Sprintf("tokens: %v", t)
 }
+
+var CaptainRequired = func() martini.Handler {
+	if Debug {
+		return DebugPlayerRequired
+	} else {
+		return CaptainRequiredFunc
+	}
+}()
+
+var PlayerRequired = func() martini.HAndler {
+	if Debug {
+		return DebugPlayerRequired
+	} else {
+		return PlayerRequiredFunc
+	}
+}()
+
+var LoginRequired = func() martini.Handler {
+	if Debug {
+		return DebugLoginRequired
+	} else {
+		return oauth2.LoginRequired
+	}
+}()
