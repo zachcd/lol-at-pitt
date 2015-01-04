@@ -27,7 +27,7 @@ func initDraftRouter(m *martini.ClassicMartini) {
 		renderer.Data(200, []byte("success"))
 	})
 
-	m.Get("draft/next", func(renderer render.Render, draft *draft.Draft) {
+	m.Get("/draft/next", func(renderer render.Render, draft *draft.Draft) {
 		draft.Next()
 		renderer.Data(200, []byte("success"))
 	})
@@ -46,7 +46,7 @@ func initDraftRouter(m *martini.ClassicMartini) {
 		renderer.JSON(200, d.History.Values)
 	})
 
-	m.Get("/draft/status", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
+	m.Get("/draft/status", func(renderer render.Render, d *draft.Draft) {
 		renderer.JSON(200, d)
 	})
 

@@ -1,6 +1,7 @@
 package db
 
 import (
+	"github.com/TrevorSStone/goriot"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
 )
@@ -17,6 +18,13 @@ func NewPlayerContext(db *mgo.Database) *PlayersDAO {
 func (p *PlayersDAO) LoadIGN(ign string) ols.Player {
 	var player ols.Player
 	p.Collection.Find(map[string]string{"ign": ign}).One(&player)
+	return player
+}
+
+func (p *PlayersDAO) LoadNormalizedIGN(ign string) ols.Player {
+	var player ols.Player
+	norm := goriot.NormalizeSummonerName(ign)[0]
+	p.Collection.Find(map[string]string{"normalizedign": norm}).One(&player)
 	return player
 }
 

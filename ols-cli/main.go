@@ -11,6 +11,7 @@ import (
 	"labix.org/v2/mgo"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -42,8 +43,10 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("db", "atomic_delete"), Cmd: func(m CmdArgs) {
 		deleteDb()
 	}},
+	Command{Runnable: runnableGenerator("player", "file"), Cmd: func(m CmdArgs) {
+		filePlayer(m["<file_name>"].(string))
+	}},
 	Command{Runnable: runnableGenerator("captain", "file"), Cmd: func(m CmdArgs) {
-		fmt.Println("Captain file")
 		newCaptain(m["<file_name>"].(string))
 	}},
 	Command{Runnable: runnableGenerator("user", "new"), Cmd: func(m CmdArgs) {
@@ -87,6 +90,7 @@ func main() {
 
 Usage:
    ols-cli captain file <file_name>
+   ols-cli player file <file_name>
    ols-cli user new <name> <ign> <email>
    ols-cli user update <ign> [--team=<newteam>|--captain=<bool>|--email=<email>|--ign=<newign>]
    ols-cli team score <name> [--win|--lose]
@@ -151,7 +155,53 @@ func tiers() {
 	}
 
 }
+func filePlayer(fileName string) {
+	csvfile, err := os.Open(fileName)
+	defer csvfile.Close()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	reader := csv.NewReader(csvfile)
+	rawCSVData, err := reader.ReadAll()
+	reader.FieldsPerRecord = -1
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	for i, val := range rawCSVData {
+		// Prints the headers...dumb thing.
+		if i == 0 {
+			continue
+		}
 
+		name := strings.TrimSpace(val[1])
+		ign := strings.TrimSpace(val[2])
+		lolking, _ := strconv.Atoi(strings.TrimSpace(val[3]))
+
+		player := dao.GetPlayersDAO().LoadNormalizedIGN(ign)
+
+		if player.Id != 0 {
+			player.Name = name
+			player.Lolking = lolking
+			fmt.Println("Player saved:", player)
+		} else {
+			normalizedSummonerName := goriot.NormalizeSummonerName(ign)[0]
+			result, err := goriot.SummonerByName("na", normalizedSummonerName)
+			if err != nil {
+				fmt.Println(err.Error())
+				return
+			}
+
+			summonerProfile := result[normalizedSummonerName]
+			player = ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, NormalizedIgn: normalizedSummonerName, Name: name, Lolking: lolking}
+			fmt.Println("Player new:", player)
+		}
+
+		dao.GetPlayersDAO().Save(player)
+
+	}
+}
 func newCaptain(fileName string) {
 	csvfile, err := os.Open(fileName)
 	defer csvfile.Close()
@@ -167,10 +217,16 @@ func newCaptain(fileName string) {
 		os.Exit(1)
 	}
 	fmt.Println(rawCSVData, fileName)
-	for _, val := range rawCSVData {
-		ign := val[0]
-		team := val[1]
-		points, _ := strconv.Atoi(val[2])
+	for i, val := range rawCSVData {
+
+		// Prints the headers...dumb thing.
+		if i == 0 {
+			continue
+		}
+
+		ign := strings.TrimSpace(val[0])
+		team := strings.TrimSpace(val[1])
+		points, _ := strconv.Atoi(strings.TrimSpace(val[2]))
 		normalizedSummonerName := goriot.NormalizeSummonerName(ign)[0]
 		result, err := goriot.SummonerByName("na", normalizedSummonerName)
 		if err != nil {
@@ -179,7 +235,7 @@ func newCaptain(fileName string) {
 		}
 
 		summonerProfile := result[normalizedSummonerName]
-		player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, Score: points, Captain: true, Team: team}
+		player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, Score: points, Captain: true, Team: team, NormalizedIgn: normalizedSummonerName}
 		fmt.Println("Success")
 		dao.GetPlayersDAO().Save(player)
 

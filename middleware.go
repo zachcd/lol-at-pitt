@@ -43,15 +43,14 @@ func DRAFT() martini.Handler {
 		panic(err)
 	}
 	db := session.DB(dao.DatabaseName)
-	olsDraft := draft.Load(db)
-	olsDraft.Resume()
-	olsDraft.Current.Id = 0
+	olsDraft := draft.InitNewDraft(db)
 
 	return func(c martini.Context) {
-		c.Map(olsDraft)
+		c.Map(&olsDraft)
 		c.Next()
 	}
 }
+
 func Permissions(permissionName string) martini.Handler {
 	return func(token oauth2.Tokens, w http.ResponseWriter, r *http.Request, c martini.Context) {
 		if token == nil || token.Expired() {

@@ -8,10 +8,11 @@ import (
 )
 
 type DraftPlayer struct {
-	Id   int64
-	Ign  string
-	Bid  int
-	Team string
+	Id     int64
+	Ign    string
+	Bid    int
+	Team   string
+	Player ols.Player
 }
 
 type Bid struct {
@@ -69,7 +70,7 @@ func InitNewDraft(db *mgo.Database) Draft {
 	}
 
 	for _, player := range players {
-		draftPlay := DraftPlayer{Id: player.Id, Ign: player.Ign}
+		draftPlay := DraftPlayer{Id: player.Id, Ign: player.Ign, Player: *player}
 		draftees = append(draftees, draftPlay)
 	}
 
@@ -83,7 +84,7 @@ func InitNewDraft(db *mgo.Database) Draft {
 		paused:     true,
 		queuedBids: make(chan Bid, 30),
 	}
-	go DraftRunner(&draft)
+	//go DraftRunner(&draft)
 	draft.History.Add("Starting Draft..")
 	return draft
 }
@@ -153,8 +154,7 @@ func (d *Draft) Start() {
 }
 
 func (d *Draft) Next() {
-	d.Current, d.Unassigned = d.Unassigned[len(d.Unassigned)-1], d.Unassigned[:len(d.Unassigned)-1]
-
+	d.Current, d.Unassigned = d.Unassigned[0], d.Unassigned[1:]
 }
 
 func DraftRunner(draft *Draft) {

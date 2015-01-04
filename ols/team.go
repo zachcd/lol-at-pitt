@@ -13,7 +13,6 @@ type Team struct {
 	Captain        *Player
 	Wins           int
 	Losses         int
-	//	Games   Games
 }
 
 type Teams []*Team
