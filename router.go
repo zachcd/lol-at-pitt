@@ -51,7 +51,7 @@ func main() {
 	}
 	m.Get("/teams", teamHandler)
 	m.Get("/team/:name", individualTeamHandler)
-	m.Get("/draft", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
+	m.Get("/draft/status", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
 		renderer.JSON(200, d)
 	})
 	m.Get("/captain", CaptainRequired, func(user site.User, renderer render.Render) {

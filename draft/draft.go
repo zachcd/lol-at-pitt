@@ -4,6 +4,7 @@ import (
 	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
+	"time"
 )
 
 type DraftPlayer struct {
@@ -14,6 +15,10 @@ type DraftPlayer struct {
 	Done bool // Whether the auction is done for that player
 }
 
+type Bid struct {
+	Team   string
+	Amount int
+}
 type Auctioner struct {
 	Id     int64
 	Points int
@@ -47,37 +52,37 @@ func (h *History) Add(val string) {
 }
 
 func InitNewDraft(db *mgo.Database) Draft {
-	herd := []DraftPlayer{}
+	draftees := []DraftPlayer{}
 	auctioners := map[string]Auctioner{}
-	playerDAO := dao.NewPlayerContext(db)
-	players := playerDAO.All()
+	allPlayers := dao.GetPlayersDAO().All()
 
-	captains := players.Filter(func(player ols.Player) bool {
+	captains := allPlayers.Filter(func(player ols.Player) bool {
 		return player.Captain
 	})
-	players = players.Filter(func(player ols.Player) bool {
-		return !player.Captain
+	players := allPlayers.Filter(func(player ols.Player) bool {
+		return !player.Captain && player.Team == ""
 	})
 
 	for _, captain := range captains {
-
 		auctioners[captain.Team] = Auctioner{Id: captain.Id, Team: captain.Team, Points: captain.Score}
 	}
+
 	for _, player := range players {
 		draftPlay := DraftPlayer{Id: player.Id, Done: false, Ign: player.Ign}
-		herd = append(herd, draftPlay)
+		draftees = append(draftees, draftPlay)
 	}
 
 	var current DraftPlayer
-	current, herd = herd[len(herd)-1], herd[:len(herd)-1]
+	current, draftees = draftees[len(draftees)-1], draftees[:len(draftees)-1]
 	draft := Draft{
 		Current:    current,
-		Unassigned: herd,
+		Unassigned: draftees,
 		Auctioners: auctioners,
 		History:    InitHistory(20),
 		paused:     true,
 	}
 
+	draft.History.Add("Starting Draft..")
 	return draft
 }
 
@@ -132,4 +137,31 @@ func (d *Draft) Finalize() {
 func (d *Draft) NextPlayer() {
 	d.Current, d.Unassigned = d.Unassigned[len(d.Unassigned)-1], d.Unassigned[:len(d.Unassigned)-1]
 	d.History.Add("Now bidding on " + d.Current.Ign)
+}
+
+func DraftRunner(draft *Draft, bids chan Bid) {
+	for {
+
+		bid := <-bids
+		draft.Bid(bid.Amount, bid.Team)
+	}
+}
+
+// Returns a channel that will blah
+func DraftTimer(draft *Draft) {
+	go func() {
+		secondsExpired := 0
+		recentHistory := ""
+		ticker := time.NewTicker(time.Second)
+		for now := range ticker.C {
+			_ = now
+			if recentHistory != "" && recentHistory == draft.History.Values[0] {
+				secondsExpired += 1
+			} else {
+				secondsExpired += 1
+			}
+
+			recentHistory = draft.History.Values[0]
+		}
+	}()
 }
