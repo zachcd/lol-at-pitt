@@ -15,7 +15,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -51,24 +50,9 @@ func main() {
 	}
 	m.Get("/teams", teamHandler)
 	m.Get("/team/:name", individualTeamHandler)
-	m.Get("/draft/status", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
-		renderer.JSON(200, d)
-	})
+
 	m.Get("/captain", CaptainRequired, func(user site.User, renderer render.Render) {
 		renderer.JSON(200, user)
-	})
-	m.Get("/draft/bid", CaptainRequired, func(urls url.Values, renderer render.Render, d *draft.Draft, user site.User) {
-		player := dao.GetPlayersDAO().Load(user.LeagueId)
-		bidAmount, err := strconv.Atoi(urls.Get("amount"))
-		if err != nil {
-			log.Println("error bidding: ", err.Error())
-		} else {
-			d.Bid(bidAmount, player.Team)
-		}
-
-	})
-	m.Get("/draft/history", func(renderer render.Render, d *draft.Draft) {
-		renderer.JSON(200, d.History.Values)
 	})
 
 	m.Get("/player", PlayerRequired, func(renderer render.Render, user site.User) {
@@ -117,7 +101,7 @@ func main() {
 		http.Redirect(w, r, next, 302)
 	})
 
-	m.Get("/register/captain")
+	initDraftRouter(m)
 
 	http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
 

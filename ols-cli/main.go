@@ -2,12 +2,14 @@ package main
 
 // The idea of this package is to provide a CLI to edit the database for Mongodb.
 import (
+	"encoding/csv"
 	"fmt"
 	"github.com/TrevorSStone/goriot"
 	"github.com/docopt/docopt-go"
 	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
+	"os"
 	"strconv"
 	"time"
 )
@@ -40,14 +42,16 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("db", "atomic_delete"), Cmd: func(m CmdArgs) {
 		deleteDb()
 	}},
-
+	Command{Runnable: runnableGenerator("captain", "file"), Cmd: func(m CmdArgs) {
+		fmt.Println("Captain file")
+		newCaptain(m["<file_name>"].(string))
+	}},
 	Command{Runnable: runnableGenerator("user", "new"), Cmd: func(m CmdArgs) {
-
 	}},
 	Command{Runnable: runnableGenerator("user", "update"), Cmd: func(m CmdArgs) {
 		player := dao.GetPlayersDAO().LoadIGN(m["<ign>"].(string))
-
-		_, ok := m["captain"]
+		fmt.Println(m)
+		_, ok := m["--captain"]
 		if ok && m["--captain"].(string) == "true" {
 			player.Captain = true
 		} else if ok && m["--captain"].(string) == "false" {
@@ -76,10 +80,13 @@ var cmds []Command = []Command{
 }
 
 func main() {
+	goriot.SetAPIKey(ApiKey)
+	goriot.SetLongRateLimit(500, 10*time.Minute)
+	goriot.SetSmallRateLimit(10, 10*time.Second)
 	usage := `OLS CLI
 
 Usage:
-   ols-cli captain new <ign>
+   ols-cli captain file <file_name>
    ols-cli user new <name> <ign> <email>
    ols-cli user update <ign> [--team=<newteam>|--captain=<bool>|--email=<email>|--ign=<newign>]
    ols-cli team score <name> [--win|--lose]
@@ -118,9 +125,7 @@ func update_user_name(ign string, updated_ign string) {
 }
 
 func tiers() {
-	goriot.SetAPIKey(ApiKey)
-	goriot.SetLongRateLimit(500, 10*time.Minute)
-	goriot.SetSmallRateLimit(10, 10*time.Second)
+
 	session, err := mgo.Dial(MongoLocation)
 	if err != nil {
 		panic(err)
@@ -145,6 +150,40 @@ func tiers() {
 		db.C("players").Update(map[string]int64{"id": player.Id}, player)
 	}
 
+}
+
+func newCaptain(fileName string) {
+	csvfile, err := os.Open(fileName)
+	defer csvfile.Close()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	reader := csv.NewReader(csvfile)
+	rawCSVData, err := reader.ReadAll()
+	reader.FieldsPerRecord = -1
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	fmt.Println(rawCSVData, fileName)
+	for _, val := range rawCSVData {
+		ign := val[0]
+		team := val[1]
+		points, _ := strconv.Atoi(val[2])
+		normalizedSummonerName := goriot.NormalizeSummonerName(ign)[0]
+		result, err := goriot.SummonerByName("na", normalizedSummonerName)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		summonerProfile := result[normalizedSummonerName]
+		player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, Score: points, Captain: true, Team: team}
+		fmt.Println("Success")
+		dao.GetPlayersDAO().Save(player)
+
+	}
 }
 
 func getBestLeague(leagues []goriot.League, player ols.Player) string {

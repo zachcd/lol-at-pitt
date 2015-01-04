@@ -12,13 +12,13 @@ type DraftPlayer struct {
 	Ign  string
 	Bid  int
 	Team string
-	Done bool // Whether the auction is done for that player
 }
 
 type Bid struct {
 	Team   string
 	Amount int
 }
+
 type Auctioner struct {
 	Id     int64
 	Points int
@@ -32,6 +32,7 @@ type Draft struct {
 	Auctioners map[string]Auctioner
 	paused     bool
 	dao        DraftDAO
+	queuedBids chan Bid
 }
 
 type History struct {
@@ -68,7 +69,7 @@ func InitNewDraft(db *mgo.Database) Draft {
 	}
 
 	for _, player := range players {
-		draftPlay := DraftPlayer{Id: player.Id, Done: false, Ign: player.Ign}
+		draftPlay := DraftPlayer{Id: player.Id, Ign: player.Ign}
 		draftees = append(draftees, draftPlay)
 	}
 
@@ -80,8 +81,9 @@ func InitNewDraft(db *mgo.Database) Draft {
 		Auctioners: auctioners,
 		History:    InitHistory(20),
 		paused:     true,
+		queuedBids: make(chan Bid, 30),
 	}
-
+	go DraftRunner(&draft)
 	draft.History.Add("Starting Draft..")
 	return draft
 }
@@ -102,8 +104,12 @@ func (d *Draft) Resume() {
 	d.paused = false
 }
 
+func (d *Draft) Bid(amount int, team string) {
+	d.queuedBids <- Bid{team, amount}
+}
+
 // Returns: true if the bid went through, false otherwise
-func (d *Draft) Bid(amount int, team string) bool {
+func (d *Draft) bid(amount int, team string) bool {
 	auctioner, ok := d.Auctioners[team]
 
 	if d.Current.Team == team || d.Current.Bid >= amount || !ok || auctioner.Points < amount {
@@ -122,46 +128,73 @@ func (d *Draft) ArePlayersLeft() bool {
 }
 
 func (d *Draft) Finalize() {
-	d.Current.Done = true
+	d.Pause()
 	auctioner, _ := d.Auctioners[d.Current.Team]
 	auctioner.Points -= d.Current.Bid
-	d.dao.Save(d)
 
+	// Save player team
 	player := dao.GetPlayersDAO().Load(d.Current.Id)
 	player.Team = d.Current.Team
+	player.Score = d.Current.Bid
 	dao.GetPlayersDAO().Save(player)
+
+	// Save captain point value
+	captain := dao.GetPlayersDAO().Load(auctioner.Id)
+	captain.Score = auctioner.Points
+	dao.GetPlayersDAO().Save(captain)
 
 	d.History.Add(d.Current.Team + " won " + d.Current.Ign + " for " + string(d.Current.Bid))
 }
 
-func (d *Draft) NextPlayer() {
-	d.Current, d.Unassigned = d.Unassigned[len(d.Unassigned)-1], d.Unassigned[:len(d.Unassigned)-1]
+func (d *Draft) Start() {
+	d.Resume()
 	d.History.Add("Now bidding on " + d.Current.Ign)
+	go DraftTimer(d)
 }
 
-func DraftRunner(draft *Draft, bids chan Bid) {
-	for {
+func (d *Draft) Next() {
+	d.Current, d.Unassigned = d.Unassigned[len(d.Unassigned)-1], d.Unassigned[:len(d.Unassigned)-1]
 
-		bid := <-bids
-		draft.Bid(bid.Amount, bid.Team)
+}
+
+func DraftRunner(draft *Draft) {
+	for {
+		if !draft.paused {
+			bid := <-draft.queuedBids
+			draft.bid(bid.Amount, bid.Team)
+		}
 	}
 }
 
-// Returns a channel that will blah
 func DraftTimer(draft *Draft) {
 	go func() {
 		secondsExpired := 0
-		recentHistory := ""
+		lastBiddingTeam := ""
 		ticker := time.NewTicker(time.Second)
 		for now := range ticker.C {
 			_ = now
-			if recentHistory != "" && recentHistory == draft.History.Values[0] {
-				secondsExpired += 1
-			} else {
-				secondsExpired += 1
+			// Pause logic
+			if draft.paused {
+				continue
 			}
 
-			recentHistory = draft.History.Values[0]
+			sameBidder := draft.Current.Team == lastBiddingTeam
+
+			if draft.Current.Team == "" {
+				secondsExpired = 0
+			} else if sameBidder {
+				secondsExpired += 1
+			} else {
+				secondsExpired = 0
+			}
+
+			lastBiddingTeam = draft.Current.Team
+			if secondsExpired == 8 {
+				draft.paused = true
+				break
+			}
 		}
+
+		draft.Finalize()
 	}()
 }
