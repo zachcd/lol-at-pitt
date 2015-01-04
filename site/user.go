@@ -15,7 +15,3 @@ func (u *User) HasPermission(name string) bool {
 	_, ok := u.Permissions[name]
 	return ok
 }
-
-func (u *User) IsCaptain() bool {
-	return u.HasPermission("captain")
-}

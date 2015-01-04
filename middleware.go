@@ -45,11 +45,38 @@ func DRAFT() martini.Handler {
 	db := session.DB(dao.DatabaseName)
 	olsDraft := draft.Load(db)
 	olsDraft.Resume()
-	olsDraft.Current.Id = 2
+	olsDraft.Current.Id = 0
 
 	return func(c martini.Context) {
 		c.Map(olsDraft)
 		c.Next()
+	}
+}
+func Permissions(permissionName string) martini.Handler {
+	return func(token oauth2.Tokens, w http.ResponseWriter, r *http.Request, c martini.Context) {
+		if token == nil || token.Expired() {
+			next := url.QueryEscape(r.URL.RequestURI())
+			http.Redirect(w, r, oauth2.PathLogin+"?next="+next, 302)
+			return
+		}
+		id, err := GetId(token.Access())
+		if err != nil {
+			log.Printf("Error getting player token id:", err.Error())
+			http.Redirect(w, r, "/error", 302)
+			return
+		}
+		user := dao.GetUserDAO().GetUserFB(id)
+		if user.LeagueId == 0 {
+			next := url.QueryEscape(r.URL.RequestURI())
+			http.Redirect(w, r, "/register?next="+next, 302)
+		}
+
+		if !user.HasPermission(permissionName) {
+			http.Redirect(w, r, "/error", 302)
+		}
+		c.Map(user)
+		c.Next()
+
 	}
 }
 
@@ -68,7 +95,13 @@ var CaptainRequiredFunc = func() martini.Handler {
 		}
 
 		user := dao.GetUserDAO().GetUserFB(id)
-		if user.IsCaptain() {
+		player := dao.GetPlayersDAO().Load(user.LeagueId)
+		if user.LeagueId == 0 {
+			next := url.QueryEscape(r.URL.RequestURI())
+			http.Redirect(w, r, "/register?next="+next, 302)
+		}
+
+		if player.Captain {
 			c.Map(user)
 			c.Next()
 		} else {
@@ -92,8 +125,12 @@ var PlayerRequiredFunc = func() martini.Handler {
 			http.Redirect(w, r, "/error", 302)
 			return
 		}
-
 		user := dao.GetUserDAO().GetUserFB(id)
+		if user.LeagueId == 0 {
+			next := url.QueryEscape(r.URL.RequestURI())
+			http.Redirect(w, r, "/register?next="+next, 302)
+		}
+
 		c.Map(user)
 		c.Next()
 
@@ -109,10 +146,7 @@ var DebugPlayerRequired = func() martini.Handler {
 		}
 
 		user := dao.GetUserDAO().GetUserLeague(leagueId)
-		if user.LeagueId == 0 {
-			next := url.QueryEscape(r.URL.RequestURI())
-			http.Redirect(w, r, "/register?login="+leagueIdStr+"&next="+next, 302)
-		}
+
 		c.Map(user)
 	}
 }()

@@ -15,6 +15,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -39,7 +40,6 @@ func main() {
 		InitMiddleware(m)
 	}
 
-	// TODO: Individual variables not sustainable. Need a better system.
 	teamHandler := func(mongo *mgo.Database, renderer render.Render) {
 		teams := ols.QueryAllTeams(mongo)
 		renderer.HTML(200, "teams", teams)
@@ -54,19 +54,27 @@ func main() {
 	m.Get("/draft", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
 		renderer.JSON(200, d)
 	})
-
 	m.Get("/captain", CaptainRequired, func(user site.User, renderer render.Render) {
 		renderer.JSON(200, user)
 	})
-	m.Get("/draft/bid", CaptainRequired, func(renderer render.Render, d *draft.Draft) {
+	m.Get("/draft/bid", CaptainRequired, func(urls url.Values, renderer render.Render, d *draft.Draft, user site.User) {
+		player := dao.GetPlayersDAO().Load(user.LeagueId)
+		bidAmount, err := strconv.Atoi(urls.Get("amount"))
+		if err != nil {
+			log.Println("error bidding: ", err.Error())
+		} else {
+			d.Bid(bidAmount, player.Team)
+		}
 
-		// TODO: Put in CaptainRequired which gets a Player to match the auctioner.
-		// TODO: Bid using bid function
+	})
+	m.Get("/draft/history", func(renderer render.Render, d *draft.Draft) {
+		renderer.JSON(200, d.History.Values)
 	})
 
 	m.Get("/player", PlayerRequired, func(renderer render.Render, user site.User) {
 		player := dao.GetPlayersDAO().Load(user.LeagueId)
 		renderer.JSON(200, player)
+
 	})
 
 	m.Get("/register", LoginRequired, func(urls url.Values, renderer render.Render) {
@@ -77,13 +85,13 @@ func main() {
 		renderer.JSON(200, token)
 	})
 
-	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens) {
+	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
 		summonerName := urls.Get("summoner")
 		normalizedSummonerName := goriot.NormalizeSummonerName(summonerName)[0]
 		result, err := goriot.SummonerByName("na", normalizedSummonerName)
 
 		if err != nil || token.Expired() {
-			renderer.Status(404)
+			http.Redirect(w, r, "/error", 302)
 			return
 		}
 
@@ -105,7 +113,8 @@ func main() {
 			dao.GetPlayersDAO().Save(player)
 		}
 		dao.GetUserDAO().Save(user)
-
+		next := urls.Get("next")
+		http.Redirect(w, r, next, 302)
 	})
 
 	m.Get("/register/captain")

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/TrevorSStone/goriot"
 	"github.com/docopt/docopt-go"
+	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
-
 	"labix.org/v2/mgo"
 	"strconv"
 	"time"
@@ -45,7 +45,16 @@ var cmds []Command = []Command{
 
 	}},
 	Command{Runnable: runnableGenerator("user", "update"), Cmd: func(m CmdArgs) {
+		player := dao.GetPlayersDAO().LoadIGN(m["<ign>"].(string))
 
+		_, ok := m["captain"]
+		if ok && m["--captain"].(string) == "true" {
+			player.Captain = true
+		} else if ok && m["--captain"].(string) == "false" {
+			player.Captain = false
+		}
+
+		dao.GetPlayersDAO().Save(player)
 	}},
 	Command{Runnable: runnableGenerator("team", "score", "--win"), Cmd: func(m CmdArgs) {
 		UpdateTeamScore(m["<name>"].(string), true)
