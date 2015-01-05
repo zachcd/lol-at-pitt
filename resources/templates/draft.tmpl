@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+
+        <link href="/public/css/draft.css" rel="stylesheet"/>
+        <title>Draft</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-lg-12">
+                <div class="col-md-6"><h3>Points Remaining:  <span id="points" class="text-primary">{{.Score}}</span></h3> </div>
+                <div class="col-md-6"><h3>Team: <span id="team" class="text-primary">{{.Team}}</span></h3></div>
+                <form name="bet" id="bid" action="/draft/bid" method="GET">
+                    <div>
+                        <div class="input-group">
+                            <input id="bid_input" type="text" name="amount" placeholder="Bid Amount" class="form-control" />
+                            <span class="input-group-btn">
+                                <input id="submit_bid" type="submit" value="Bid" class="btn btn-success" />
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            
+                <div class="hist">
+                    <h2>Auction History</h2>
+                    <div class="panel panel-default">
+                        <div class="panel-body hist-container">
+                            <div id="history">
+                                <h5 class="text-success"> Team fk dis club bid 20 points on Derp</h5>
+                                <h5 class="text-muted"> Team kiwi bid 10 points on Derp</h5>
+                                <h5 class="text-muted"> Team apple bid 9 points on Derp</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Currently Bidding On <span id="current_ign" class="text-info">None</span></h3>
+                <div id="current" class="well">
+                    <div class="row">
+                        <div id="current_name" class="col-md-3">No one</div>
+                        <div id="current_role" class="col-md-8">Role Description: I derp top and mid</div>
+                    </div>
+                    <div class="row">
+                        <div id="current_tier" class="col-md-3 text-muted">Bronze 8</div>
+                        <div class="col-md-8 text-muted" href="#">Lolking Score: <a id="current_lolking" class="text-info">2000</a></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3>Upcoming</h3>
+                    <div id="future" style="overflow-y:scroll; height: 170px;">
+                        <ul class="list-group" id="upcoming">
+                            <li class="list-group-item">Iph - <span class="text-info">1421</span></li>
+                            <li class="list-group-item">MattLife - <span class="text-info">1721</span></li>
+                            <li class="list-group-item">VailVeix - <span class="text-info">1221</span></li>
+                            <li class="list-group-item">Docm - <span class="text-info">1821</span></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3>Remaining Captain Points</h3>
+                    <div id="auctioners" style="overflow-y:scroll; height: 170px;">
+                        <ul class="list-group" id="auctionerpoints">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="/public/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/public/js/draft.js"></script>
+    </body>
+</html>
+

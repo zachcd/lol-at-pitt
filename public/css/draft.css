@@ -1,0 +1,19 @@
+body{
+    top-padding: 20px;
+    margin: 20px;
+}
+
+form + h3 {
+    padding-top: 20px;
+}
+.hist{
+    padding-top:10px;
+}
+
+.hist-container{
+    height: 150px;
+    overflow-y: scroll;
+}
+.container {
+    max-width: 800px;
+}

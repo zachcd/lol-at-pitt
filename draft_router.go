@@ -46,6 +46,11 @@ func initDraftRouter(m *martini.ClassicMartini) {
 		renderer.JSON(200, d.History.Values)
 	})
 
+	m.Get("/draft", CaptainRequired, func(renderer render.Render, user site.User) {
+		player := dao.GetPlayersDAO().Load(user.LeagueId)
+		renderer.HTML(200, "draft", player)
+	})
+
 	m.Get("/draft/status", func(renderer render.Render, d *draft.Draft) {
 		renderer.JSON(200, d)
 	})
