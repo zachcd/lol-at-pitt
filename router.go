@@ -80,7 +80,6 @@ func main() {
 		}
 
 		id, err := GetId(token.Access())
-
 		if err != nil {
 			renderer.Status(404)
 			return
@@ -97,13 +96,16 @@ func main() {
 			dao.GetPlayersDAO().Save(player)
 		}
 		dao.GetUserDAO().Save(user)
-		next := urls.Get("next")
-		http.Redirect(w, r, next, 302)
+		//next := urls.Get("next")
+		log.Println("register completed going to page?")
+		renderer.HTML(200, "register_complete", 1)
 	})
 
 	initDraftRouter(m)
-
-	http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
+	err := http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
+	if err != nil {
+		log.Println(err)
+	}
 
 }
 

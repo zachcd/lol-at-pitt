@@ -178,7 +178,7 @@ func filePlayer(fileName string) {
 		name := strings.TrimSpace(val[1])
 		ign := strings.TrimSpace(val[2])
 		lolking, _ := strconv.Atoi(strings.TrimSpace(val[3]))
-
+		roleDescription := strings.TrimSpace(val[4])
 		player := dao.GetPlayersDAO().LoadNormalizedIGN(ign)
 
 		if player.Id != 0 {
@@ -194,7 +194,7 @@ func filePlayer(fileName string) {
 			}
 
 			summonerProfile := result[normalizedSummonerName]
-			player = ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, NormalizedIgn: normalizedSummonerName, Name: name, Lolking: lolking}
+			player = ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, NormalizedIgn: normalizedSummonerName, Name: name, Lolking: lolking, RoleDescription: roleDescription}
 			fmt.Println("Player new:", player)
 		}
 

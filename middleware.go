@@ -46,7 +46,7 @@ func DRAFT() martini.Handler {
 	olsDraft := draft.InitNewDraft(db)
 
 	return func(c martini.Context) {
-		c.Map(&olsDraft)
+		c.Map(olsDraft)
 		c.Next()
 	}
 }

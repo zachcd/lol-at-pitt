@@ -14,22 +14,22 @@ import (
 func initDraftRouter(m *martini.ClassicMartini) {
 	m.Get("/draft/pause", func(renderer render.Render, draft *draft.Draft) {
 		draft.Pause()
-		renderer.Data(200, []byte("success"))
+		renderer.JSON(200, []byte("success"))
 	})
 
 	m.Get("/draft/resume", func(renderer render.Render, draft *draft.Draft) {
 		draft.Resume()
-		renderer.Data(200, []byte("success"))
+		renderer.JSON(200, []byte("success"))
 	})
 
 	m.Get("/draft/start", func(renderer render.Render, draft *draft.Draft) {
 		draft.Start()
-		renderer.Data(200, []byte("success"))
+		renderer.JSON(200, []byte("success"))
 	})
 
 	m.Get("/draft/next", func(renderer render.Render, draft *draft.Draft) {
 		draft.Next()
-		renderer.Data(200, []byte("success"))
+		renderer.JSON(200, []byte("success"))
 	})
 
 	m.Get("/draft/bid", CaptainRequired, func(urls url.Values, renderer render.Render, d *draft.Draft, user site.User) {
@@ -44,6 +44,10 @@ func initDraftRouter(m *martini.ClassicMartini) {
 	})
 	m.Get("/draft/history", func(renderer render.Render, d *draft.Draft) {
 		renderer.JSON(200, d.History.Values)
+	})
+
+	m.Get("/draft/admin/panel", func(renderer render.Render) {
+		renderer.HTML(200, "admin", 1)
 	})
 
 	m.Get("/draft", CaptainRequired, func(renderer render.Render, user site.User) {
