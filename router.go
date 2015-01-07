@@ -15,6 +15,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"sort"
 	"time"
 )
 
@@ -73,6 +74,16 @@ func main() {
 		renderer.JSON(200, token)
 	})
 
+	m.Get("/draft/summary", func(renderer render.Render) {
+		allPlayers := dao.GetPlayersDAO().All()
+		players := allPlayers.Filter(func(player ols.Player) bool {
+			return !player.Captain && player.Team != ""
+		})
+
+		sort.Sort(players)
+		renderer.HTML(200, "drafted", players)
+	})
+
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
 		summonerName := urls.Get("summoner")
 		normalizedSummonerName := goriot.NormalizeSummonerName(summonerName)[0]
@@ -112,7 +123,6 @@ func main() {
 		renderer.HTML(200, "register_complete", 1)
 	})
 
-	initDraftRouter(m)
 	err := http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
 	if err != nil {
 		log.Println(err)
@@ -123,7 +133,6 @@ func main() {
 func InitMiddleware(m *martini.ClassicMartini) {
 	m.Use(PARAMS)
 	m.Use(DB())
-	m.Use(DRAFT())
 	m.Use(sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))))
 	m.Use(oauth2.Facebook(
 		&goauth2.Config{
@@ -140,7 +149,6 @@ func InitMiddleware(m *martini.ClassicMartini) {
 func InitDebugMiddleware(m *martini.ClassicMartini) {
 	m.Use(PARAMS)
 	m.Use(DB())
-	m.Use(DRAFT())
 	m.Use(sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))))
 	m.Use(render.Renderer(render.Options{Directory: TemplatesLocation}))
 	m.Use(martini.Static("public", martini.StaticOptions{Prefix: "/public"}))

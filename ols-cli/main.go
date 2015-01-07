@@ -184,6 +184,8 @@ func filePlayer(fileName string) {
 		if player.Id != 0 {
 			player.Name = name
 			player.Lolking = lolking
+			player.Score = 0
+			player.Team = ""
 			fmt.Println("Player saved:", player)
 		} else {
 			normalizedSummonerName := goriot.NormalizeSummonerName(ign)[0]

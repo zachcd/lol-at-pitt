@@ -4,10 +4,12 @@ import (
 	"github.com/go-martini/martini"
 	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/draft"
+	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
 	"github.com/martini-contrib/render"
 	"log"
 	"net/url"
+	"sort"
 	"strconv"
 )
 
@@ -57,6 +59,16 @@ func initDraftRouter(m *martini.ClassicMartini) {
 
 	m.Get("/draft/status", func(renderer render.Render, d *draft.Draft) {
 		renderer.JSON(200, d)
+	})
+
+	m.Get("/draft/summary", func(renderer render.Render) {
+		allPlayers := dao.GetPlayersDAO().All()
+		players := allPlayers.Filter(func(player ols.Player) bool {
+			return !player.Captain && player.Team != ""
+		})
+
+		sort.Sort(players)
+		renderer.HTML(200, "drafted", players)
 	})
 
 }

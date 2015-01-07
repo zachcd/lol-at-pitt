@@ -190,6 +190,7 @@ func DraftRunner(draft *Draft) {
 
 func DraftTimer(draft *Draft) {
 	go func() {
+		max_time := 12
 		secondsExpired := 0
 		lastBiddingTeam := ""
 		ticker := time.NewTicker(time.Second)
@@ -212,11 +213,11 @@ func DraftTimer(draft *Draft) {
 
 			lastBiddingTeam = draft.Current.Team
 
-			if secondsExpired == 10 {
+			if secondsExpired == max_time {
 				draft.Pause()
 				break
-			} else if secondsExpired > 5 {
-				draft.History.Add(strconv.Itoa(10-secondsExpired) + " left to outbid " + draft.Current.Team + " on " +
+			} else if secondsExpired > 8 {
+				draft.History.Add(strconv.Itoa(max_time-secondsExpired) + " left to outbid " + draft.Current.Team + " on " +
 					draft.Current.Ign + " for " + strconv.Itoa(draft.Current.Bid))
 			}
 		}
