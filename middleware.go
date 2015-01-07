@@ -98,6 +98,7 @@ var CaptainRequiredFunc = func() martini.Handler {
 		if user.LeagueId == 0 {
 			next := url.QueryEscape(r.URL.RequestURI())
 			http.Redirect(w, r, "/register?next="+next, 302)
+			return
 		}
 
 		if player.Captain {

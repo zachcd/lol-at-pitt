@@ -105,11 +105,12 @@ func Load(db *mgo.Database) *Draft {
 }
 
 func (d *Draft) Pause() {
-	log.Println("Game is now paused")
+	d.History.Add("PAUSE: Draft is paused by the admins")
 	d.paused = true
 }
 
 func (d *Draft) Resume() {
+	d.History.Add("RESUME: Draft is now resuming")
 	d.paused = false
 }
 
@@ -170,6 +171,7 @@ func (d *Draft) Start() {
 func (d *Draft) Next() {
 	d.started = false
 	d.Current, d.Unassigned = d.Unassigned[0], d.Unassigned[1:]
+	d.History.Add("NEXT: Going to next player, " + d.Current.Ign)
 }
 
 func DraftRunner(draft *Draft) {

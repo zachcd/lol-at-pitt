@@ -48,6 +48,10 @@ func main() {
 		team := ols.QueryTeam(db, params["name"])
 		renderer.HTML(200, "team", team)
 	}
+
+	m.Get("/error", func(urls url.Values, renderer render.Render) {
+		renderer.HTML(200, "error", urls.Get("status"))
+	})
 	m.Get("/teams", teamHandler)
 	m.Get("/team/:name", individualTeamHandler)
 
@@ -75,7 +79,7 @@ func main() {
 		result, err := goriot.SummonerByName("na", normalizedSummonerName)
 
 		if err != nil || token.Expired() {
-			http.Redirect(w, r, "/error", 302)
+			http.Redirect(w, r, "/error?status=InvalidFacebook", 302)
 			return
 		}
 
@@ -87,7 +91,14 @@ func main() {
 		//Check for captain
 		summonerProfile := result[normalizedSummonerName]
 		player := dao.GetPlayersDAO().Load(summonerProfile.ID)
-		user := site.User{LeagueId: summonerProfile.ID, FacebookId: id}
+		user := dao.GetUserDAO().GetUserFB(id)
+
+		// User is registered registered
+		if user.LeagueId != 0 {
+			http.Redirect(w, r, "/error?status=AlreadyRegistered", 302)
+			return
+		}
+		user = site.User{LeagueId: summonerProfile.ID, FacebookId: id}
 		log.Println("User registered:", user)
 		if player.Id == 0 {
 			// new player not in our db

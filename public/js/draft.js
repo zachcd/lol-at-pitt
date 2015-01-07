@@ -26,7 +26,7 @@ var current_history = ""
 function history_auto(){
     $.get("/draft/history").done(function(data){
         historyUpdater(data);
-        if (strStartsWith(current_history, "WINNER:") || strStartsWith(current_history, "STARTING:")) {
+        if (strStartsWith(current_history, "WINNER:") || strStartsWith(current_history, "STARTING:") || strStartsWith(current_history, "NEXT:")) {
             everythingelse()
         }
 
