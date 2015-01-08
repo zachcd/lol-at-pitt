@@ -4,7 +4,6 @@ import (
 	"github.com/TrevorSStone/goriot"
 	"github.com/go-martini/martini"
 	dao "github.com/lab-d8/lol-at-pitt/db"
-	"github.com/lab-d8/lol-at-pitt/draft"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
 	"github.com/lab-d8/oauth2"
@@ -18,8 +17,6 @@ import (
 	"sort"
 	"time"
 )
-
-var olsDraft draft.Draft
 
 type Register struct {
 	Id   string
@@ -114,7 +111,6 @@ func main() {
 		if player.Id == 0 {
 			// new player not in our db
 			player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name}
-			log.Println("New player:", player)
 			dao.GetPlayersDAO().Save(player)
 		}
 		dao.GetUserDAO().Save(user)
@@ -131,19 +127,20 @@ func main() {
 }
 
 func InitMiddleware(m *martini.ClassicMartini) {
-	m.Use(PARAMS)
-	m.Use(DB())
-	m.Use(sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))))
-	m.Use(oauth2.Facebook(
-		&goauth2.Config{
-			ClientID:     ClientId,
-			ClientSecret: ApiSecret,
-			Scopes:       []string{"public_profile", "email", "user_friends"},
-			RedirectURL:  "http://www.lol-at-pitt.com/oauth2callback",
-		},
-	))
-	m.Use(render.Renderer(render.Options{Directory: TemplatesLocation}))
-	m.Use(martini.Static("public", martini.StaticOptions{Prefix: "/public"}))
+	m.Handlers(PARAMS,
+		DB(),
+		sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))),
+		oauth2.Facebook(
+			&goauth2.Config{
+				ClientID:     ClientId,
+				ClientSecret: ApiSecret,
+				Scopes:       []string{"public_profile", "email", "user_friends"},
+				RedirectURL:  "http://www.lol-at-pitt.com/oauth2callback",
+			},
+		),
+		render.Renderer(render.Options{Directory: TemplatesLocation}),
+		martini.Static("resources/public", martini.StaticOptions{Prefix: "/public"}),
+	)
 }
 
 func InitDebugMiddleware(m *martini.ClassicMartini) {
