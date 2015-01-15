@@ -11,6 +11,7 @@ type DAO struct {
 
 var (
 	usersDAO      *UsersDAO
+	matchesDAO    *MatchesDAO
 	playersDAO    *PlayersDAO
 	DatabaseName  = "lolpitt"
 	MongoLocation = "mongodb://localhost"
@@ -41,6 +42,15 @@ func GetPlayersDAO() *PlayersDAO {
 	}
 
 	return playersDAO
+}
+
+func GetMatchesDAO() *MatchesDAO {
+	if matchesDAO == nil || matchesDAO.db == nil {
+		db := initDB()
+		matchesDAO = NewMatchesContext(db)
+	}
+
+	return matchesDAO
 }
 
 func initDB() *mgo.Database {

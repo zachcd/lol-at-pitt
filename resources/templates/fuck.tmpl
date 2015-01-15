@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Lol @ Pitt OLS</title>
+        <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+        
+    </head>
+    <body>
+        {{template "navbar" .}}
+        <div class="container col-lg-12" style="text-align:center;">
+        <form action="/fuck/smeg/count" method="GET">
+            <h1> This button has been pressed {{.}} times.</h1>
+             <input type="submit" value="Fuck Smegs" class="btn btn-success btn-large" />
+        </form>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="/public/js/bootstrap.min.js"></script>
+    </body>
+</html>

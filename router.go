@@ -8,8 +8,6 @@ import (
 	"github.com/lab-d8/lol-at-pitt/site"
 	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
-	"github.com/martini-contrib/sessions"
-	goauth2 "golang.org/x/oauth2"
 	"labix.org/v2/mgo"
 	"log"
 	"net/http"
@@ -52,17 +50,9 @@ func main() {
 	})
 	m.Get("/teams", teamHandler)
 	m.Get("/team/:name", individualTeamHandler)
-
-	m.Get("/captain", CaptainRequired, func(user site.User, renderer render.Render) {
-		renderer.JSON(200, user)
+	m.Get("/", func(renderer render.Render) {
+		renderer.HTML(200, "main", 1)
 	})
-
-	m.Get("/player", PlayerRequired, func(renderer render.Render, user site.User) {
-		player := dao.GetPlayersDAO().Load(user.LeagueId)
-		renderer.JSON(200, player)
-
-	})
-
 	m.Get("/register", LoginRequired, func(urls url.Values, renderer render.Render) {
 		renderer.HTML(200, "register", Register{Next: urls.Get("next")})
 	})
@@ -119,35 +109,11 @@ func main() {
 		renderer.HTML(200, "register_complete", 1)
 	})
 
+	initFunnyRouter(m)
+
 	err := http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
 	if err != nil {
 		log.Println(err)
 	}
 
-}
-
-func InitMiddleware(m *martini.ClassicMartini) {
-	m.Handlers(PARAMS,
-		DB(),
-		sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))),
-		oauth2.Facebook(
-			&goauth2.Config{
-				ClientID:     ClientId,
-				ClientSecret: ApiSecret,
-				Scopes:       []string{"public_profile", "email", "user_friends"},
-				RedirectURL:  "http://www.lol-at-pitt.com/oauth2callback",
-			},
-		),
-		render.Renderer(render.Options{Directory: TemplatesLocation}),
-		martini.Static("resources/public", martini.StaticOptions{Prefix: "/public"}),
-	)
-}
-
-func InitDebugMiddleware(m *martini.ClassicMartini) {
-	m.Use(PARAMS)
-	m.Use(DB())
-	m.Use(sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))))
-	m.Use(render.Renderer(render.Options{Directory: TemplatesLocation}))
-	m.Use(martini.Static("public", martini.StaticOptions{Prefix: "/public"}))
-	SetId("1", "10153410152015744") // Me
 }

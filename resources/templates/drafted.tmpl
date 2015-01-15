@@ -7,7 +7,8 @@
         
     </head>
     <body>
-        <div id="register_area" class="container col-md-12">
+        {{template "navbar" .}}
+        <div id="register_area" class=" col-md-8" style="text-align:center; margin:auto;">
             <ul class="list-group" id="upcoming">
                 {{range .}}
                 <li class="list-group-item">{{.Ign}} -- <span class="text-primary">Team won: {{.Team}}</span> -- <span class="text-success">Points bid: {{.Score}}</span></li>

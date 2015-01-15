@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"github.com/go-martini/martini"
 	dao "github.com/lab-d8/lol-at-pitt/db"
-	"github.com/lab-d8/lol-at-pitt/draft"
 	"github.com/lab-d8/oauth2"
+	"github.com/martini-contrib/render"
+	"github.com/martini-contrib/sessions"
+	goauth2 "golang.org/x/oauth2"
 	"labix.org/v2/mgo"
 	"log"
 	"net/http"
@@ -13,6 +15,32 @@ import (
 	"strconv"
 	"time"
 )
+
+func InitMiddleware(m *martini.ClassicMartini) {
+	m.Handlers(PARAMS,
+		DB(),
+		sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))),
+		oauth2.Facebook(
+			&goauth2.Config{
+				ClientID:     ClientId,
+				ClientSecret: ApiSecret,
+				Scopes:       []string{"public_profile", "email", "user_friends"},
+				RedirectURL:  "http://www.lol-at-pitt.com/oauth2callback",
+			},
+		),
+		render.Renderer(render.Options{Directory: TemplatesLocation}),
+		martini.Static("resources/public", martini.StaticOptions{Prefix: "/public"}),
+	)
+}
+
+func InitDebugMiddleware(m *martini.ClassicMartini) {
+	m.Use(PARAMS)
+	m.Use(DB())
+	m.Use(sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))))
+	m.Use(render.Renderer(render.Options{Directory: TemplatesLocation}))
+	m.Use(martini.Static("public", martini.StaticOptions{Prefix: "/public"}))
+	SetId("1", "10153410152015744", "Sean Myers") // Me. Set these to act like facebook, using a nice cache
+}
 
 // PARAMS is a middleware binder for injecting the params into each handler
 func PARAMS(req *http.Request, c martini.Context) {
@@ -33,20 +61,6 @@ func DB() martini.Handler {
 		s := session.Clone()
 		c.Map(s.DB(dao.DatabaseName))
 		defer s.Close()
-		c.Next()
-	}
-}
-
-func DRAFT() martini.Handler {
-	session, err := mgo.Dial(dao.MongoLocation)
-	if err != nil {
-		panic(err)
-	}
-	db := session.DB(dao.DatabaseName)
-	olsDraft := draft.InitNewDraft(db)
-
-	return func(c martini.Context) {
-		c.Map(olsDraft)
 		c.Next()
 	}
 }
