@@ -58,3 +58,22 @@ func TestMatchesDAOLoadTeam(t *testing.T) {
 
 	GetMatchesDAO().Collection.DropCollection()
 }
+
+func TestMatchesDAOWinningLoadTeam(t *testing.T) {
+	MatchesCollectionName = "testMatches"
+	match := ols.Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam1", Week: 1}
+	GetMatchesDAO().Save(match)
+	match = ols.Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam2", Week: 2, Played: true, Winner: "blue"}
+	GetMatchesDAO().Save(match)
+	loadedMatches := GetMatchesDAO().LoadWinningMatches("blue")
+
+	if len(loadedMatches) != 1 {
+		t.Error("Match length incorrect", loadedMatches)
+	}
+
+	if loadedMatches[0].RedTeam != "redteam2" {
+		t.Error("Match sorting is incorrect", loadedMatches[0])
+	}
+
+	GetMatchesDAO().Collection.DropCollection()
+}
