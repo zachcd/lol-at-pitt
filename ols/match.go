@@ -1,13 +1,19 @@
 package ols
 
+type Participant struct {
+	Id            int64
+	ParticipantId int
+}
+
 type Match struct {
-	BlueTeam string
-	RedTeam  string
-	Time     string
-	Played   bool
-	Winner   string
-	Id       int64
-	Week     int
+	BlueTeam     string
+	RedTeam      string
+	Participants []Participant
+	Time         string
+	Played       bool
+	Winner       string
+	Id           int64
+	Week         int
 }
 
 func (m *Match) BlueTeamWin() bool {

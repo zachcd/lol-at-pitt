@@ -17,6 +17,11 @@ func NewMatchesContext(db *mgo.Database) *MatchesDAO {
 	return &dao
 }
 
+func (m *MatchesDAO) IsSaved(id int64) bool {
+	val, _ := m.Collection.Find(map[string]int64{"id": id}).Count()
+	return val > 0
+}
+
 func (m *MatchesDAO) Load(id int64) ols.Match {
 	var match ols.Match
 	m.Collection.Find(map[string]int64{"id": id}).One(&match)
@@ -24,7 +29,22 @@ func (m *MatchesDAO) Load(id int64) ols.Match {
 }
 
 func (m *MatchesDAO) Save(match ols.Match) {
-	m.DAO.Save(map[string]interface{}{"id": match.Id, "week": match.Week, "blueteam": match.BlueTeam, "redteam": match.RedTeam}, match)
+	m.DAO.Save(map[string]interface{}{"week": match.Week, "blueteam": match.BlueTeam, "redteam": match.RedTeam}, match)
+}
+
+func (m *MatchesDAO) LoadWeekForMatch(blueTeam string, redTeam string) int {
+	var matches []ols.Match
+	m.Collection.Find(map[string]interface{}{"blueteam": blueTeam, "redteam": redTeam, "played": false}).All(&matches)
+
+	closestWeek := 100 // Only goes to 8, lol
+	for _, match := range matches {
+		if closestWeek > match.Week {
+			closestWeek = match.Week
+		}
+	}
+
+	return closestWeek
+
 }
 
 func (m *MatchesDAO) LoadTeamMatches(team string) []*ols.Match {

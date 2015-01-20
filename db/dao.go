@@ -11,6 +11,7 @@ type DAO struct {
 
 var (
 	usersDAO      *UsersDAO
+	teamsDAO      *TeamsDAO
 	matchesDAO    *MatchesDAO
 	playersDAO    *PlayersDAO
 	DatabaseName  = "lolpitt"
@@ -24,6 +25,10 @@ func (d *DAO) Save(needle interface{}, update interface{}) {
 	} else {
 		d.Collection.Insert(update)
 	}
+}
+
+func (d *DAO) Load(needle, placeholder interface{}) {
+	d.Collection.Find(needle).One(placeholder)
 }
 
 func GetUserDAO() *UsersDAO {
@@ -51,6 +56,15 @@ func GetMatchesDAO() *MatchesDAO {
 	}
 
 	return matchesDAO
+}
+
+func GetTeamsDAO() *TeamsDAO {
+	if teamsDAO == nil || teamsDAO.db == nil {
+		db := initDB()
+		teamsDAO = NewTeamsContext(db)
+	}
+
+	return teamsDAO
 }
 
 func initDB() *mgo.Database {

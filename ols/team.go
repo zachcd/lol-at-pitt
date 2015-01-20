@@ -1,18 +1,11 @@
 package ols
 
-import (
-	"labix.org/v2/mgo"
-	"sort"
-	"strings"
-)
-
 type Team struct {
-	Name           string
-	NormalizedName string
-	Players        Players
-	Captain        *Player
-	Wins           int
-	Losses         int
+	Name    string
+	Players []int64
+	Captain int64
+	Wins    int
+	Losses  int
 }
 
 type Teams []*Team
@@ -34,31 +27,6 @@ func (p Teams) Less(i, j int) bool {
 	}
 }
 
-////////////////////// DAOS
-
-func QueryAllTeams(db *mgo.Database) Teams {
-	var teams Teams
-	db.C("teams").Find(map[string]string{}).All(&teams)
-	realTeams := Teams{}
-	for _, team := range teams {
-		realTeams = append(realTeams, QueryTeam(db, team.Name))
-	}
-	sort.Sort(realTeams)
-
-	return realTeams
-}
-
-func QueryTeam(db *mgo.Database, teamName string) *Team {
-	normalizedTeamName := NormalizedName(teamName)
-	var team Team
-	var players Players
-	db.C("teams").Find(map[string]string{"normalizedname": normalizedTeamName}).One(&team)
-	db.C("players").Find(map[string]string{"team": team.Name}).All(&players)
-	team.Players = players
-	team.Captain = GetCaptain(players)
-	return &team
-}
-
 func GetCaptain(players Players) *Player {
 	for _, player := range players {
 		if player.Captain {
@@ -68,8 +36,12 @@ func GetCaptain(players Players) *Player {
 	return nil
 }
 
-func NormalizedName(name string) string {
-	lowercase_name := strings.ToLower(name)
-	normalized_name := strings.Replace(lowercase_name, " ", "", -1)
-	return normalized_name
+func (t *Team) IsPlayerOnTeam(playerId int64) bool {
+	for _, id := range t.Players {
+		if id == playerId {
+			return true
+		}
+	}
+
+	return false
 }
