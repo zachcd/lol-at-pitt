@@ -6,6 +6,7 @@ type Team struct {
 	Captain int64
 	Wins    int
 	Losses  int
+	League  string
 }
 
 type Teams []*Team

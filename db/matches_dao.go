@@ -32,6 +32,10 @@ func (m *MatchesDAO) Save(match ols.Match) {
 	m.DAO.Save(map[string]interface{}{"week": match.Week, "blueteam": match.BlueTeam, "redteam": match.RedTeam}, match)
 }
 
+func (m *MatchesDAO) Update(oldMatch, match ols.Match) {
+	m.Collection.Update(oldMatch, match)
+}
+
 func (m *MatchesDAO) LoadWeekForMatch(blueTeam string, redTeam string) int {
 	var matches []ols.Match
 	m.Collection.Find(map[string]interface{}{"blueteam": blueTeam, "redteam": redTeam, "played": false}).All(&matches)

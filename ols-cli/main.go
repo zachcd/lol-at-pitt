@@ -69,16 +69,33 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("team", "score", "--lose"), Cmd: func(m CmdArgs) {
 		UpdateTeamScore(m["<name>"].(string), false)
 	}},
+
+	Command{Runnable: runnableGenerator("team", "name"), Cmd: func(m CmdArgs) {
+		UpdateTeamName(m["<name>"].(string), m["<newname>"].(string))
+	}},
 	Command{Runnable: runnableGenerator("team", "new_score"), Cmd: func(m CmdArgs) {
 		wins, _ := strconv.Atoi(m["<wins>"].(string))
 		losses, _ := strconv.Atoi(m["<losses>"].(string))
 		NewTeamScore(m["<name>"].(string), wins, losses)
 	}},
-	Command{Runnable: runnableGenerator("team", "update"), Cmd: func(m CmdArgs) {
-
+	Command{Runnable: runnableGenerator("error", "names"), Cmd: func(m CmdArgs) {
+		nameErrors()
 	}},
-	Command{Runnable: runnableGenerator("tiers"), Cmd: func(m CmdArgs) {
+	Command{Runnable: runnableGenerator("team", "stats"), Cmd: func(m CmdArgs) {
+		ShowTeams()
+	}},
+
+	Command{Runnable: runnableGenerator("update", "tiers"), Cmd: func(m CmdArgs) {
 		tiers()
+	}},
+	Command{Runnable: runnableGenerator("update", "names"), Cmd: func(m CmdArgs) {
+		nameUpdates()
+	}},
+	Command{Runnable: runnableGenerator("teams"), Cmd: func(m CmdArgs) {
+		CreateTeamsFromPlayers()
+	}},
+	Command{Runnable: runnableGenerator("matches"), Cmd: func(m CmdArgs) {
+		CheckGames()
 	}},
 }
 
@@ -95,11 +112,16 @@ Usage:
    ols-cli user update <ign> [--team=<newteam>|--captain=<bool>|--email=<email>|--ign=<newign>]
    ols-cli team score <name> [--win|--lose]
    ols-cli team new_score <wins> <losses>
-   ols-cli team update <name> [--name=<newname>]
+   ols-cli team name <name> <newname>
+   ols-cli team stats
    ols-cli db dump <olsfile>
    ols-cli db upload <olsfile>
    ols-cli db atomic_delete
-   ols-cli tiers
+   ols-cli update names
+   ols-cli update tiers
+   ols-cli update teams
+   ols-cli matches
+   ols-cli error names
 `
 	arguments, _ := docopt.Parse(usage, nil, true, "ols-cli 1.0", false)
 
@@ -272,4 +294,30 @@ func getBestLeague(leagues []goriot.League, player ols.Player) string {
 
 	return currentTier + " " + currentDivision
 
+}
+
+func nameErrors() {
+	players := dao.GetPlayersDAO().All()
+	for _, player := range players {
+		_, err := goriot.SummonerByName("na", goriot.NormalizeSummonerName(player.NormalizedIgn)...)
+		if err != nil {
+			fmt.Println("Error with: ", player.Ign, " : ", err)
+		}
+
+	}
+}
+
+func nameUpdates() {
+	players := dao.GetPlayersDAO().All()
+
+	for _, player := range players {
+		summoner, err := goriot.SummonerByID("na", player.Id)
+		if err != nil {
+			fmt.Println("Error with: ", player.Ign, " : ", err, player)
+			continue
+		}
+
+		player.Ign = summoner[player.Id].Name
+		dao.GetPlayersDAO().Save(*player)
+	}
 }

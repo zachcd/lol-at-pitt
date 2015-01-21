@@ -34,6 +34,10 @@ func (t *TeamsDAO) All() ols.Teams {
 	return teams
 }
 
+func (t *TeamsDAO) Update(team, updatedTeam ols.Team) {
+	t.Collection.Update(team, updatedTeam)
+}
+
 func (t *TeamsDAO) Save(team ols.Team) {
 	t.DAO.Save(map[string]string{"name": team.Name}, team)
 }

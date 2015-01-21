@@ -17,7 +17,7 @@ type MatchRule func(player ols.Player, match goriot.Game) bool
 func CheckGames() {
 	players := db.GetPlayersDAO().All()
 	matchRules := []MatchRule{CorrectPlayerTeam, CorrectOtherTeam, AlreadyChecked, CorrectGameType, CorrectGameMode}
-	var usedSet map[int64]bool
+	usedSet := map[int64]bool{}
 	for _, player := range players {
 		summonerId := player.Id
 		games, err := goriot.RecentGameBySummoner("na", summonerId)
@@ -26,8 +26,8 @@ func CheckGames() {
 		}
 
 		for _, game := range games {
-			_, ok := usedSet[game.GameID]
-			if !ok {
+			_, used := usedSet[game.GameID]
+			if used {
 				continue
 			}
 
@@ -126,7 +126,7 @@ func CorrectGameMode(player ols.Player, match goriot.Game) bool {
 // Hell function that turns bullshit into magic
 func createMatch(player ols.Player, game goriot.Game) {
 	match, err := goriot.MatchByMatchID("na", true, game.GameID)
-	var participants map[int]*ols.Participant // championid -> participant
+	participants := map[int]*ols.Participant{} // championid -> participant
 	participants[game.ChampionID] = &ols.Participant{Id: player.Id}
 	if err != nil {
 		log.Println("Match with id: ", game.GameID, " had an error:", err.Error())
@@ -166,7 +166,7 @@ func createMatch(player ols.Player, game goriot.Game) {
 		Winner:       winnerTeam,
 		Id:           game.GameID,
 	}
-
+	log.Println("Match found! ", olsMatch)
 	db.GetMatchesDAO().Save(olsMatch)
 }
 

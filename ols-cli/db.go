@@ -18,7 +18,7 @@ func dumpDb(filename string) {
 
 	var players ols.Players
 	db.C("players").Find(map[string]string{}).All(&players)
-
+	db.CollectionNames()
 	json_blob["Players"] = players
 
 	data, _ := json.MarshalIndent(json_blob, "", "  ")
