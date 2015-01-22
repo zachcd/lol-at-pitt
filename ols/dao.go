@@ -1,4 +1,4 @@
-package db
+package ols
 
 import (
 	"labix.org/v2/mgo"

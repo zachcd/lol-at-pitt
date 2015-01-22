@@ -3,16 +3,13 @@ package main
 import (
 	"github.com/TrevorSStone/goriot"
 	"github.com/go-martini/martini"
-	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
 	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
-	"labix.org/v2/mgo"
 	"log"
 	"net/http"
 	"net/url"
-	"sort"
 	"time"
 )
 
@@ -35,13 +32,13 @@ func main() {
 		InitMiddleware(m)
 	}
 
-	teamHandler := func(mongo *mgo.Database, renderer render.Render) {
-		teams := ols.QueryAllTeams(mongo)
+	teamHandler := func(renderer render.Render) {
+		teams := ols.GetTeamsDAO().All()
 		renderer.HTML(200, "teams", teams)
 	}
 
-	individualTeamHandler := func(db *mgo.Database, params martini.Params, renderer render.Render) {
-		team := ols.QueryTeam(db, params["name"])
+	individualTeamHandler := func(params martini.Params, renderer render.Render) {
+		team := ols.GetTeamsDAO().Load(params["name"])
 		renderer.HTML(200, "team", team)
 	}
 
@@ -61,16 +58,6 @@ func main() {
 		renderer.JSON(200, token)
 	})
 
-	m.Get("/draft/summary", func(renderer render.Render) {
-		allPlayers := dao.GetPlayersDAO().All()
-		players := allPlayers.Filter(func(player ols.Player) bool {
-			return !player.Captain && player.Team != ""
-		})
-
-		sort.Sort(players)
-		renderer.HTML(200, "drafted", players)
-	})
-
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
 		summonerName := urls.Get("summoner")
 		normalizedSummonerName := goriot.NormalizeSummonerName(summonerName)[0]
@@ -88,8 +75,8 @@ func main() {
 		}
 		//Check for captain
 		summonerProfile := result[normalizedSummonerName]
-		player := dao.GetPlayersDAO().Load(summonerProfile.ID)
-		user := dao.GetUserDAO().GetUserFB(id)
+		player := ols.GetPlayersDAO().Load(summonerProfile.ID)
+		user := ols.GetUserDAO().GetUserFB(id)
 
 		// User is registered registered
 		if user.LeagueId != 0 {
@@ -101,9 +88,9 @@ func main() {
 		if player.Id == 0 {
 			// new player not in our db
 			player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name}
-			dao.GetPlayersDAO().Save(player)
+			ols.GetPlayersDAO().Save(player)
 		}
-		dao.GetUserDAO().Save(user)
+		ols.GetUserDAO().Save(user)
 		//next := urls.Get("next")
 		log.Println("register completed going to page?")
 		renderer.HTML(200, "register_complete", 1)

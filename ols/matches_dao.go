@@ -1,7 +1,6 @@
-package db
+package ols
 
 import (
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
 	"sort"
 )
@@ -22,22 +21,22 @@ func (m *MatchesDAO) IsSaved(id int64) bool {
 	return val > 0
 }
 
-func (m *MatchesDAO) Load(id int64) ols.Match {
-	var match ols.Match
+func (m *MatchesDAO) Load(id int64) Match {
+	var match Match
 	m.Collection.Find(map[string]int64{"id": id}).One(&match)
 	return match
 }
 
-func (m *MatchesDAO) Save(match ols.Match) {
+func (m *MatchesDAO) Save(match Match) {
 	m.DAO.Save(map[string]interface{}{"week": match.Week, "blueteam": match.BlueTeam, "redteam": match.RedTeam}, match)
 }
 
-func (m *MatchesDAO) Update(oldMatch, match ols.Match) {
+func (m *MatchesDAO) Update(oldMatch, match Match) {
 	m.Collection.Update(oldMatch, match)
 }
 
 func (m *MatchesDAO) LoadWeekForMatch(blueTeam string, redTeam string) int {
-	var matches []ols.Match
+	var matches []Match
 	m.Collection.Find(map[string]interface{}{"blueteam": blueTeam, "redteam": redTeam, "played": false}).All(&matches)
 
 	closestWeek := 100 // Only goes to 8, lol
@@ -51,25 +50,25 @@ func (m *MatchesDAO) LoadWeekForMatch(blueTeam string, redTeam string) int {
 
 }
 
-func (m *MatchesDAO) LoadTeamMatches(team string) []*ols.Match {
-	var matches []*ols.Match
-	var matchesRed []*ols.Match
+func (m *MatchesDAO) LoadTeamMatches(team string) []*Match {
+	var matches []*Match
+	var matchesRed []*Match
 	m.Collection.Find(map[string]string{"blueteam": team}).All(&matches)
 	m.Collection.Find(map[string]string{"redteam": team}).All(&matchesRed)
 
 	allMatches := append(matches, matchesRed...)
-	sort.Sort(ols.Matches(allMatches))
+	sort.Sort(Matches(allMatches))
 	return allMatches
 }
 
-func (m *MatchesDAO) LoadWinningMatches(team string) []*ols.Match {
-	var matches []*ols.Match
+func (m *MatchesDAO) LoadWinningMatches(team string) []*Match {
+	var matches []*Match
 	m.Collection.Find(map[string]string{"winner": team}).All(&matches)
 
-	sort.Sort(ols.Matches(matches))
+	sort.Sort(Matches(matches))
 	return matches
 }
 
-func (m *MatchesDAO) Delete(match ols.Match) {
+func (m *MatchesDAO) Delete(match Match) {
 	m.Collection.Remove(match)
 }

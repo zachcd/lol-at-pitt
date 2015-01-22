@@ -1,4 +1,4 @@
-package db
+package ols
 
 import (
 	"github.com/lab-d8/lol-at-pitt/site"

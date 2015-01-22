@@ -5,17 +5,17 @@ import (
 )
 
 type Player struct {
-	Ign             string
-	Id              int64
-	Name            string
-	NormalizedIgn   string
-	Roles           []string
-	Score           int
-	Team            string
-	Captain         bool
-	Tier            string
-	Lolking         int
-	RoleDescription string
+	Ign           string
+	NormalizedIgn string
+	Id            int64
+	Name          string
+	Score         int
+	Tier          string
+	Extras        []Extra
+}
+
+type Extra interface {
+	Printable() string
 }
 
 type Players []*Player
@@ -46,5 +46,5 @@ func (p Players) Swap(i, j int) {
 }
 
 func (p Players) Less(i, j int) bool {
-	return p[i].Lolking > p[j].Lolking
+	return p[i].Score > p[j].Score
 }

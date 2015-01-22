@@ -1,18 +1,17 @@
-package db
+package ols
 
 import (
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"testing"
 )
 
 func TestMatchesDAOSave(t *testing.T) {
 	MatchesCollectionName = "testMatches"
-	match := ols.Match{Id: 2, BlueTeam: "blue"}
+	match := Match{Id: 2, BlueTeam: "blue"}
 	GetMatchesDAO().Save(match)
 	c := GetMatchesDAO().Collection
 
 	count, err := c.Find(map[string]int64{"id": match.Id}).Count()
-	var savedMatch ols.Match
+	var savedMatch Match
 	c.Find(map[string]int64{"id": match.Id}).One(&savedMatch)
 	if count != 1 || err != nil || savedMatch.BlueTeam != "blue" {
 		t.Error("Didn't save properly", savedMatch, err)
@@ -23,7 +22,7 @@ func TestMatchesDAOSave(t *testing.T) {
 
 func TestMatchesDAOLoad(t *testing.T) {
 	MatchesCollectionName = "testMatches"
-	match := ols.Match{Id: 2, BlueTeam: "blue"}
+	match := Match{Id: 2, BlueTeam: "blue"}
 	GetMatchesDAO().Save(match)
 
 	loadedMatch := GetMatchesDAO().Load(2)
@@ -38,9 +37,9 @@ func TestMatchesDAOLoad(t *testing.T) {
 
 func TestMatchesDAOLoadTeam(t *testing.T) {
 	MatchesCollectionName = "testMatches"
-	match := ols.Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam1", Week: 1}
+	match := Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam1", Week: 1}
 	GetMatchesDAO().Save(match)
-	match = ols.Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam2", Week: 2}
+	match = Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam2", Week: 2}
 	GetMatchesDAO().Save(match)
 	loadedMatches := GetMatchesDAO().LoadTeamMatches("blue")
 
@@ -61,9 +60,9 @@ func TestMatchesDAOLoadTeam(t *testing.T) {
 
 func TestMatchesDAOWinningLoadTeam(t *testing.T) {
 	MatchesCollectionName = "testMatches"
-	match := ols.Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam1", Week: 1}
+	match := Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam1", Week: 1}
 	GetMatchesDAO().Save(match)
-	match = ols.Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam2", Week: 2, Played: true, Winner: "blue"}
+	match = Match{Id: 0, BlueTeam: "blue", RedTeam: "redteam2", Week: 2, Played: true, Winner: "blue"}
 	GetMatchesDAO().Save(match)
 	loadedMatches := GetMatchesDAO().LoadWinningMatches("blue")
 

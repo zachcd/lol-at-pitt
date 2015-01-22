@@ -2,16 +2,12 @@ package main
 
 // The idea of this package is to provide a CLI to edit the database for Mongodb.
 import (
-	"encoding/csv"
 	"fmt"
 	"github.com/TrevorSStone/goriot"
 	"github.com/docopt/docopt-go"
-	dao "github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
-	"os"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -43,25 +39,7 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("db", "atomic_delete"), Cmd: func(m CmdArgs) {
 		deleteDb()
 	}},
-	Command{Runnable: runnableGenerator("player", "file"), Cmd: func(m CmdArgs) {
-		filePlayer(m["<file_name>"].(string))
-	}},
-	Command{Runnable: runnableGenerator("captain", "file"), Cmd: func(m CmdArgs) {
-		newCaptain(m["<file_name>"].(string))
-	}},
 	Command{Runnable: runnableGenerator("user", "new"), Cmd: func(m CmdArgs) {
-	}},
-	Command{Runnable: runnableGenerator("user", "update"), Cmd: func(m CmdArgs) {
-		player := dao.GetPlayersDAO().LoadIGN(m["<ign>"].(string))
-		fmt.Println(m)
-		_, ok := m["--captain"]
-		if ok && m["--captain"].(string) == "true" {
-			player.Captain = true
-		} else if ok && m["--captain"].(string) == "false" {
-			player.Captain = false
-		}
-
-		dao.GetPlayersDAO().Save(player)
 	}},
 	Command{Runnable: runnableGenerator("team", "score", "--win"), Cmd: func(m CmdArgs) {
 		UpdateTeamScore(m["<name>"].(string), true)
@@ -84,15 +62,11 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("team", "stats"), Cmd: func(m CmdArgs) {
 		ShowTeams()
 	}},
-
 	Command{Runnable: runnableGenerator("update", "tiers"), Cmd: func(m CmdArgs) {
 		tiers()
 	}},
 	Command{Runnable: runnableGenerator("update", "names"), Cmd: func(m CmdArgs) {
 		nameUpdates()
-	}},
-	Command{Runnable: runnableGenerator("teams"), Cmd: func(m CmdArgs) {
-		CreateTeamsFromPlayers()
 	}},
 	Command{Runnable: runnableGenerator("matches"), Cmd: func(m CmdArgs) {
 		CheckGames()
@@ -106,10 +80,7 @@ func main() {
 	usage := `OLS CLI
 
 Usage:
-   ols-cli captain file <file_name>
-   ols-cli player file <file_name>
    ols-cli user new <name> <ign> <email>
-   ols-cli user update <ign> [--team=<newteam>|--captain=<bool>|--email=<email>|--ign=<newign>]
    ols-cli team score <name> [--win|--lose]
    ols-cli team new_score <wins> <losses>
    ols-cli team name <name> <newname>
@@ -177,94 +148,6 @@ func tiers() {
 	}
 
 }
-func filePlayer(fileName string) {
-	csvfile, err := os.Open(fileName)
-	defer csvfile.Close()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	reader := csv.NewReader(csvfile)
-	rawCSVData, err := reader.ReadAll()
-	reader.FieldsPerRecord = -1
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	for i, val := range rawCSVData {
-		// Prints the headers...dumb thing.
-		if i == 0 {
-			continue
-		}
-
-		name := strings.TrimSpace(val[1])
-		ign := strings.TrimSpace(val[2])
-		lolking, _ := strconv.Atoi(strings.TrimSpace(val[3]))
-		roleDescription := strings.TrimSpace(val[4])
-		player := dao.GetPlayersDAO().LoadNormalizedIGN(ign)
-
-		if player.Id != 0 {
-			player.Name = name
-			player.Lolking = lolking
-			player.Score = 0
-			player.Team = ""
-			fmt.Println("Player saved:", player)
-		} else {
-			normalizedSummonerName := goriot.NormalizeSummonerName(ign)[0]
-			result, err := goriot.SummonerByName("na", normalizedSummonerName)
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
-
-			summonerProfile := result[normalizedSummonerName]
-			player = ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, NormalizedIgn: normalizedSummonerName, Name: name, Lolking: lolking, RoleDescription: roleDescription}
-			fmt.Println("Player new:", player)
-		}
-
-		dao.GetPlayersDAO().Save(player)
-
-	}
-}
-func newCaptain(fileName string) {
-	csvfile, err := os.Open(fileName)
-	defer csvfile.Close()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	reader := csv.NewReader(csvfile)
-	rawCSVData, err := reader.ReadAll()
-	reader.FieldsPerRecord = -1
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	fmt.Println(rawCSVData, fileName)
-	for i, val := range rawCSVData {
-
-		// Prints the headers...dumb thing.
-		if i == 0 {
-			continue
-		}
-
-		ign := strings.TrimSpace(val[0])
-		team := strings.TrimSpace(val[1])
-		points, _ := strconv.Atoi(strings.TrimSpace(val[2]))
-		normalizedSummonerName := goriot.NormalizeSummonerName(ign)[0]
-		result, err := goriot.SummonerByName("na", normalizedSummonerName)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		summonerProfile := result[normalizedSummonerName]
-		player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name, Score: points, Captain: true, Team: team, NormalizedIgn: normalizedSummonerName}
-		fmt.Println("Success")
-		dao.GetPlayersDAO().Save(player)
-
-	}
-}
 
 func getBestLeague(leagues []goriot.League, player ols.Player) string {
 	standings := map[string]int{
@@ -297,7 +180,7 @@ func getBestLeague(leagues []goriot.League, player ols.Player) string {
 }
 
 func nameErrors() {
-	players := dao.GetPlayersDAO().All()
+	players := ols.GetPlayersDAO().All()
 	for _, player := range players {
 		_, err := goriot.SummonerByName("na", goriot.NormalizeSummonerName(player.NormalizedIgn)...)
 		if err != nil {
@@ -308,7 +191,7 @@ func nameErrors() {
 }
 
 func nameUpdates() {
-	players := dao.GetPlayersDAO().All()
+	players := ols.GetPlayersDAO().All()
 
 	for _, player := range players {
 		summoner, err := goriot.SummonerByID("na", player.Id)
@@ -318,6 +201,6 @@ func nameUpdates() {
 		}
 
 		player.Ign = summoner[player.Id].Name
-		dao.GetPlayersDAO().Save(*player)
+		ols.GetPlayersDAO().Save(*player)
 	}
 }

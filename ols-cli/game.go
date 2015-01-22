@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/TrevorSStone/goriot"
-	"github.com/lab-d8/lol-at-pitt/db"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"log"
 )
@@ -15,7 +14,7 @@ const (
 type MatchRule func(player ols.Player, match goriot.Game) bool
 
 func CheckGames() {
-	players := db.GetPlayersDAO().All()
+	players := ols.GetPlayersDAO().All()
 	matchRules := []MatchRule{CorrectPlayerTeam, CorrectOtherTeam, AlreadyChecked, CorrectGameType, CorrectGameMode}
 	usedSet := map[int64]bool{}
 	for _, player := range players {
@@ -56,7 +55,7 @@ func ApplyRules(player ols.Player, match goriot.Game, rules []MatchRule) bool {
 func CorrectPlayerTeam(player ols.Player, match goriot.Game) bool {
 	myTeamMatch := 0
 
-	playingTeam := db.GetTeamsDAO().LoadPlayer(player.Id)
+	playingTeam := ols.GetTeamsDAO().LoadPlayer(player.Id)
 	myTeam := match.TeamID
 
 	for _, fellowPlayer := range match.FellowPlayers {
@@ -100,7 +99,7 @@ func getOtherTeam(player ols.Player, match goriot.Game) ols.Team {
 	// Get other player on other team..
 	for _, fellowPlayer := range match.FellowPlayers {
 		if fellowPlayer.TeamID != myTeam {
-			otherTeam = db.GetTeamsDAO().LoadPlayer(fellowPlayer.SummonerID)
+			otherTeam = ols.GetTeamsDAO().LoadPlayer(fellowPlayer.SummonerID)
 			if otherTeam.Name != "" {
 				break
 			}
@@ -111,7 +110,7 @@ func getOtherTeam(player ols.Player, match goriot.Game) ols.Team {
 
 // Returns false if it is saved.
 func AlreadyChecked(player ols.Player, match goriot.Game) bool {
-	return !db.GetMatchesDAO().IsSaved(match.GameID)
+	return !ols.GetMatchesDAO().IsSaved(match.GameID)
 
 }
 
@@ -156,7 +155,7 @@ func createMatch(player ols.Player, game goriot.Game) {
 	if game.Statistics.Win && game.TeamID == RED_TEAM {
 		winnerTeam = redTeam
 	}
-	week := db.GetMatchesDAO().LoadWeekForMatch(blueTeam, redTeam)
+	week := ols.GetMatchesDAO().LoadWeekForMatch(blueTeam, redTeam)
 	olsMatch := ols.Match{
 		Participants: matchParticipants,
 		BlueTeam:     blueTeam,
@@ -167,13 +166,13 @@ func createMatch(player ols.Player, game goriot.Game) {
 		Id:           game.GameID,
 	}
 	log.Println("Match found! ", olsMatch)
-	db.GetMatchesDAO().Save(olsMatch)
+	ols.GetMatchesDAO().Save(olsMatch)
 }
 
 func getTeamName(game goriot.Game, teamCode int) string {
 	for _, fellowPlayer := range game.FellowPlayers {
 		if teamCode == fellowPlayer.TeamID {
-			team := db.GetTeamsDAO().LoadPlayer(fellowPlayer.SummonerID)
+			team := ols.GetTeamsDAO().LoadPlayer(fellowPlayer.SummonerID)
 			if team.Name != "" {
 				return team.Name
 			}

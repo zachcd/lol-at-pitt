@@ -1,20 +1,19 @@
-package db
+package ols
 
 import (
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"testing"
 )
 
 func TestTeamsSave(t *testing.T) {
 	TeamCollectionName = "testteams"
-	team := ols.Team{Name: "pew",
+	team := Team{Name: "pew",
 		Players: []int64{1, 2, 3, 4, 5},
 		Wins:    1}
 
 	GetTeamsDAO().Save(team)
 
 	count, _ := GetTeamsDAO().Collection.Count()
-	var savedTeam ols.Team
+	var savedTeam Team
 	GetTeamsDAO().Collection.Find(map[string]string{"name": team.Name}).One(&savedTeam)
 
 	if count != 1 || savedTeam.Wins != 1 {
@@ -26,13 +25,13 @@ func TestTeamsSave(t *testing.T) {
 
 func TestTeamsFindPlayer(t *testing.T) {
 	TeamCollectionName = "testteams"
-	team := ols.Team{Name: "pew",
+	team := Team{Name: "pew",
 		Players: []int64{1, 2, 3},
 		Wins:    1}
 
 	GetTeamsDAO().Save(team)
 
-	team = ols.Team{Name: "rawr",
+	team = Team{Name: "rawr",
 		Players: []int64{4},
 		Wins:    1}
 

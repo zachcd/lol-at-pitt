@@ -28,15 +28,6 @@ func (p Teams) Less(i, j int) bool {
 	}
 }
 
-func GetCaptain(players Players) *Player {
-	for _, player := range players {
-		if player.Captain {
-			return player
-		}
-	}
-	return nil
-}
-
 func (t *Team) IsPlayerOnTeam(playerId int64) bool {
 	for _, id := range t.Players {
 		if id == playerId {

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/go-martini/martini"
-	dao "github.com/lab-d8/lol-at-pitt/db"
+	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
@@ -52,14 +52,14 @@ func PARAMS(req *http.Request, c martini.Context) {
 
 // DB is a middleware binder that injects the mongo db into each handler
 func DB() martini.Handler {
-	session, err := mgo.Dial(dao.MongoLocation)
+	session, err := mgo.Dial(ols.MongoLocation)
 	if err != nil {
 		panic(err)
 	}
 
 	return func(c martini.Context) {
 		s := session.Clone()
-		c.Map(s.DB(dao.DatabaseName))
+		c.Map(s.DB(ols.DatabaseName))
 		defer s.Close()
 		c.Next()
 	}
@@ -78,7 +78,7 @@ func Permissions(permissionName string) martini.Handler {
 			http.Redirect(w, r, "/error", 302)
 			return
 		}
-		user := dao.GetUserDAO().GetUserFB(id)
+		user := ols.GetUserDAO().GetUserFB(id)
 		if user.LeagueId == 0 {
 			next := url.QueryEscape(r.URL.RequestURI())
 			http.Redirect(w, r, "/register?next="+next, 302)
@@ -107,15 +107,14 @@ var CaptainRequiredFunc = func() martini.Handler {
 			return
 		}
 
-		user := dao.GetUserDAO().GetUserFB(id)
-		player := dao.GetPlayersDAO().Load(user.LeagueId)
+		user := ols.GetUserDAO().GetUserFB(id)
 		if user.LeagueId == 0 {
 			next := url.QueryEscape(r.URL.RequestURI())
 			http.Redirect(w, r, "/register?next="+next, 302)
 			return
 		}
 
-		if player.Captain {
+		if user.HasPermission("captain") {
 			c.Map(user)
 			c.Next()
 		} else {
@@ -139,7 +138,7 @@ var PlayerRequiredFunc = func() martini.Handler {
 			http.Redirect(w, r, "/error", 302)
 			return
 		}
-		user := dao.GetUserDAO().GetUserFB(id)
+		user := ols.GetUserDAO().GetUserFB(id)
 		if user.LeagueId == 0 {
 			next := url.QueryEscape(r.URL.RequestURI())
 			http.Redirect(w, r, "/register?next="+next, 302)
@@ -159,7 +158,7 @@ var DebugPlayerRequired = func() martini.Handler {
 			panic(err)
 		}
 
-		user := dao.GetUserDAO().GetUserLeague(leagueId)
+		user := ols.GetUserDAO().GetUserLeague(leagueId)
 
 		c.Map(user)
 	}
