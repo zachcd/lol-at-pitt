@@ -1,11 +1,13 @@
 package ols
 
 import (
+	"github.com/TrevorSStone/goriot"
 	"labix.org/v2/mgo"
 	"sort"
 )
 
 var MatchesCollectionName string = "olsmatches"
+var LeagueMatchesCollectionName string = "leaguematches"
 
 type MatchesDAO struct {
 	DAO
@@ -61,9 +63,32 @@ func (m *MatchesDAO) LoadTeamMatches(team string) []*Match {
 	return allMatches
 }
 
+func (m *MatchesDAO) SaveLeagueGame(match goriot.MatchDetail) {
+	m.db.C(LeagueMatchesCollectionName).Insert(match)
+}
+
+func (m *MatchesDAO) IsLeagueGameSaved(match goriot.MatchDetail) bool {
+	count, _ := m.db.C(LeagueMatchesCollectionName).Find(map[string]int64{"matchid": match.MatchID}).Count()
+	return count > 0
+}
+
+func (m *MatchesDAO) LoadLeagueGame(matchId int64) goriot.MatchDetail {
+	var match goriot.MatchDetail
+	m.db.C(LeagueMatchesCollectionName).Find(map[string]int64{"matchid": matchId}).One(&match)
+	return match
+}
+
 func (m *MatchesDAO) LoadWinningMatches(team string) []*Match {
 	var matches []*Match
 	m.Collection.Find(map[string]string{"winner": team}).All(&matches)
+
+	sort.Sort(Matches(matches))
+	return matches
+}
+
+func (m *MatchesDAO) All() []*Match {
+	var matches []*Match
+	m.Collection.Find(map[string]string{}).All(&matches)
 
 	sort.Sort(Matches(matches))
 	return matches

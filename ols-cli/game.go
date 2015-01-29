@@ -48,7 +48,6 @@ func ApplyRules(player ols.Player, match goriot.Game, rules []MatchRule) bool {
 			break
 		}
 	}
-
 	return allowedGame
 }
 
@@ -180,4 +179,35 @@ func getTeamName(game goriot.Game, teamCode int) string {
 	}
 
 	return ""
+}
+
+func UpdateMatches() {
+	matches := ols.GetMatchesDAO().All()
+	for _, match := range matches {
+		matchInfo, err := goriot.MatchByMatchID("na", false, match.Id)
+		for _, participant := range match.Participants {
+			participant.ChampionId = getParticipantChampionId(matchInfo, participant.ChampionId)
+		}
+		ols.GetMatchesDAO().Save(*match)
+		if err != nil {
+			log.Println("Error: ", err)
+		} else {
+			log.Println("saved: ", match.BlueTeam, " vs ", match.RedTeam)
+			if !ols.GetMatchesDAO().IsLeagueGameSaved(matchInfo) {
+				ols.GetMatchesDAO().SaveLeagueGame(matchInfo)
+			}
+
+		}
+
+	}
+}
+
+func getParticipantChampionId(match goriot.MatchDetail, id int) int {
+	for _, participant := range match.Participants {
+		if participant.ParticipantID == id {
+			return participant.ChampionID
+		}
+	}
+
+	return -1
 }

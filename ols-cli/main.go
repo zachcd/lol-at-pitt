@@ -40,6 +40,7 @@ var cmds []Command = []Command{
 		deleteDb()
 	}},
 	Command{Runnable: runnableGenerator("user", "new"), Cmd: func(m CmdArgs) {
+		NewPlayer(m["<name>"].(string), m["<ign>"].(string))
 	}},
 	Command{Runnable: runnableGenerator("team", "score", "--win"), Cmd: func(m CmdArgs) {
 		UpdateTeamScore(m["<name>"].(string), true)
@@ -62,6 +63,14 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("team", "stats"), Cmd: func(m CmdArgs) {
 		ShowTeams()
 	}},
+	Command{Runnable: runnableGenerator("team", "add"), Cmd: func(m CmdArgs) {
+		id, _ := strconv.ParseInt(m["<id>"].(string), 10, 64)
+		AddTeamPlayer(m["<team>"].(string), id)
+	}},
+	Command{Runnable: runnableGenerator("team", "remove"), Cmd: func(m CmdArgs) {
+		id, _ := strconv.ParseInt(m["<id>"].(string), 10, 64)
+		RemoveTeamPlayer(m["<team>"].(string), id)
+	}},
 	Command{Runnable: runnableGenerator("update", "tiers"), Cmd: func(m CmdArgs) {
 		tiers()
 	}},
@@ -70,6 +79,7 @@ var cmds []Command = []Command{
 	}},
 	Command{Runnable: runnableGenerator("matches"), Cmd: func(m CmdArgs) {
 		CheckGames()
+		UpdateMatches()
 	}},
 }
 
@@ -80,11 +90,13 @@ func main() {
 	usage := `OLS CLI
 
 Usage:
-   ols-cli user new <name> <ign> <email>
+   ols-cli user new <name> <ign>
    ols-cli team score <name> [--win|--lose]
    ols-cli team new_score <wins> <losses>
    ols-cli team name <name> <newname>
    ols-cli team stats
+   ols-cli team remove <team> <id>
+   ols-cli team add <team> <id>
    ols-cli db dump <olsfile>
    ols-cli db upload <olsfile>
    ols-cli db atomic_delete
@@ -117,8 +129,30 @@ func runnableGenerator(args ...string) Runnable {
 	}
 }
 
-func update_user_name(ign string, updated_ign string) {
+func NewPlayer(name, ign string) {
+	player := ols.Player{Name: name}
 
+	leaguePlayerMap, err := goriot.SummonerByName("na", goriot.NormalizeSummonerName(ign)[0])
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	leaguePlayer := leaguePlayerMap[goriot.NormalizeSummonerName(ign)[0]]
+	player.Ign = leaguePlayer.Name
+	player.Id = leaguePlayer.ID
+	player.NormalizedIgn = goriot.NormalizeSummonerName(leaguePlayer.Name)[0]
+	id := player.Id
+	leagues_by_id, err := goriot.LeagueBySummoner("na", id)
+	if err != nil {
+		fmt.Println("wat: ", err.Error())
+		player.Tier = "None"
+	}
+	league, ok := leagues_by_id[id]
+	if ok {
+		player.Tier = getBestLeague(league, player)
+	}
+	fmt.Println("New Player added: ", player)
+	ols.GetPlayersDAO().Save(player)
 }
 
 func tiers() {

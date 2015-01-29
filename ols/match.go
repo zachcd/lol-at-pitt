@@ -1,8 +1,13 @@
 package ols
 
+import (
+	"github.com/TrevorSStone/goriot"
+)
+
 type Participant struct {
 	Id            int64
 	ParticipantId int
+	ChampionId    int
 }
 
 type Match struct {
@@ -14,6 +19,7 @@ type Match struct {
 	Winner       string
 	Id           int64
 	Week         int
+	Scrim        bool
 }
 
 func (m *Match) BlueTeamWin() bool {
@@ -36,4 +42,8 @@ func (m Matches) Swap(i, j int) {
 
 func (m Matches) Less(i, j int) bool {
 	return m[i].Week < m[j].Week
+}
+
+func (m *Match) LeagueMatch() goriot.MatchDetail {
+	return GetMatchesDAO().LoadLeagueGame(m.Id)
 }

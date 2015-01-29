@@ -34,12 +34,12 @@ func main() {
 
 	teamHandler := func(renderer render.Render) {
 		teams := ols.GetTeamsDAO().All()
-		renderer.HTML(200, "teams", teams)
+		renderer.JSON(200, teams)
 	}
 
 	individualTeamHandler := func(params martini.Params, renderer render.Render) {
 		team := ols.GetTeamsDAO().Load(params["name"])
-		renderer.HTML(200, "team", team)
+		renderer.JSON(200, team)
 	}
 
 	m.Get("/error", func(urls url.Values, renderer render.Render) {
