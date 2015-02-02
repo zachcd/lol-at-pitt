@@ -56,29 +56,6 @@ func initFunnyRouter(m *martini.ClassicMartini) {
 		renderer.Redirect("/fuck/smegs", 302)
 	})
 
-	m.Get("/matches/:team", func(renderer render.Render, params martini.Params) {
-		matches := ols.GetMatchesDAO().LoadTeamMatches(params["team"])
-		for _, match := range matches {
-			player := map[int]MatchPlayer{}
-			leagueGame := ols.GetMatchesDAO().LoadLeagueGame(match.Id)
-			for _, participant := range leagueGame.Participants {
-				player[participant.ParticipantID] = participant.ChampionID
-			}
-		}
-
-	})
-
-}
-func initChampionMap() {
-	champions, err := goriot.ChampionList("na", false)
-	if err != nil {
-		panic(err)
-	}
-
-	chMap := map[int]string{}
-	for _, champion := range champions {
-		chMap[champion.ID]
-	}
 }
 
 func initStats() []PlayerStats {
