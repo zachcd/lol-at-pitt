@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"sort"
 	"time"
 )
 
@@ -56,6 +57,11 @@ func main() {
 
 	m.Get("/oauth2error", func(token oauth2.Tokens, renderer render.Render) {
 		renderer.JSON(200, token)
+	})
+	m.Get("/rankings", func(renderer render.Render) {
+		players := ols.GetPlayersDAO().All()
+		sort.Sort(players)
+		renderer.HTML(200, "rank", players)
 	})
 
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
