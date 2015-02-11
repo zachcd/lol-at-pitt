@@ -46,7 +46,11 @@ $(document).ready(function() {
         </script>
     </head>
     <body>
-        {{template "navbar" .}}
+
+      {{template "navbar" .}}
+            <div class="container">
+      <h3>These rankings are based on the highest rank achieved before the Season 5 reset, around January 12th, 2015. Highest Rank achieved is the combined ranked solo queue, 3 v 3, and 5 v 5 tiers. If you wish to update this to reflect just your solo queue status, file an <a href="https://github.com/lab-D8/lol-at-pitt/issues">issue</a> </h3>
+      </div>
         <table id="table" class="table table-bordered table-striped">
             <thead>
                 <tr>
