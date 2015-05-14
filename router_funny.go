@@ -47,15 +47,6 @@ func initFunnyRouter(m *martini.ClassicMartini) {
 		renderer.HTML(200, "stats", stats)
 	})
 
-	m.Get("/fuck/smegs", func(renderer render.Render) {
-		renderer.HTML(200, "fuck", fuck)
-	})
-
-	m.Get("/fuck/smeg/count", func(renderer render.Render) {
-		fuck += 1
-		renderer.Redirect("/fuck/smegs", 302)
-	})
-
 }
 
 func initStats() []PlayerStats {
