@@ -35,6 +35,8 @@ func Init() {
 	upcomingPlayers = getPlayers()
 	if len(upcomingPlayers) > 0 {
 		current, upcomingPlayers = upcomingPlayers[0], upcomingPlayers[1:]
+	} else {
+		current = &DraftPlayer{}
 	}
 
 	allCaptains := getCaptains()
