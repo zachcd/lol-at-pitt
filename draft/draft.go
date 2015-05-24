@@ -33,7 +33,10 @@ var (
 
 func Init() {
 	upcomingPlayers = getPlayers()
-	current, upcomingPlayers = upcomingPlayers[0], upcomingPlayers[1:]
+	if len(upcomingPlayers) > 0 {
+		current, upcomingPlayers = upcomingPlayers[0], upcomingPlayers[1:]
+	}
+
 	allCaptains := getCaptains()
 
 	for _, captain := range allCaptains {
