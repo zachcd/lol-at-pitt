@@ -1,8 +1,9 @@
 package draft
 
 import (
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"sync"
+
+	"github.com/lab-d8/lol-at-pitt/ols"
 )
 
 type DraftPlayer struct {
@@ -155,7 +156,7 @@ func getPlayers() DraftPlayers {
 	players := ols.GetPlayersDAO().All()
 	draftPlayers := []*DraftPlayer{}
 	for _, player := range players {
-		team := ols.GetTeamsDAO().LoadPlayer(player.Id)
+		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
 		if team.Captain != player.Id {
 			draftPlayers = append(draftPlayers, &DraftPlayer{Player: *player})
 		}
