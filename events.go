@@ -45,10 +45,8 @@ func Init() {
 	RegisterDraftHandler("event", handle_event)
 	RegisterDraftHandler("captains", handle_captains)
 	RegisterDraftHandler("timer_reset", handle_timer_reset)
-	RegisterDraftHandler("captains", handle_captains)
 	RegisterDraftHandler("upcoming", handle_upcoming)
 	RegisterDraftHandler("current-player", handle_current_player)
-	RegisterDraftHandler("current-header", handle_header)
 	//Whats left
 	// winner
 	// final-ticks
@@ -109,6 +107,7 @@ func handle_current_player(msg Message, room *DraftRoom) {
 	player := draft.GetCurrentPlayer()
 
 	res := fmt.Sprintf(format, player.Ign, player.Roles, player.Tier)
+	room.broadcast(&Message{Type: "current-header", Text: player.Ign})
 	room.broadcast(&Message{Type: "current-player", Text: res})
 }
 func handle_bidder(msg Message, room *DraftRoom) {
@@ -119,11 +118,6 @@ func handle_bidder(msg Message, room *DraftRoom) {
 		room.messageWithID(msg.From, &Message{Type: "name", Text: captain.TeamName})
 	}
 
-}
-func handle_header(msg Message, room *DraftRoom) {
-	player := draft.GetPlayers()[0]
-
-	room.broadcast(&Message{Type: "current-header", Text: player.Ign})
 }
 
 // handle_login will give the player their stats, captains, current player, and upcoming players.
