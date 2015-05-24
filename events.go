@@ -105,7 +105,6 @@ func handle_current_player(msg Message, room *DraftRoom) {
 	</div>
 	`
 	player := draft.GetCurrentPlayer()
-
 	res := fmt.Sprintf(format, player.Ign, player.Roles, player.Tier)
 	room.broadcast(&Message{Type: "current-header", Text: player.Ign})
 	room.broadcast(&Message{Type: "current-player", Text: res})

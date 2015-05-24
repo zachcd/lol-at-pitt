@@ -33,7 +33,12 @@ var (
 
 func Init() {
 	upcomingPlayers = getPlayers()
-	getCaptains()
+	current, upcomingPlayers = upcomingPlayers[0], upcomingPlayers[1:]
+	allCaptains := getCaptains()
+
+	for _, captain := range allCaptains {
+		captains[captain.FacebookID] = captain
+	}
 }
 
 func GetCurrentPlayer() *DraftPlayer {
