@@ -27,6 +27,13 @@ func (t *TeamsDAO) LoadPlayer(summonerId int64) Team {
 	return team
 }
 
+func (t *TeamsDAO) LoadPlayerByCaptain(summonerId int64) Team {
+	var team Team
+	t.Collection.Find(map[string]int64{"captain": summonerId}).One(&team)
+	return team
+
+}
+
 func (t *TeamsDAO) All() Teams {
 	var teams Teams
 	t.Collection.Find(map[string]string{}).All(&teams)

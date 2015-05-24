@@ -44,6 +44,9 @@ func main() {
 		team := ols.GetTeamsDAO().Load(params["name"])
 		renderer.JSON(200, team)
 	}
+	m.Get("/admin", func(renderer render.Render) {
+		renderer.HTML(200, "admin", 1)
+	})
 
 	m.Get("/error", func(urls url.Values, renderer render.Render) {
 		renderer.HTML(200, "error", urls.Get("status"))
@@ -102,8 +105,13 @@ func main() {
 			// new player not in our db
 			ols.GetPlayersDAO().Save(player)
 		}
-		team := ols.Team{Name: teamName, Captain: player.Id}
-		ols.GetTeamsDAO().Save(team)
+		team := ols.GetTeamsDAO().LoadPlayerByCaptain(summonerProfile.ID)
+		newTeam := team
+		if team.Name != "" {
+			newTeam.Name = teamName
+			ols.GetTeamsDAO().Update(team, newTeam)
+
+		}
 		ols.GetUserDAO().Save(user)
 		//next := urls.Get("next")
 		log.Println("register completed going to page?")

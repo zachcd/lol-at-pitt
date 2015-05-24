@@ -3,12 +3,12 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
+	"github.com/lab-d8/lol-at-pitt/ols"
 	"io/ioutil"
+	"labix.org/v2/mgo"
+	"log"
 	"os"
 	"strconv"
-
-	"github.com/lab-d8/lol-at-pitt/ols"
-	"labix.org/v2/mgo"
 )
 
 func dumpDb(filename string) {
@@ -78,9 +78,11 @@ func UploadPlayers(filename string) {
 
 	for _, record := range allData[1:] {
 		player := NewPlayer(record[0], record[1])
+		log.Println("amt:", record[2])
 		amt, err := strconv.Atoi(record[2])
-		if err == nil {
+		if err == nil && player != nil {
 			player.Score = amt
+			ols.GetPlayersDAO().Save(*player)
 		}
 
 	}

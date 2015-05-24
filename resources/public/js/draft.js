@@ -56,10 +56,9 @@ $(document).ready(function(){
             e.preventDefault();
             submission(ws);
         });
-        $("#bid_5").submit(function(e){
-            e.preventDefault();
+        $("#bid_5").click(function(e){
             var msg = {
-                type: "bid_increment",
+                type: "bid-more",
                 from: fbId,
                 text: "5"
             };

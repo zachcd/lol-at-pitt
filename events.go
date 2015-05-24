@@ -40,7 +40,9 @@ func Init() {
 	timer_handler()
 
 	RegisterDraftHandler("login", handle_update)
+	RegisterDraftHandler("update", handle_update)
 	RegisterDraftHandler("bid", handle_bid)
+	RegisterDraftHandler("bid-more", handle_more_bid)
 	RegisterDraftHandler("bidder", handle_bidder)
 	RegisterDraftHandler("event", handle_event)
 	RegisterDraftHandler("captains", handle_captains)
@@ -49,6 +51,15 @@ func Init() {
 	RegisterDraftHandler("current-player", handle_current_player)
 	// winner
 	// final-ticks
+}
+
+func handle_more_bid(msg Message, room *DraftRoom) {
+	amt, err := strconv.Atoi(msg.Text)
+
+	if err == nil {
+		amount := draft.GetCurrentPlayer().HighestBid + amt
+		Handle(Message{Type: "bid", Text: strconv.Itoa(amount)})
+	}
 }
 
 func handle_bid(msg Message, room *DraftRoom) {
@@ -61,6 +72,8 @@ func handle_bid(msg Message, room *DraftRoom) {
 			formattedStr := fmt.Sprintf("<h5>%s bid <span  class='text-success'>%d</span> on <span class='text-success'>%s</span></h5>",
 				amt, captain.TeamName, draft.GetCurrentPlayer().Ign)
 			go Handle(Message{Type: "event", Text: formattedStr})
+			currentCountdown = startingCountdownTime
+			allowTicks = true
 		}
 	}
 }
@@ -107,6 +120,7 @@ func handle_current_player(msg Message, room *DraftRoom) {
 	room.broadcast(&Message{Type: "current-header", Text: player.Ign})
 	room.broadcast(&Message{Type: "current-player", Text: res})
 }
+
 func handle_bidder(msg Message, room *DraftRoom) {
 	captain := draft.GetAuctioner(msg.From)
 	if captain != nil {
@@ -121,10 +135,13 @@ func handle_bidder(msg Message, room *DraftRoom) {
 func handle_update(msg Message, room *DraftRoom) {
 	Handle(Message{Type: "captains"})
 	Handle(Message{Type: "upcoming"})
-	Handle(Message{Type: "bidder", From: msg.From})
 	Handle(Message{Type: "current-player"})
 	Handle(Message{Type: "current-header"})
 	Handle(Message{Type: "event", Text: "Currently waiting to bid on.." + draft.GetCurrentPlayer().Ign})
+	for _, client := range room.clients {
+		Handle(Message{Type: "bidder", From: client.ID})
+	}
+
 }
 
 func handle_winner(msg Message, room *DraftRoom) {

@@ -8,13 +8,13 @@
     </head>
     <body>
         <div id="register_area" class="container col-md-12" style="margin-top:200px;">
-            <input type="button" id="pause" class="btn btn-danger btn-large" value="Pause" name="Pause" />
-            <input type="button" id="resume" class="btn btn-success btn-large" value="Resume" name="Resume" />
+            <input type="button" id="reset" class="btn btn-danger btn-large" value="Reset Round" name="Pause" />
+            <input type="button" id="start" class="btn btn-success btn-large" value="Start Round" name="Resume" />
 
             <br />
             <br />
-            <input type="button" id="start" class="btn btn-primary btn-large" value="Start" name="Start" />
-            <input type="button" id="next" class="btn btn-primary btn-large" value="Next" name="Next" />
+            <input type="button" id="undo" class="btn btn-primary btn-large" value="Undo" name="Undo" />
+            <input type="button" id="skip" class="btn btn-primary btn-large" value="Skip" name="Skip" />
 
         </div>     
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -22,10 +22,10 @@
         <script type="text/javascript">
          $(document).ready(function(){
              $(function(){
-                 $("#pause").click(function(){ $.get("/draft/pause"); });
-                 $("#resume").click(function(){ $.get("/draft/resume"); });
-                 $("#start").click(function(){ $.get("/draft/start"); });
-                 $("#next").click(function(){ $.get("/draft/next"); });
+                 $("#undo").click(function(){ $.get("/admin/undo"); });
+                 $("#skip").click(function(){ $.get("/admin/skip"); });
+                 $("#start").click(function(){ $.get("/admin/start"); });
+                 $("#reset").click(function(){ $.get("/admin/reset"); });
              });
          });
         </script>

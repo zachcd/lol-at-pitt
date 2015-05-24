@@ -1,9 +1,8 @@
 package draft
 
 import (
-	"sync"
-
 	"github.com/lab-d8/lol-at-pitt/ols"
+	"sync"
 )
 
 type DraftPlayer struct {
@@ -42,7 +41,12 @@ func Init() {
 	allCaptains := getCaptains()
 
 	for _, captain := range allCaptains {
-		captains[captain.FacebookID] = captain
+		if captain.FacebookID == "" {
+			captains[captain.TeamName] = captain
+		} else {
+			captains[captain.FacebookID] = captain
+		}
+
 	}
 }
 
@@ -165,7 +169,7 @@ func getCaptains() DraftCaptains {
 
 	draftCaptains := []*DraftCaptain{}
 	for _, player := range captains {
-		team := ols.GetTeamsDAO().LoadPlayer(player.Id)
+		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
 		if team.Captain == player.Id {
 			user := ols.GetUserDAO().GetUserLeague(player.Id)
 			draftCaptains = append(draftCaptains, &DraftCaptain{Player: *player, FacebookID: user.FacebookId, Points: team.Points, TeamName: team.Name})

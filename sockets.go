@@ -4,8 +4,10 @@ import (
 	"log"
 	"sync"
 
+	"fmt"
 	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
+	"github.com/lab-d8/lol-at-pitt/draft"
 	"github.com/martini-contrib/render"
 )
 
@@ -102,6 +104,38 @@ func SocketRouter(m *martini.ClassicMartini) {
 	Init()
 	m.Get("/draft", func(r render.Render) {
 		r.HTML(200, "draft", "hello")
+	})
+
+	m.Get("/draft", func(r render.Render) {
+		r.HTML(200, "draft", "hello")
+	})
+
+	m.Get("/admin/start", func() {
+		draft.Paused = false
+		allowTicks = false
+		fmt.Println("Hello!")
+		Handle(Message{Type: "event", Text: "The round has started, LET THE BIDDING BEGIN"})
+	})
+
+	m.Get("/admin/reset", func() {
+		draft.GetCurrentPlayer().HighestBid = 0
+		draft.GetCurrentPlayer().Team = ""
+		Handle(Message{Type: "event", Text: "Admin reset current round, starting when they press the button.."})
+		allowTicks = false
+		draft.Paused = true
+	})
+
+	m.Get("/admin/skip", func() {
+		Handle(Message{Type: "event", Text: "Admin skipped current player, waiting on him to start.."})
+		Handle(Message{Type: "update"})
+
+		draft.Next()
+	})
+
+	m.Get("/admin/previous", func() {
+		Handle(Message{Type: "event", Text: "Admin undid previous round, waiting on him to start.."})
+		Handle(Message{Type: "update"})
+		draft.Previous()
 	})
 	// This is the sockets connection for the room, it is a json mapping to sockets.
 	m.Get("/draft/:clientname", sockets.JSON(Message{}), func(params martini.Params, receiver <-chan *Message, sender chan<- *Message, done <-chan bool, disconnect chan<- int, err <-chan error) (int, string) {
