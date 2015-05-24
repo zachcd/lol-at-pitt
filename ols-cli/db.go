@@ -96,8 +96,8 @@ func UploadCaptains(filename string) {
 	allData, _ := csvReader.ReadAll()
 	rand.Seed(51)
 	for _, record := range allData[1:] {
-		//captain := NewPlayer(record[0], record[1])
-		captain := &ols.Player{Name: record[0], Ign: record[1], Id: rand.Int63()}
+		captain := NewPlayer(record[0], record[1])
+		//captain := &ols.Player{Name: record[0], Ign: record[1], Id: rand.Int63()}
 		if captain != nil {
 			team := ols.Team{Name: captain.Ign + "'s team", Captain: captain.Id}
 

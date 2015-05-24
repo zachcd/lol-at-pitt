@@ -19,7 +19,7 @@ const (
 
 var (
 	currentCountdown                         = startingCountdownTime
-	allowTicks       bool                    = true // If this is false, dont continue to count down
+	allowTicks       bool                    = false // If this is false, dont continue to count down
 	mainHandler      map[string]DraftHandler = map[string]DraftHandler{}
 )
 
