@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/TrevorSStone/goriot"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
 )
@@ -97,7 +98,8 @@ func UploadCaptains(filename string) {
 	rand.Seed(51)
 	for _, record := range allData[1:] {
 		//captain := NewPlayer(record[0], record[1])
-		captain := &ols.Player{Name: record[0], Ign: record[1], Id: rand.Int63()}
+		normalizedSummonerName := goriot.NormalizeSummonerName(record[1])[0]
+		captain := &ols.Player{Name: record[0], Ign: record[1], NormalizedIgn: normalizedSummonerName, Id: rand.Int63()}
 		if captain != nil {
 			team := ols.Team{Name: captain.Ign + "'s team", Captain: captain.Id}
 

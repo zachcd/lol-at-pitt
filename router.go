@@ -91,7 +91,6 @@ func main() {
 		player := ols.GetPlayersDAO().LoadNormalizedIGN(normalizedSummonerName)
 		if player.Id == 0 {
 			http.Redirect(w, r, "/error?status=NoPlayerFound", 302)
-
 		}
 
 		user := ols.GetUserDAO().GetUserFB(id)
