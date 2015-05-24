@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"strconv"
 
@@ -95,7 +96,8 @@ func UploadCaptains(filename string) {
 	allData, _ := csvReader.ReadAll()
 
 	for _, record := range allData[1:] {
-		captain := NewPlayer(record[0], record[1])
+		//captain := NewPlayer(record[0], record[1])
+		captain := &ols.Player{Name: record[0], Id: rand.Int63()}
 		if captain != nil {
 			team := ols.Team{Name: captain.Ign + "'s team", Captain: captain.Id}
 
