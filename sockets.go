@@ -5,9 +5,11 @@ import (
 	"sync"
 
 	"fmt"
+
 	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/draft"
+	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
 )
 
@@ -102,12 +104,9 @@ var room *DraftRoom
 func SocketRouter(m *martini.ClassicMartini) {
 	room = newDraftRoom()
 	Init()
-	m.Get("/draft", func(r render.Render) {
-		r.HTML(200, "draft", "hello")
-	})
-
-	m.Get("/draft", func(r render.Render) {
-		r.HTML(200, "draft", "hello")
+	m.Get("/draft", LoginRequired, func(r render.Render, token oauth2.Tokens) {
+		id, _ := GetId(token.Access())
+		r.HTML(200, "draft", id)
 	})
 
 	m.Get("/admin/start", func() {
