@@ -1,6 +1,12 @@
 package main
 
 import (
+	"log"
+	"net/http"
+	"net/url"
+	"sort"
+	"time"
+
 	"github.com/TrevorSStone/goriot"
 	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
@@ -8,11 +14,6 @@ import (
 	"github.com/lab-d8/lol-at-pitt/site"
 	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
-	"log"
-	"net/http"
-	"net/url"
-	"sort"
-	"time"
 )
 
 // Register is used for derp
@@ -70,6 +71,7 @@ func main() {
 
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
 		summonerName := urls.Get("summoner")
+		teamName := urls.Get("team")
 		normalizedSummonerName := goriot.NormalizeSummonerName(summonerName)[0]
 		result, err := goriot.SummonerByName("na", normalizedSummonerName)
 
@@ -93,12 +95,15 @@ func main() {
 			http.Redirect(w, r, "/error?status=AlreadyRegistered", 302)
 			return
 		}
+
 		user = site.User{LeagueId: summonerProfile.ID, FacebookId: id}
 		log.Println("User registered:", user)
 		if player.Id == 0 {
 			// new player not in our db
 			player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name}
+			team := ols.Team{Name: teamName, Captain: player.Id}
 			ols.GetPlayersDAO().Save(player)
+			ols.GetTeamsDAO().Save(team)
 		}
 		ols.GetUserDAO().Save(user)
 		//next := urls.Get("next")

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"io/ioutil"
-	"labix.org/v2/mgo"
 	"os"
+	"strconv"
+
+	"github.com/lab-d8/lol-at-pitt/ols"
+	"labix.org/v2/mgo"
 )
 
 func dumpDb(filename string) {
@@ -66,6 +69,29 @@ func upload(json_file string) {
 
 	teams := db_blob.Teams
 	initDbTeams(teams)
+}
+
+func UploadPlayers(filename string) {
+	r, _ := os.Open(filename)
+	csvReader := csv.NewReader(r)
+	allData, _ := csvReader.ReadAll()
+
+	for _, record := range allData[:len(allData)] {
+		NewPlayer(record[0], record[1])
+	}
+}
+
+func UploadCaptains(filename string) {
+	r, _ := os.Open(filename)
+	csvReader := csv.NewReader(r)
+	allData, _ := csvReader.ReadAll()
+
+	for _, record := range allData[:len(allData)] {
+		captain := NewPlayer(record[0], record[1])
+		captain.Captain = true
+		captain.Score, _ = strconv.Atoi(record[2])
+		ols.GetPlayersDAO().Save(*captain)
+	}
 }
 
 func deleteDb() {

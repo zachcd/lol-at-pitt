@@ -1,11 +1,12 @@
 package main
 
 import (
+	"log"
+	"sync"
+
 	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
-	"log"
-	"sync"
 )
 
 // Message is a single message sent between clients

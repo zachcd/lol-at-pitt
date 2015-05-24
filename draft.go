@@ -2,28 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"strconv"
 	"time"
+
+	"github.com/lab-d8/lol-at-pitt/draft"
 )
 
 type DraftHandler func(msg Message, room *DraftRoom)
-
-type DraftPlayer struct {
-	ols.Player
-	CurrentBid    int
-	HighestBidder string
-}
-
-type Captain struct {
-	ID     string // player relative marker
-	Points int
-	Team   string
-}
-
-type DraftClient struct {
-	// TODO: Put maria's draft client in here.
-}
 
 /////////////////////////
 const (
@@ -50,7 +35,9 @@ func Handle(msg Message) {
 }
 
 func Init() {
+	parse_players()
 	timer_handler()
+
 	RegisterDraftHandler("login", handle_login)
 	RegisterDraftHandler("bid", handle_bid)
 	RegisterDraftHandler("event", handle_event)
@@ -58,7 +45,10 @@ func Init() {
 	RegisterDraftHandler("timer_reset", handle_timer_reset)
 	RegisterDraftHandler("captains", handle_captains)
 	RegisterDraftHandler("upcoming", handle_upcoming)
-	//go timer()
+}
+
+func parse_players() {
+	draft.GetPlayers()
 }
 
 func handle_bid(msg Message, room *DraftRoom) {
@@ -77,7 +67,13 @@ func handle_event(msg Message, room *DraftRoom) {
 
 func handle_captains(msg Message, room *DraftRoom) {
 	// TODO: do formatting of text here. Make it a json blob
-	room.broadcast(&Message{Type: "captains", Text: "captains"})
+	text := ""
+	format := `<li class='list-group-item'>%s (%s)<span class='text-info'> %s </span></li>`
+	captains := draft.GetCaptains()
+	for _, captain := range captains {
+		fmt.Sprintf(format, captain, captain)
+	}
+	room.broadcast(&Message{Type: "captains", Text: text})
 }
 
 func handle_upcoming(msg Message, room *DraftRoom) {
@@ -114,6 +110,7 @@ func timer_handler() {
 
 			if currentCountdown == 0 {
 				allowTicks = false
+				Handle(Message{Type: "timer-end"})
 			}
 		}
 	}()

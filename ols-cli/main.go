@@ -3,12 +3,13 @@ package main
 // The idea of this package is to provide a CLI to edit the database for Mongodb.
 import (
 	"fmt"
+	"strconv"
+	"time"
+
 	"github.com/TrevorSStone/goriot"
 	"github.com/docopt/docopt-go"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"labix.org/v2/mgo"
-	"strconv"
-	"time"
 )
 
 const ApiKey string = "a3c96054-e21f-4238-a842-28caa10943a0"
@@ -81,6 +82,9 @@ var cmds []Command = []Command{
 		CheckGames()
 		UpdateMatches()
 	}},
+	Command{Runnable: runnableGenerator("player"), Cmd: func(m CmdArgs) {
+		UploadPlayers(m["<upload>"].(string))
+	}},
 }
 
 func main() {
@@ -105,6 +109,7 @@ Usage:
    ols-cli update teams
    ols-cli matches
    ols-cli error names
+	 ols-cli player <upload>
 `
 	arguments, _ := docopt.Parse(usage, nil, true, "ols-cli 1.0", false)
 
@@ -129,13 +134,13 @@ func runnableGenerator(args ...string) Runnable {
 	}
 }
 
-func NewPlayer(name, ign string) {
+func NewPlayer(name, ign string) *ols.Player {
 	player := ols.Player{Name: name}
 
 	leaguePlayerMap, err := goriot.SummonerByName("na", goriot.NormalizeSummonerName(ign)[0])
 	if err != nil {
 		fmt.Println(err)
-		return
+		return nil
 	}
 	leaguePlayer := leaguePlayerMap[goriot.NormalizeSummonerName(ign)[0]]
 	player.Ign = leaguePlayer.Name
@@ -153,6 +158,7 @@ func NewPlayer(name, ign string) {
 	}
 	fmt.Println("New Player added: ", player)
 	ols.GetPlayersDAO().Save(player)
+	return &player
 }
 
 func tiers() {
