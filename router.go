@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/TrevorSStone/goriot"
+	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
@@ -14,6 +15,7 @@ import (
 	"time"
 )
 
+// Register is used for derp
 type Register struct {
 	Id   string
 	Name string
@@ -25,7 +27,6 @@ func main() {
 	goriot.SetAPIKey(LeagueApiKey)
 	goriot.SetLongRateLimit(LongLeagueLimit, 10*time.Minute)
 	goriot.SetSmallRateLimit(ShortLeagueLimit, 10*time.Second)
-
 	// Setup middleware to be attached to the controllers on every call.
 	if Debug {
 		InitDebugMiddleware(m)
@@ -62,6 +63,9 @@ func main() {
 		players := ols.GetPlayersDAO().All()
 		sort.Sort(players)
 		renderer.HTML(200, "rank", players)
+	})
+	m.Get("/draft-socket/:drafter", sockets.JSON(Message{}), func(params martini.Params, receiver <-chan *Message, sender chan<- *Message, done <-chan bool, disconnect chan<- int, errorChannel <-chan error) {
+
 	})
 
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
@@ -103,7 +107,7 @@ func main() {
 	})
 
 	initFunnyRouter(m)
-
+	SocketRouter(m)
 	err := http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
 	if err != nil {
 		log.Println(err)

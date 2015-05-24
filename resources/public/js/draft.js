@@ -1,77 +1,93 @@
 $(document).ready(function(){
-    $(function(){
-        history_auto();
-    })
-    $(function(){
-        $.get("/draft/status").done(function(data){
-            updateCurrent(data);
-            updateCaptainPoints(data);
-            updateUpcoming(data);
-        })
-    });
+
+    var ws = new WebSocket(url("/" + fbId));
+    ws.onmessage = function(event) {
+      msg = JSON.parse(event.data);
+      handle(msg);
+    };
+
+    ws.onopen = function() {
+      var msg = {
+        type: "login",
+        text: fbId,
+        type: ""+fbId
+      };
+
+//      ws.send(JSON.stringify(msg));
+    };
+
+    var handle = function(message){
+        handlers[message.type](message);
+    }
+
+    var team = function(message) {
+        $("#team").html(message.text);
+    }
+
+    var points_handler = function(message) {
+        $("#points").html(message.text);
+    }
+
+    var event_handler = function(message){
+        var str = $("#history").html();
+        var new_line = "<h5 class='text-success'>" + message.text + "</h5>";
+        str = new_line + str;
+        $("#history").html(str);
+        
+    }
+
+    var text_updater = function(query) {
+        return function(message){
+            $(query).html(message.text);
+        }
+    }
+
+    var handlers = {"team": team, "points": points_handler, "event": event_handler, "captains": text_updater("#auctioners"), "upcoming": text_updater("#upcoming")};
+ 
     $(function(){
         $('#bid_input').onEnter(function(e){
             e.preventDefault();
-            submission();
+            submission(ws);
         });
     });
     $(function(){
         $('#bid').submit(function(e){
             e.preventDefault();
-            submission();
+            submission(ws);
         });
+        $("#bid_5").submit(function(e){
+            e.preventDefault();
+            var msg = {
+                type: "bid_increment",
+                from: fbId,
+                text: "5"
+            };
+
+            ws.send(JSON.stringify(msg));
+        })
     });
 });
-var current_history = ""
-function history_auto(){
-    $.get("/draft/history").done(function(data){
-        historyUpdater(data);
-        if (strStartsWith(current_history, "WINNER:") || strStartsWith(current_history, "STARTING:") || strStartsWith(current_history, "NEXT:")) {
-            everythingelse()
-        }
 
-    }, "json")
-    setTimeout(history_auto, 400)
-}
-
-function everythingelse() {
-    $.get("/draft/status").done(function(data){
-            updateCurrent(data);
-            updateCaptainPoints(data);
-            updateUpcoming(data);
-        })
-}
 
 function strStartsWith(str, prefix) {
     return str.indexOf(prefix) === 0;
 }
 
-function submission(){
+function submission(ws){
     var form = $("#bid");
     var get_url = form.attr('action');
-    var get_data = form.serialize();
-    $("#bid_input").val("")
-    $.ajax({
-        type: 'GET',
-        url: get_url, 
-        data: get_data,
-    });
+    var get_data = $("#bid_input").val();
+    $("#bid_input").val("");
+
+    var msg = {
+        type: "bid",
+        from: fbId,
+        text: get_data
+    };
+
+    ws.send(JSON.stringify(msg));
 }
 
-function historyUpdater(history) {
-
-    var str_html = "";
-    $.each(history, function(num, line){
-        if (num == 0) {
-            current_history = line;
-            str_html += "<h5 class='text-success'>" + line + "</h5>"
-        } else {
-            str_html += "<h5 class='text-muted'>" + line + "</h5>"
-        }
-    });
-
-    $("#history").html(str_html)
-}
 
 function updateUpcoming(data) {
     var str_html = "";
@@ -105,22 +121,16 @@ function updateCaptainPoints(data) {
    $("#auctionerpoints").html(keys.join(""));
 }
 
-function updateCurrent(data){
-    var team = $("#team").text()
-    $("#points").text(data.Auctioners[team].Points)
-    $("#current_ign").text(data.Current.Ign)
-    $("#current_name").text(data.Current.Player.Name)
-    $("#current_tier").text(data.Current.Player.Tier)
-    $("#current_role").text(data.Current.Player.RoleDescription)
-    $("#current_lolking").text(data.Current.Player.Lolking)
-    $("#current_lolking").attr("href", "http://www.lolking.net/summoner/na/"+data.Current.Id)
+function url(s) {
+    var l = window.location;
+    return ((l.protocol === "https:") ? "wss://" : "ws://") + l.hostname + (((l.port != 80) && (l.port != 443)) ? ":" + l.port : "") + l.pathname + s;
 }
 
 (function($) {
     $.fn.onEnter = function(func) {
         this.bind('keypress', function(e) {
-            if (e.keyCode == 13) func.apply(this, [e]);    
-        });               
-        return this; 
+            if (e.keyCode == 13) func.apply(this, [e]);
+        });
+        return this;
      };
 })(jQuery);

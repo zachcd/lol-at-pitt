@@ -7,6 +7,7 @@ import (
 	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
 	"github.com/martini-contrib/sessions"
+	"github.com/rs/cors"
 	goauth2 "golang.org/x/oauth2"
 	"labix.org/v2/mgo"
 	"log"
@@ -17,6 +18,9 @@ import (
 )
 
 func InitMiddleware(m *martini.ClassicMartini) {
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+	})
 	m.Handlers(PARAMS,
 		DB(),
 		sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))),
@@ -28,6 +32,7 @@ func InitMiddleware(m *martini.ClassicMartini) {
 				RedirectURL:  "http://www.lol-at-pitt.com/oauth2callback",
 			},
 		),
+		c.HandlerFunc,
 		render.Renderer(render.Options{Directory: TemplatesLocation}),
 		martini.Static("resources/public", martini.StaticOptions{Prefix: "/public"}),
 	)

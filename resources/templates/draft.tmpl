@@ -6,34 +6,38 @@
 
         <link href="/public/css/draft.css" rel="stylesheet"/>
         <title>Draft</title>
+        <script type="text/javascript">var fbId = {{.}}</script>
     </head>
     <body>
         <div class="container">
             <div class="col-lg-12">
-                <div class="col-md-6"><h3>Points Remaining:  <span id="points" class="text-primary">{{.Score}}</span></h3> </div>
-                <div class="col-md-6"><h3>Team: <span id="team" class="text-primary">{{.Team}}</span></h3></div>
-                <form name="bet" id="bid" action="/draft/bid" method="GET">
+                <div class="col-md-6"><h3>Points Remaining:  <span id="points" class="text-primary">Connecting...</span></h3> </div>
+                <div class="col-md-6"><h3>Team: <span id="team" class="text-primary">Connecting...</span></h3></div>
+                <form name="bet" id="bid" action="/draft/bid" method="GET" class="col-md-12">
                     <div>
                         <div class="input-group">
                             <input id="bid_input" type="text" name="amount" placeholder="Bid Amount" class="form-control" />
                             <span class="input-group-btn">
                                 <input id="submit_bid" type="submit" value="Bid" class="btn btn-success" />
+                                <input id="5_bid" type="submit" value="+5" class="btn btn-warning" />
                             </span>
                         </div>
                     </div>
                 </form>
-                
-                <div class="hist">
+
+                <div class="hist col-md-12">
                     <h2>Auction History</h2>
                     <div class="panel panel-default">
                         <div class="panel-body hist-container">
                             <div id="history">
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <h3>Currently Bidding On <span id="current_ign" class="text-info">None</span></h3>
-                <div id="current" class="well">
+
+                <h3 class="col-md-12">Currently Bidding On <span id="current_ign" class="text-info">None</span></h3>
+                <div id="current" class="well col-md-12">
                     <div class="row">
                         <div id="current_name" class="col-md-3">No one</div>
                         <div id="current_role" class="col-md-8">Role Description:You see this if something is brokend</div>
@@ -60,11 +64,10 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="/public/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/public/js/draft.js"></script>
     </body>
 </html>
-
