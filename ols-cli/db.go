@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
-	"github.com/lab-d8/lol-at-pitt/ols"
 	"io/ioutil"
-	"labix.org/v2/mgo"
 	"log"
 	"os"
 	"strconv"
+
+	"github.com/lab-d8/lol-at-pitt/ols"
+	"labix.org/v2/mgo"
 )
 
 func dumpDb(filename string) {
@@ -95,11 +96,14 @@ func UploadCaptains(filename string) {
 
 	for _, record := range allData[1:] {
 		captain := NewPlayer(record[0], record[1])
-		team := ols.Team{Name: captain.Ign + "'s team", Captain: captain.Id}
+		if captain != nil {
+			team := ols.Team{Name: captain.Ign + "'s team", Captain: captain.Id}
 
-		team.Points, _ = strconv.Atoi(record[3])
-		ols.GetPlayersDAO().Save(*captain)
-		ols.GetTeamsDAO().Save(team)
+			team.Points, _ = strconv.Atoi(record[3])
+			ols.GetPlayersDAO().Save(*captain)
+			ols.GetTeamsDAO().Save(team)
+
+		}
 	}
 }
 
