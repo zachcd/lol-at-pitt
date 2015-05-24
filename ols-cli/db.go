@@ -88,7 +88,6 @@ func UploadCaptains(filename string) {
 
 	for _, record := range allData[:len(allData)] {
 		captain := NewPlayer(record[0], record[1])
-		captain.Captain = true
 		captain.Score, _ = strconv.Atoi(record[2])
 		ols.GetPlayersDAO().Save(*captain)
 	}

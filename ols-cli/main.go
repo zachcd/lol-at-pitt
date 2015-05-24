@@ -109,7 +109,7 @@ Usage:
    ols-cli update teams
    ols-cli matches
    ols-cli error names
-	 ols-cli player <upload>
+   ols-cli player <upload>
 `
 	arguments, _ := docopt.Parse(usage, nil, true, "ols-cli 1.0", false)
 

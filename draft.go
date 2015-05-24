@@ -35,7 +35,6 @@ func Handle(msg Message) {
 }
 
 func Init() {
-	parse_players()
 	timer_handler()
 
 	RegisterDraftHandler("login", handle_login)
@@ -45,10 +44,8 @@ func Init() {
 	RegisterDraftHandler("timer_reset", handle_timer_reset)
 	RegisterDraftHandler("captains", handle_captains)
 	RegisterDraftHandler("upcoming", handle_upcoming)
-}
-
-func parse_players() {
-	draft.GetPlayers()
+	RegisterDraftHandler("current-player", handle_current_player)
+	RegisterDraftHandler("current-header", handle_header)
 }
 
 func handle_bid(msg Message, room *DraftRoom) {
@@ -68,17 +65,47 @@ func handle_event(msg Message, room *DraftRoom) {
 func handle_captains(msg Message, room *DraftRoom) {
 	// TODO: do formatting of text here. Make it a json blob
 	text := ""
-	format := `<li class='list-group-item'>%s (%s)<span class='text-info'> %s </span></li>`
+	format := `<li class='list-group-item'>%s (%s)<span class='text-info'> %d </span></li>`
 	captains := draft.GetCaptains()
 	for _, captain := range captains {
-		fmt.Sprintf(format, captain, captain)
+		res := fmt.Sprintf(format, captain.TeamName, captain.Name, captain.Points)
+		text += res
 	}
 	room.broadcast(&Message{Type: "captains", Text: text})
 }
 
 func handle_upcoming(msg Message, room *DraftRoom) {
-	//TODO: do formatting here!
-	room.broadcast(&Message{Type: "upcoming", Text: "upcoming"})
+	text := ""
+	format := `<li class='list-group-item'> %s <span class='text-muted'> %s </span></li>`
+	players := draft.GetPlayers()
+	for _, player := range players[1:len(players)] {
+		res := fmt.Sprintf(format, player.Ign, player.Tier)
+		text += res
+	}
+	room.broadcast(&Message{Type: "upcoming", Text: text})
+}
+
+func handle_current_player(msg Message, room *DraftRoom) {
+	var format string = `
+		<div class="row">
+			<div class="col-md-3">%s</div>
+			<div class="col-md-8">%s</div>
+	</div>
+	<div class="row">
+			<div id="current_tier" class="col-md-3 text-muted">%s</div>
+	</div>
+	</div>
+	`
+	player := draft.GetPlayers()[0]
+
+	res := fmt.Sprintf(format, player.Ign, player.Roles, player.Tier)
+	room.broadcast(&Message{Type: "current-player", Text: res})
+}
+
+func handle_header(msg Message, room *DraftRoom) {
+	player := draft.GetPlayers()[0]
+
+	room.broadcast(&Message{Type: "current-header", Text: player.Ign})
 }
 
 // handle_login will give the player their stats, captains, current player, and upcoming players.
@@ -86,6 +113,7 @@ func handle_login(msg Message, room *DraftRoom) {
 	Handle(Message{Type: "captains"})
 	Handle(Message{Type: "upcoming"})
 	Handle(Message{Type: "current-player"})
+	Handle(Message{Type: "current-header"})
 }
 
 func handle_timer_reset(msg Message, room *DraftRoom) {
@@ -105,7 +133,8 @@ func timer_handler() {
 			currentCountdown--
 
 			if currentCountdown < countdownEventTime {
-				Handle(Message{Type: "event", Text: "counting down..."})
+				res := fmt.Sprintf("%d seconds remaining...", currentCountdown)
+				Handle(Message{Type: "event", Text: res})
 			}
 
 			if currentCountdown == 0 {

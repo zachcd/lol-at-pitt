@@ -11,6 +11,7 @@ type Player struct {
 	Name          string
 	Score         int
 	Tier          string
+	Roles         []string
 	Extras        []Extra
 }
 

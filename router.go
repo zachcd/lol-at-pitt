@@ -100,11 +100,10 @@ func main() {
 		log.Println("User registered:", user)
 		if player.Id == 0 {
 			// new player not in our db
-			player := ols.Player{Id: summonerProfile.ID, Ign: summonerProfile.Name}
-			team := ols.Team{Name: teamName, Captain: player.Id}
 			ols.GetPlayersDAO().Save(player)
-			ols.GetTeamsDAO().Save(team)
 		}
+		team := ols.Team{Name: teamName, Captain: player.Id}
+		ols.GetTeamsDAO().Save(team)
 		ols.GetUserDAO().Save(user)
 		//next := urls.Get("next")
 		log.Println("register completed going to page?")

@@ -28,7 +28,7 @@ func GetPlayers() DraftPlayers {
 	draftPlayers := []*DraftPlayer{}
 	for _, player := range players {
 		team := ols.GetTeamsDAO().LoadPlayer(player.Id)
-		if player.Score != 0 && team.Captain != player.Id {
+		if team.Captain != player.Id {
 			draftPlayers = append(draftPlayers, &DraftPlayer{Player: *player})
 		}
 	}

@@ -33,7 +33,7 @@ $(document).ready(function(){
         var new_line = "<h5 class='text-success'>" + message.text + "</h5>";
         str = new_line + str;
         $("#history").html(str);
-        
+
     }
 
     var text_updater = function(query) {
@@ -42,8 +42,9 @@ $(document).ready(function(){
         }
     }
 
-    var handlers = {"team": team, "points": points_handler, "event": event_handler, "captains": text_updater("#auctioners"), "upcoming": text_updater("#upcoming")};
- 
+    var handlers = {"team": team, "points": points_handler, "event": event_handler, "captains": text_updater("#auctioners"), "upcoming": text_updater("#upcoming"),
+    "current-player": text_updater("#current"), "current-header": text_updater("#current_ign")};
+
     $(function(){
         $('#bid_input').onEnter(function(e){
             e.preventDefault();
