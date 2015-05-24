@@ -12,7 +12,7 @@ import (
 	"labix.org/v2/mgo"
 )
 
-const ApiKey string = "a3c96054-e21f-4238-a842-28caa10943a0"
+const ApiKey string = "98b86371-9734-4313-b252-79bffc69e804"
 
 type CmdArgs map[string]interface{}
 type Runnable func(map[string]interface{}) bool
