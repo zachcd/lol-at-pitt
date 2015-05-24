@@ -113,9 +113,11 @@ func handle_current_player(msg Message, room *DraftRoom) {
 }
 func handle_bidder(msg Message, room *DraftRoom) {
 	captain := draft.GetAuctioner(msg.From)
-	str := fmt.Sprintf("%d", captain.Points)
-	room.messageWithID(msg.From, &Message{Type: "points", Text: str})
-	room.messageWithID(msg.From, &Message{Type: "name", Text: captain.TeamName})
+	if captain != nil {
+		str := fmt.Sprintf("%d", captain.Points)
+		room.messageWithID(msg.From, &Message{Type: "points", Text: str})
+		room.messageWithID(msg.From, &Message{Type: "name", Text: captain.TeamName})
+	}
 
 }
 func handle_header(msg Message, room *DraftRoom) {
