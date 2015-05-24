@@ -88,7 +88,7 @@ func handle_upcoming(msg Message, room *DraftRoom) {
 	text := ""
 	format := `<li class='list-group-item'> %s <span class='text-muted'> %s </span></li>`
 	players := draft.GetPlayers()
-	for _, player := range players[1:len(players)] {
+	for _, player := range players {
 		res := fmt.Sprintf(format, player.Ign, player.Tier)
 		text += res
 	}
