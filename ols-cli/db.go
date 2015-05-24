@@ -76,8 +76,13 @@ func UploadPlayers(filename string) {
 	csvReader := csv.NewReader(r)
 	allData, _ := csvReader.ReadAll()
 
-	for _, record := range allData[:len(allData)] {
-		NewPlayer(record[0], record[1])
+	for _, record := range allData[1:] {
+		player := NewPlayer(record[0], record[1])
+		amt, err := strconv.Atoi(record[2])
+		if err == nil {
+			player.Score = amt
+		}
+
 	}
 }
 
@@ -86,10 +91,13 @@ func UploadCaptains(filename string) {
 	csvReader := csv.NewReader(r)
 	allData, _ := csvReader.ReadAll()
 
-	for _, record := range allData[:len(allData)] {
+	for _, record := range allData[1:] {
 		captain := NewPlayer(record[0], record[1])
-		captain.Score, _ = strconv.Atoi(record[2])
+		team := ols.Team{Name: captain.Ign + "'s team", Captain: captain.Id}
+
+		team.Points, _ = strconv.Atoi(record[3])
 		ols.GetPlayersDAO().Save(*captain)
+		ols.GetTeamsDAO().Save(team)
 	}
 }
 

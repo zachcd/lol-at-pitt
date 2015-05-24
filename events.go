@@ -47,10 +47,8 @@ func Init() {
 	RegisterDraftHandler("timer_reset", handle_timer_reset)
 	RegisterDraftHandler("upcoming", handle_upcoming)
 	RegisterDraftHandler("current-player", handle_current_player)
-	//Whats left
 	// winner
 	// final-ticks
-	// fbid is real
 }
 
 func handle_bid(msg Message, room *DraftRoom) {

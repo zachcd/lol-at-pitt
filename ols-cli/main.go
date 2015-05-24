@@ -85,6 +85,9 @@ var cmds []Command = []Command{
 	Command{Runnable: runnableGenerator("player"), Cmd: func(m CmdArgs) {
 		UploadPlayers(m["<upload>"].(string))
 	}},
+	Command{Runnable: runnableGenerator("captain"), Cmd: func(m CmdArgs) {
+		UploadCaptains(m["<upload>"].(string))
+	}},
 }
 
 func main() {
@@ -110,6 +113,7 @@ Usage:
    ols-cli matches
    ols-cli error names
    ols-cli player <upload>
+   ols-cli captain <upload>
 `
 	arguments, _ := docopt.Parse(usage, nil, true, "ols-cli 1.0", false)
 

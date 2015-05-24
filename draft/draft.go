@@ -168,7 +168,7 @@ func getCaptains() DraftCaptains {
 		team := ols.GetTeamsDAO().LoadPlayer(player.Id)
 		if team.Captain == player.Id {
 			user := ols.GetUserDAO().GetUserLeague(player.Id)
-			draftCaptains = append(draftCaptains, &DraftCaptain{Player: *player, FacebookID: user.FacebookId, Points: player.Score, TeamName: team.Name})
+			draftCaptains = append(draftCaptains, &DraftCaptain{Player: *player, FacebookID: user.FacebookId, Points: team.Points, TeamName: team.Name})
 		}
 	}
 

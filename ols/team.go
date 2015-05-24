@@ -4,6 +4,7 @@ type Team struct {
 	Name    string
 	Players []int64
 	Captain int64
+	Points  int
 	Wins    int
 	Losses  int
 	League  string
