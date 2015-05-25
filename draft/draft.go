@@ -104,6 +104,11 @@ func Win() {
 	captain := GetAuctionerByTeam(current.Team)
 	if captain != nil {
 		captain.Points -= current.HighestBid
+		oldteam := ols.GetTeamsDAO().LoadPlayerByCaptain(captain.Id)
+		team := oldteam
+		team.Points -= current.HighestBid
+		team.Players = append(team.Players, current.Id)
+		ols.GetTeamsDAO().Update(oldteam, team)
 	}
 	Paused = true
 
@@ -138,11 +143,15 @@ func Previous() {
 	upcomingPlayers = append(currentArr, upcomingPlayers...)
 	current = previous[len(previous)-1]
 	previous = previous[:len(previous)-1]
-
 	// Refund logic.
 	captain := GetAuctionerByTeam(current.Team)
 
 	if captain != nil {
+		oldteam := ols.GetTeamsDAO().LoadPlayerByCaptain(captain.Id)
+		team := oldteam
+		team.Points += current.HighestBid
+		team.Players = team.Players[:len(team.Players)-1]
+		ols.GetTeamsDAO().Update(oldteam, team)
 		captain.Points += current.HighestBid
 	}
 	current.HighestBid = 0
@@ -157,7 +166,8 @@ func getPlayers() DraftPlayers {
 	draftPlayers := []*DraftPlayer{}
 	for _, player := range players {
 		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
-		if team.Captain != player.Id {
+		otherTeam := ols.GetTeamsDAO().LoadPlayer(player.Id)
+		if team.Captain != player.Id && !otherTeam.IsPlayerOnTeam(player.Id) {
 			draftPlayers = append(draftPlayers, &DraftPlayer{Player: *player})
 		}
 	}
