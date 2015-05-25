@@ -131,6 +131,12 @@ func SocketRouter(m *martini.ClassicMartini) {
 		draft.Next()
 	})
 
+	m.Get("/player/refresh", func() {
+		Handle(Message{Type: "refresh"})
+
+		draft.Next()
+	})
+
 	m.Get("/admin/previous", func() {
 		Handle(Message{Type: "event", Text: "Admin undid previous round, waiting on him to start.."})
 		Handle(Message{Type: "update"})

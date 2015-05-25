@@ -48,9 +48,15 @@ func Init() {
 	RegisterDraftHandler("captains", handle_captains)
 	RegisterDraftHandler("timer_reset", handle_timer_reset)
 	RegisterDraftHandler("upcoming", handle_upcoming)
+	RegisterDraftHandler("refresh", handle_refresh)
 	RegisterDraftHandler("current-player", handle_current_player)
 	// winner
 	// final-ticks
+}
+
+func handle_refresh(msg Message, room *DraftRoom) {
+	draft.Init()
+	Handle(Message{Type: "update"})
 }
 
 func handle_more_bid(msg Message, room *DraftRoom) {
@@ -70,7 +76,7 @@ func handle_bid(msg Message, room *DraftRoom) {
 		captain := draft.GetAuctioner(msg.From)
 		if bidSuccess {
 			formattedStr := fmt.Sprintf("<h5>%s bid <span  class='text-success'>%d</span> on <span class='text-success'>%s</span></h5>",
-				amt, captain.TeamName, draft.GetCurrentPlayer().Ign)
+				captain.TeamName, amt, draft.GetCurrentPlayer().Ign)
 			go Handle(Message{Type: "event", Text: formattedStr})
 			currentCountdown = startingCountdownTime
 			allowTicks = true
@@ -126,7 +132,7 @@ func handle_bidder(msg Message, room *DraftRoom) {
 	if captain != nil {
 		str := fmt.Sprintf("%d", captain.Points)
 		room.messageWithID(msg.From, &Message{Type: "points", Text: str})
-		room.messageWithID(msg.From, &Message{Type: "name", Text: captain.TeamName})
+		room.messageWithID(msg.From, &Message{Type: "team", Text: captain.TeamName})
 	}
 
 }
