@@ -82,7 +82,7 @@ func UploadPlayers(filename string) {
 		//player := NewPlayer(record[0], record[1])
 		normalizedSummonerName := goriot.NormalizeSummonerName(record[1])[0]
 		amt, _ := strconv.Atoi(record[2])
-		player := &ols.Player{Name: record[0], Ign: record[1], NormalizedIgn: normalizedSummonerName, Score: amt, Roles: record[3]}
+		player := &ols.Player{Name: record[0], Ign: record[1], NormalizedIgn: normalizedSummonerName, Score: amt, Roles: record[3], Id: rand.Int63()}
 		ols.GetPlayersDAO().Save(*player)
 	}
 }
