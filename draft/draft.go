@@ -1,6 +1,7 @@
 package draft
 
 import (
+	"sort"
 	"sync"
 
 	"github.com/lab-d8/lol-at-pitt/ols"
@@ -165,6 +166,7 @@ func Previous() {
 // Setup stuff
 func getPlayers() DraftPlayers {
 	players := ols.GetPlayersDAO().All()
+	sort.Sort(players)
 	draftPlayers := []*DraftPlayer{}
 	for _, player := range players {
 		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
@@ -179,7 +181,7 @@ func getPlayers() DraftPlayers {
 
 func getCaptains() DraftCaptains {
 	captains := ols.GetPlayersDAO().All()
-
+	sort.Sort(captains)
 	draftCaptains := []*DraftCaptain{}
 	for _, player := range captains {
 		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
