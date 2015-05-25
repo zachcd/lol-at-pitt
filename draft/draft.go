@@ -1,6 +1,7 @@
 package draft
 
 import (
+	"fmt"
 	"sort"
 	"sync"
 
@@ -163,6 +164,16 @@ func Previous() {
 
 }
 
+func GetSortedCaptains() DraftCaptains {
+	captainz := DraftCaptains{}
+	for _, captain := range captains {
+		captainz = append(captainz, captain)
+	}
+
+	sort.Sort(captainz)
+	return captainz
+}
+
 // Setup stuff
 func getPlayers() DraftPlayers {
 	players := ols.GetPlayersDAO().All()
@@ -192,4 +203,22 @@ func getCaptains() DraftCaptains {
 	}
 
 	return draftCaptains
+}
+
+func (p *DraftCaptains) Print() {
+	for _, player := range *p {
+		fmt.Println(player)
+	}
+}
+
+func (p DraftCaptains) Len() int {
+	return len(p)
+}
+
+func (p DraftCaptains) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
+
+func (p DraftCaptains) Less(i, j int) bool {
+	return p[i].Points > p[j].Points
 }

@@ -92,7 +92,7 @@ func handle_event(msg Message, room *DraftRoom) {
 func handle_captains(msg Message, room *DraftRoom) {
 	text := ""
 	format := `<li class='list-group-item'>%s (%s)<span class='text-info'> %d </span></li>`
-	captains := draft.GetCaptains()
+	captains := draft.GetSortedCaptains()
 	for _, captain := range captains {
 		res := fmt.Sprintf(format, captain.TeamName, captain.Name, captain.Points)
 		text += res
