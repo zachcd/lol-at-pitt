@@ -23,7 +23,7 @@ type DraftPlayers []*DraftPlayer
 type DraftCaptains []*DraftCaptain
 
 var (
-	Paused          bool         = false
+	Paused          bool         = true
 	lock            sync.Mutex   = sync.Mutex{}
 	previous        DraftPlayers = DraftPlayers{}
 	current         *DraftPlayer

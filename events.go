@@ -151,7 +151,10 @@ func handle_update(msg Message, room *DraftRoom) {
 }
 
 func handle_winner(msg Message, room *DraftRoom) {
-
+	Handle(Message{Type: "event", Text: draft.GetCurrentPlayer().Team + " bought" + draft.GetCurrentPlayer().Ign + " for " + strconv.Itoa(draft.GetCurrentPlayer().HighestBid)})
+	draft.Win()
+	Handle(Message{Type: "update"})
+	draft.Paused = true
 }
 
 func handle_timer_reset(msg Message, room *DraftRoom) {

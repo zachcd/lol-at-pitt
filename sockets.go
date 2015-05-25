@@ -126,21 +126,18 @@ func SocketRouter(m *martini.ClassicMartini) {
 
 	m.Get("/admin/skip", func() {
 		Handle(Message{Type: "event", Text: "Admin skipped current player, waiting on him to start.."})
-		Handle(Message{Type: "update"})
-
 		draft.Next()
+		Handle(Message{Type: "update"})
 	})
 
 	m.Get("/player/refresh", func() {
 		Handle(Message{Type: "refresh"})
-
-		draft.Next()
 	})
 
 	m.Get("/admin/previous", func() {
 		Handle(Message{Type: "event", Text: "Admin undid previous round, waiting on him to start.."})
-		Handle(Message{Type: "update"})
 		draft.Previous()
+		Handle(Message{Type: "update"})
 	})
 	// This is the sockets connection for the room, it is a json mapping to sockets.
 	m.Get("/draft/:clientname", sockets.JSON(Message{}), func(params martini.Params, receiver <-chan *Message, sender chan<- *Message, done <-chan bool, disconnect chan<- int, err <-chan error) (int, string) {
