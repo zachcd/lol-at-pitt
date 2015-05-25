@@ -4,7 +4,7 @@
         <meta charset="UTF-8"/>
         <title>Admin Panel</title>
         <link rel="stylesheet" href="/public/css/bootstrap.min.css">
-        
+
     </head>
     <body>
         <div id="register_area" class="container col-md-12" style="margin-top:200px;">
@@ -16,13 +16,13 @@
             <input type="button" id="undo" class="btn btn-primary btn-large" value="Undo" name="Undo" />
             <input type="button" id="skip" class="btn btn-primary btn-large" value="Skip" name="Skip" />
 
-        </div>     
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="/public/js/bootstrap.min.js"></script>
         <script type="text/javascript">
          $(document).ready(function(){
              $(function(){
-                 $("#undo").click(function(){ $.get("/admin/undo"); });
+                 $("#undo").click(function(){ $.get("/admin/previous"); });
                  $("#skip").click(function(){ $.get("/admin/skip"); });
                  $("#start").click(function(){ $.get("/admin/start"); });
                  $("#reset").click(function(){ $.get("/admin/reset"); });

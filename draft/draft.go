@@ -138,24 +138,26 @@ func Next() {
 
 func Previous() {
 	lock.Lock()
-	currentArr := DraftPlayers{}
-	currentArr = append(currentArr, current)
-	upcomingPlayers = append(currentArr, upcomingPlayers...)
-	current = previous[len(previous)-1]
-	previous = previous[:len(previous)-1]
-	// Refund logic.
-	captain := GetAuctionerByTeam(current.Team)
+	if len(previous) > 0 {
+		currentArr := DraftPlayers{}
+		currentArr = append(currentArr, current)
+		upcomingPlayers = append(currentArr, upcomingPlayers...)
+		current = previous[len(previous)-1]
+		previous = previous[:len(previous)-1]
+		// Refund logic.
+		captain := GetAuctionerByTeam(current.Team)
 
-	if captain != nil {
-		oldteam := ols.GetTeamsDAO().LoadPlayerByCaptain(captain.Id)
-		team := oldteam
-		team.Points += current.HighestBid
-		team.Players = team.Players[:len(team.Players)-1]
-		ols.GetTeamsDAO().Update(oldteam, team)
-		captain.Points += current.HighestBid
+		if captain != nil {
+			oldteam := ols.GetTeamsDAO().LoadPlayerByCaptain(captain.Id)
+			team := oldteam
+			team.Points += current.HighestBid
+			team.Players = team.Players[:len(team.Players)-1]
+			ols.GetTeamsDAO().Update(oldteam, team)
+			captain.Points += current.HighestBid
+		}
+		current.HighestBid = 0
+		current.Team = ""
 	}
-	current.HighestBid = 0
-	current.Team = ""
 	lock.Unlock()
 
 }

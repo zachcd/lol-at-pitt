@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 
@@ -61,7 +62,7 @@ func handle_refresh(msg Message, room *DraftRoom) {
 
 func handle_more_bid(msg Message, room *DraftRoom) {
 	amt, err := strconv.Atoi(msg.Text)
-
+	log.Println(msg, err)
 	if err == nil {
 		amount := draft.GetCurrentPlayer().HighestBid + amt
 		Handle(Message{Type: "bid", Text: strconv.Itoa(amount)})
@@ -70,7 +71,7 @@ func handle_more_bid(msg Message, room *DraftRoom) {
 
 func handle_bid(msg Message, room *DraftRoom) {
 	amt, err := strconv.Atoi(msg.Text)
-
+	log.Println(msg)
 	if err == nil {
 		bidSuccess := draft.Bid(msg.From, amt)
 		captain := draft.GetAuctioner(msg.From)
@@ -101,10 +102,10 @@ func handle_captains(msg Message, room *DraftRoom) {
 
 func handle_upcoming(msg Message, room *DraftRoom) {
 	text := ""
-	format := `<li class='list-group-item'> %s <span class='text-muted'> %s </span></li>`
+	format := `<li class='list-group-item'> %s <span class='text-muted'> %d </span></li>`
 	players := draft.GetPlayers()
 	for _, player := range players {
-		res := fmt.Sprintf(format, player.Ign, player.Tier)
+		res := fmt.Sprintf(format, player.Ign, player.Score)
 		text += res
 	}
 	room.broadcast(&Message{Type: "upcoming", Text: text})
