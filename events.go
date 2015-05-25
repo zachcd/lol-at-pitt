@@ -46,9 +46,9 @@ func Init() {
 	RegisterDraftHandler("bidder", handle_bidder)
 	RegisterDraftHandler("event", handle_event)
 	RegisterDraftHandler("captains", handle_captains)
-	RegisterDraftHandler("timer_reset", handle_timer_reset)
 	RegisterDraftHandler("upcoming", handle_upcoming)
 	RegisterDraftHandler("refresh", handle_refresh)
+	RegisterDraftHandler("timer-end", handle_timer_end)
 	RegisterDraftHandler("current-player", handle_current_player)
 	// winner
 	// final-ticks
