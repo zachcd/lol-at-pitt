@@ -109,7 +109,7 @@ func main() {
 		}
 		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
 		newTeam := team
-		if team.Name != "" {
+		if team.Name != "" && teamName != "" {
 			newTeam.Name = teamName
 			ols.GetTeamsDAO().Update(team, newTeam)
 
