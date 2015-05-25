@@ -65,7 +65,7 @@ func handle_more_bid(msg Message, room *DraftRoom) {
 	log.Println(msg, err)
 	if err == nil {
 		amount := draft.GetCurrentPlayer().HighestBid + amt
-		Handle(Message{Type: "bid", Text: strconv.Itoa(amount)})
+		Handle(Message{Type: "bid", From: msg.From, Text: strconv.Itoa(amount)})
 	}
 }
 
