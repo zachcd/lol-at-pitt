@@ -1,5 +1,6 @@
 package site
 
+// Player Hello
 type Player struct {
 	FacebookID  string
 	Name        string
