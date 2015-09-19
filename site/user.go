@@ -1,17 +1,32 @@
 package site
 
-type User struct {
-	FacebookId  string
-	LeagueId    int64
+// Player Hello
+type Player struct {
+	FacebookID  string
 	Name        string
+	Summoners   []Summoner
 	Permissions map[string]bool
 }
 
-type Permission struct {
-	Name string
+type Summoner struct {
+	ID  int64
+	Ign string
 }
 
-func (u *User) HasPermission(name string) bool {
+func (u *Player) HasPermission(name string) bool {
 	_, ok := u.Permissions[name]
 	return ok
+}
+
+func (u *Player) AddPermission(name string) {
+	u.Permissions[name] = true
+}
+
+func (u *Player) AddSummoner(account Summoner) {
+	u.Summoners = append(u.Summoners, account)
+}
+
+func (u *Player) AddSummonerFromInfo(id int64, ign string) {
+	summoner := Summoner{ID: id, Ign: ign}
+	u.AddSummoner(summoner)
 }

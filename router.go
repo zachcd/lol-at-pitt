@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/TrevorSStone/goriot"
-	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
@@ -68,9 +67,9 @@ func main() {
 		sort.Sort(players)
 		renderer.HTML(200, "rank", players)
 	})
-	m.Get("/draft-socket/:drafter", sockets.JSON(Message{}), func(params martini.Params, receiver <-chan *Message, sender chan<- *Message, done <-chan bool, disconnect chan<- int, errorChannel <-chan error) {
+	//m.Get("/draft-socket/:drafter", sockets.JSON(Message{}), func(params martini.Params, receiver <-chan *Message, sender chan<- *Message, done <-chan bool, disconnect chan<- int, errorChannel <-chan error) {
 
-	})
+	//})
 
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
 		summonerName := urls.Get("summoner")
