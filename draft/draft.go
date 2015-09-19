@@ -42,7 +42,6 @@ func Init() {
 	}
 
 	allCaptains := getCaptains()
-
 	for _, captain := range allCaptains {
 		if captain.FacebookID == "" {
 			captains[captain.TeamName] = captain
@@ -57,7 +56,7 @@ func GetCurrentPlayer() *DraftPlayer {
 	return current
 }
 
-func GetPlayers() DraftPlayers {
+func GetPlayers() []*DraftPlayer {
 	return upcomingPlayers
 }
 
@@ -164,7 +163,7 @@ func Previous() {
 
 }
 
-func GetSortedCaptains() DraftCaptains {
+func GetSortedCaptains() []*DraftCaptain {
 	captainz := DraftCaptains{}
 	for _, captain := range captains {
 		captainz = append(captainz, captain)
@@ -175,11 +174,12 @@ func GetSortedCaptains() DraftCaptains {
 }
 
 // Setup stuff
-func getPlayers() DraftPlayers {
+func getPlayers() []*DraftPlayer {
 	players := ols.GetPlayersDAO().All()
 	sort.Sort(players)
+	var sortedPlayers []*ols.Player = players
 	draftPlayers := []*DraftPlayer{}
-	for _, player := range players {
+	for _, player := range sortedPlayers {
 		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
 		otherTeam := ols.GetTeamsDAO().LoadPlayer(player.Id)
 		if team.Captain != player.Id && !otherTeam.IsPlayerOnTeam(player.Id) {
@@ -190,11 +190,12 @@ func getPlayers() DraftPlayers {
 	return draftPlayers
 }
 
-func getCaptains() DraftCaptains {
+func getCaptains() []*DraftCaptain {
 	captains := ols.GetPlayersDAO().All()
 	sort.Sort(captains)
 	draftCaptains := []*DraftCaptain{}
-	for _, player := range captains {
+	var captains_sorted []*ols.Player = captains
+	for _, player := range captains_sorted {
 		team := ols.GetTeamsDAO().LoadPlayerByCaptain(player.Id)
 		if team.Captain == player.Id {
 			user := ols.GetUserDAO().GetUserLeague(player.Id)

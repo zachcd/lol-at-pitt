@@ -23,6 +23,13 @@ func (u *UsersDAO) GetUserLeague(leagueId int64) site.User {
 	return user
 }
 
+func (u *UsersDAO) GetUserByIgn(ign string) site.User {
+	var user site.User
+	player := GetPlayersDAO().LoadNormalizedIGN(ign)
+	u.Collection.Find(map[string]int64{"leagueid": player.Id}).One(&user)
+	return user
+}
+
 func (u *UsersDAO) Save(user site.User) {
 	u.DAO.Save(map[string]string{"facebookid": user.FacebookId}, user)
 }

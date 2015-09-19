@@ -13,7 +13,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -43,7 +42,7 @@ func InitDebugMiddleware(m *martini.ClassicMartini) {
 	m.Use(DB())
 	m.Use(sessions.Sessions("lol_session", sessions.NewCookieStore([]byte("secret123"))))
 	m.Use(render.Renderer(render.Options{Directory: TemplatesLocation}))
-	m.Use(martini.Static("public", martini.StaticOptions{Prefix: "/public"}))
+	m.Use(martini.Static("resources/public", martini.StaticOptions{Prefix: "/public"}))
 	SetId("1", "10153410152015744", "Sean Myers") // Me. Set these to act like facebook, using a nice cache
 }
 
@@ -158,13 +157,9 @@ var PlayerRequiredFunc = func() martini.Handler {
 var DebugPlayerRequired = func() martini.Handler {
 	return func(urls url.Values, c martini.Context, w http.ResponseWriter, r *http.Request) {
 		leagueIdStr := urls.Get("debug")
-		leagueId, err := strconv.ParseInt(leagueIdStr, 10, 64)
-		if err != nil {
-			panic(err)
-		}
+		//leagueId, err := strconv.ParseInt(leagueIdStr, 10, 64)
 
-		user := ols.GetUserDAO().GetUserLeague(leagueId)
-
+		user := ols.GetUserDAO().GetUserByIgn(leagueIdStr)
 		c.Map(user)
 	}
 }()
@@ -180,7 +175,7 @@ var DebugLoginRequired = func() martini.Handler {
 	}
 }()
 
-// In order to preoprly emulate Debugging of "Logged in Facebook users" I had to create my own tokens since the framework I was using didn't expose creation X_X
+// In order to properly emulate Debugging of "Logged in Facebook users" I had to create my own tokens since the framework I was using didn't expose creation X_X
 type DebugToken struct {
 	Id string
 }

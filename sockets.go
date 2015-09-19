@@ -3,14 +3,11 @@ package main
 import (
 	"log"
 	"sync"
-
-	"fmt"
-
 	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/draft"
-	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
+	"github.com/lab-d8/lol-at-pitt/site"
 )
 
 // Message is a single message sent between clients
@@ -104,15 +101,13 @@ var room *DraftRoom
 func SocketRouter(m *martini.ClassicMartini) {
 	room = newDraftRoom()
 	Init()
-	m.Get("/draft", LoginRequired, func(r render.Render, token oauth2.Tokens) {
-		id, _ := GetId(token.Access())
-		r.HTML(200, "draft", id)
+	m.Get("/draft", PlayerRequired, func(r render.Render, user site.User) {
+		r.HTML(200, "draft", user.LeagueId)
 	})
 
 	m.Get("/admin/start", func() {
 		draft.Paused = false
 		allowTicks = false
-		fmt.Println("Hello!")
 		Handle(Message{Type: "event", Text: "The round has started, LET THE BIDDING BEGIN"})
 	})
 

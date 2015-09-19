@@ -64,6 +64,16 @@ $(document).ready(function(){
             };
 
             ws.send(JSON.stringify(msg));
+        });
+
+        $("#bid_1").click(function(){
+            var msg = {
+                type: "bid-more",
+                from: fbId,
+                text: "1"
+            };
+
+            ws.send(JSON.stringify(msg));
         })
     });
 });
