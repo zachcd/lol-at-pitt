@@ -1,5 +1,9 @@
 package site
 
+type User struct {
+	FacebookId string
+	LeagueId int64
+}
 // Player Hello
 type Player struct {
 	FacebookID  string
