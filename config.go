@@ -7,5 +7,5 @@ const (
 	ApiSecret         string = "6ffbce080a11f2dce0b2d4a7e79ed37d"
 	ShortLeagueLimit  int    = 10
 	LongLeagueLimit   int    = 500
-	Debug             bool   = true
+	Debug             bool   = false
 )
