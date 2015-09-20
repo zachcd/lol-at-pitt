@@ -145,9 +145,7 @@ func handle_update(msg Message, room *DraftRoom) {
 	Handle(Message{Type: "current-player"})
 	Handle(Message{Type: "current-header"})
 	Handle(Message{Type: "event", Text: "Currently waiting to bid on.." + draft.GetCurrentPlayer().Ign})
-	for _, client := range room.clients {
-		Handle(Message{Type: "bidder", From: client.ID})
-	}
+	Handle(Message{Type: "bidder", From: msg.From})
 
 }
 
