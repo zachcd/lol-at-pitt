@@ -9,7 +9,7 @@ $(document).ready(function(){
     ws.onopen = function() {
       var msg = {
         type: "login",
-        text: fbId,
+        text: ""+fbId,
         type: ""+fbId
       };
 
@@ -59,7 +59,7 @@ $(document).ready(function(){
         $("#bid_5").click(function(e){
             var msg = {
                 type: "bid-more",
-                from: fbId,
+                from: ""+fbId,
                 text: "5"
             };
 
@@ -69,7 +69,7 @@ $(document).ready(function(){
         $("#bid_1").click(function(){
             var msg = {
                 type: "bid-more",
-                from: fbId,
+                from: ""+fbId,
                 text: "1"
             };
 
@@ -91,7 +91,7 @@ function submission(ws){
 
     var msg = {
         type: "bid",
-        from: fbId,
+        from: ""+fbId,
         text: get_data
     };
 

@@ -102,7 +102,7 @@ func SocketRouter(m *martini.ClassicMartini) {
 	room = newDraftRoom()
 	Init()
 	m.Get("/draft", PlayerRequired, func(r render.Render, user site.User) {
-		r.HTML(200, "draft", user.LeagueId)
+		r.HTML(200, "draft", user.FacebookId)
 	})
 
 	m.Get("/admin/start", func() {
