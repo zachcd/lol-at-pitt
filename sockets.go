@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 	"sync"
+
 	"github.com/beatrichartz/martini-sockets"
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/draft"
-	"github.com/martini-contrib/render"
 	"github.com/lab-d8/lol-at-pitt/site"
+	"github.com/martini-contrib/render"
 )
 
 // Message is a single message sent between clients
