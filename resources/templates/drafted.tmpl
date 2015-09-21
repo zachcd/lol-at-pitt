@@ -4,18 +4,18 @@
         <meta charset="UTF-8"/>
         <title>Summary Panel</title>
         <link rel="stylesheet" href="/public/css/bootstrap.min.css">
-        
+
     </head>
     <body>
         {{template "navbar" .}}
         <div id="register_area" class=" col-md-8" style="text-align:center; margin:auto;">
             <ul class="list-group" id="upcoming">
                 {{range .}}
-                <li class="list-group-item">{{.Ign}} -- <span class="text-primary">Team won: {{.Team}}</span> -- <span class="text-success">Points bid: {{.Score}}</span></li>
+                <li class="list-group-item"><a href="/players/{{.NormalizedIgn}}">{{.Ign}} </a>-- <span class="text-primary">Team: {{.Team}}</span> </li>
                 {{end}}
 
             </ul>
-        </div>     
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="/public/js/bootstrap.min.js"></script>
     </body>

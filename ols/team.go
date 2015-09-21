@@ -9,6 +9,13 @@ type Team struct {
 	Losses  int
 	League  string
 }
+type TeamDisplay struct {
+	Name    string
+	Players []Player
+	Captain Player
+	Wins    int
+	Losses  int
+}
 
 type Teams []*Team
 

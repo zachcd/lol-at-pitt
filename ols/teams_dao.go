@@ -1,6 +1,8 @@
 package ols
 
 import (
+	"fmt"
+
 	"labix.org/v2/mgo"
 )
 
@@ -20,7 +22,25 @@ func (t *TeamsDAO) Load(name string) Team {
 	t.Collection.Find(map[string]string{"name": name}).One(&team)
 	return team
 }
+func (t *TeamsDAO) LoadPlayerDisplay(summonerId int64) TeamDisplay {
+	team := t.LoadPlayer(summonerId)
+	if team.Name == "" {
+		team = t.LoadPlayerByCaptain(summonerId)
+	}
+	fmt.Println(summonerId)
+	fmt.Println(team)
+	teamDisplay := TeamDisplay{Name: team.Name, Wins: team.Wins, Losses: team.Losses}
+	players := []Player{}
+	for _, playerId := range team.Players {
+		player := GetPlayersDAO().Load(playerId)
+		players = append(players, player)
+	}
 
+	captainPlayer := GetPlayersDAO().Load(team.Captain)
+	teamDisplay.Captain = captainPlayer
+	teamDisplay.Players = players
+	return teamDisplay
+}
 func (t *TeamsDAO) LoadPlayer(summonerId int64) Team {
 	var team Team
 	t.Collection.Find(map[string]int64{"players": summonerId}).One(&team)

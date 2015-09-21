@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -49,6 +50,27 @@ func main() {
 
 	m.Get("/error", func(urls url.Values, renderer render.Render) {
 		renderer.HTML(200, "error", urls.Get("status"))
+	})
+	m.Get("/players/:name", func(params martini.Params, renderer render.Render) {
+		normalizedName := params["name"]
+		fmt.Println(normalizedName)
+		player := ols.GetPlayersDAO().LoadNormalizedIGN(normalizedName)
+		fmt.Println(player)
+		displayTeam := ols.GetTeamsDAO().LoadPlayerDisplay(player.Id)
+		fmt.Println(displayTeam)
+		renderer.HTML(200, "team", displayTeam)
+	})
+
+	m.Get("/results", func(renderer render.Render) {
+		players := ols.GetPlayersDAO().All()
+		allPlayerDisplay := []ols.PlayerDraftResult{}
+		for _, player := range players {
+			team := ols.GetTeamsDAO().LoadPlayer(player.Id)
+			playerDisplay := ols.PlayerDraftResult{Ign: player.Ign, Team: team.Name, NormalizedIgn: player.NormalizedIgn}
+			allPlayerDisplay = append(allPlayerDisplay, playerDisplay)
+		}
+
+		renderer.HTML(200, "drafted", allPlayerDisplay)
 	})
 	m.Get("/teams", teamHandler)
 	m.Get("/team/:name", individualTeamHandler)

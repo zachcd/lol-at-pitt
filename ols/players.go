@@ -15,6 +15,12 @@ type Player struct {
 	Extras        []Extra
 }
 
+type PlayerDraftResult struct {
+	Ign           string
+	Team          string
+	NormalizedIgn string
+}
+
 type Extra interface {
 	Printable() string
 }
