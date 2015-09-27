@@ -12,6 +12,7 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/lol-at-pitt/site"
+	"github.com/lab-d8/lol-at-pitt/utils"
 	"github.com/lab-d8/oauth2"
 	"github.com/martini-contrib/render"
 )
@@ -24,6 +25,7 @@ type Register struct {
 }
 
 func main() {
+	utils.GenerateTournamentCode(utils.TournamentCodeInput{})
 	m := martini.Classic()
 	goriot.SetAPIKey(LeagueApiKey)
 	goriot.SetLongRateLimit(LongLeagueLimit, 10*time.Minute)
