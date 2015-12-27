@@ -2,6 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"net/url"
+	"time"
+
 	"github.com/go-martini/martini"
 	"github.com/lab-d8/lol-at-pitt/ols"
 	"github.com/lab-d8/oauth2"
@@ -10,10 +15,6 @@ import (
 	"github.com/rs/cors"
 	goauth2 "golang.org/x/oauth2"
 	"labix.org/v2/mgo"
-	"log"
-	"net/http"
-	"net/url"
-	"time"
 )
 
 func InitMiddleware(m *martini.ClassicMartini) {
@@ -33,7 +34,7 @@ func InitMiddleware(m *martini.ClassicMartini) {
 		),
 		c.HandlerFunc,
 		render.Renderer(render.Options{Directory: TemplatesLocation}),
-		martini.Static("resources/public", martini.StaticOptions{Prefix: "/public"}),
+		martini.Static("resources/public", martini.StaticOptions{Prefix: "/"}),
 	)
 }
 

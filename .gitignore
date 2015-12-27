@@ -1,2 +1,4 @@
 csv-reader/apikey*
+.idea
 config.go
+tmp/*
