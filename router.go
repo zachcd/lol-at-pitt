@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"sort"
 	"time"
 
 	"github.com/TrevorSStone/goriot"
@@ -43,6 +44,9 @@ func main() {
 		team := ols.GetTeamsDAO().Load(params["name"])
 		renderer.JSON(200, team)
 	}
+	m.Get("/admin", func(renderer render.Render) {
+		renderer.HTML(200, "admin", 1)
+	})
 
 	m.Get("/error", func(urls url.Values, renderer render.Render) {
 		renderer.HTML(200, "error", urls.Get("status"))
@@ -80,6 +84,14 @@ func main() {
 	m.Get("/oauth2error", func(token oauth2.Tokens, renderer render.Render) {
 		renderer.JSON(200, token)
 	})
+	m.Get("/rankings", func(renderer render.Render) {
+		players := ols.GetPlayersDAO().All()
+		sort.Sort(players)
+		renderer.HTML(200, "rank", players)
+	})
+	//m.Get("/draft-socket/:drafter", sockets.JSON(Message{}), func(params martini.Params, receiver <-chan *Message, sender chan<- *Message, done <-chan bool, disconnect chan<- int, errorChannel <-chan error) {
+
+	//})
 
 	m.Get("/register/complete", LoginRequired, func(urls url.Values, renderer render.Render, token oauth2.Tokens, w http.ResponseWriter, r *http.Request) {
 		summonerName := urls.Get("summoner")
@@ -125,9 +137,12 @@ func main() {
 		}
 		ols.GetUserDAO().Save(user)
 		//next := urls.Get("next")
+		log.Println("register completed going to page?")
 		renderer.HTML(200, "register_complete", 1)
 	})
 
+	initFunnyRouter(m)
+	SocketRouter(m)
 	err := http.ListenAndServe(":6060", m) // Nginx needs to redirect here, so we don't need sudo priv to test.
 	if err != nil {
 		log.Println(err)
