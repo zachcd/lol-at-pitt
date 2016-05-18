@@ -9,7 +9,7 @@ import (
 	"github.com/martini-contrib/sessions"
 	"github.com/rs/cors"
 	goauth2 "golang.org/x/oauth2"
-	"labix.org/v2/mgo"
+	"gopkg.in/mgo.v2"
 	"log"
 	"net/http"
 	"net/url"
